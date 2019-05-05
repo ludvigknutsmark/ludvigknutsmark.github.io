@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Posts on Thought for your thoughts</title>
+		<link>https://ludvigknutsmark.github.io/posts/</link>
+		<description>Recent content in Posts on Thought for your thoughts</description>
+		<generator>Hugo -- gohugo.io</generator>
+		<language>en-us</language>
+		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+		<lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
+		<atom:link href="https://ludvigknutsmark.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>BTH_CTF{sM3ll_th3_sH3ll}</title>
+			<link>https://ludvigknutsmark.github.io/posts/bthctf2019/</link>
+			<pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/bthctf2019/</guid>
+			<description>Hello, World! So, first ever post. Hope that I can keep this blog project going for quite some time atleast.
+This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it. We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</description>
+			<content type="html"><![CDATA[
+
+<h2 id="hello-world">Hello, World!</h2>
+
+<p>So, first ever post. Hope that I can keep this blog project going for quite some time atleast.</p>
+
+<p>This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it.
+We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</p>
+
+<p>I was responsible for some of our crypto challenges, and some other (one reverse and two OSINT). I will be posting writeups for my challenges. Atleast those I released.</p>
+
+<p>You can find pictures of the event <a href="https://photos.app.goo.gl/72aVV31mfduuJQ6G9" target="_blank">here</a>.</p>
+
+<p>Huge thank you to our sponsors. SecureLink and IKEA!</p>
+]]></content>
+		</item>
+		
+	</channel>
+</rss>

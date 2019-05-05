@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ecdsa on Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/tags/ecdsa/</link>
+    <description>Recent content in Ecdsa on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/tags/ecdsa/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ecurve it like Beckham</title>
+      <link>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</guid>
+      <description>Solves: 0 Challenge Description The challenge supplied a public ECDSA key and a bunch of signatures.
+Signatures  {&amp;quot;message hash&amp;quot;: &amp;quot;37bf488115c14bc75bd3abfba09e3a10e4b671479755165310244b31b925929a&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(9811783871763325604756417160787846138404247835194244394354131020979062723933, 55791654947192643955306007970 524722900505588307283376371034301963123114165948)&amp;quot;} {&amp;quot;message hash&amp;quot;: &amp;quot;9442f76ff69de268bf22f98d803b52aeb289b0aa5bd55c17b3b4d3b6652ce268&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(16842672915651939019730535973185867061057860352849830024453076236449618387846, 9822948972963614614072213326 2045145654921177567834687343813459264455251940224)&amp;quot;} ...  Key -----BEGIN PUBLIC KEY----- MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHwWBWR0Dfapord6Ja4/CrjlBeTHQ I3LK5ByvYhzMzMQ2SUMcpdVC1unYbqsGbc1KwVVuavIHFqqMvLlhZMQkdA== -----END PUBLIC KEY-----  The attack This is a classic repeating-k-breaking of DSA. If we can find two signatures with the same r we can extract the private key.</description>
+    </item>
+    
+  </channel>
+</rss>

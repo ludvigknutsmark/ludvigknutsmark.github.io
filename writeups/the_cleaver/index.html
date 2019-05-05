@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+
+<meta itemprop="name" content="The Cleaver">
+<meta itemprop="description" content="Solves: 2 Challenge Description The challenge supplied source code to a bifid cipher and a ciphertext.txt
+Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP  Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext.">
+
+
+<meta itemprop="datePublished" content="2019-05-01T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-05-01T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="453">
+
+
+
+<meta itemprop="keywords" content="Crypto,BTH_CTF,Bifid cipher," />
+<meta property="og:title" content="The Cleaver" />
+<meta property="og:description" content="Solves: 2 Challenge Description The challenge supplied source code to a bifid cipher and a ciphertext.txt
+Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP  Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ludvigknutsmark.github.io/writeups/the_cleaver/" />
+<meta property="article:published_time" content="2019-05-01T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-05-01T00:00:00&#43;00:00"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="The Cleaver"/>
+<meta name="twitter:description" content="Solves: 2 Challenge Description The challenge supplied source code to a bifid cipher and a ciphertext.txt
+Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP  Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>The Cleaver</title>
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css" integrity="sha256-MXBpF2U9K56EEKvUMfMOxDWaiKlPyHpjZUd52HMp7ew=">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+					<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+					<a href="https://ludvigknutsmark.github.io/about/">About</a>
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://ludvigknutsmark.github.io/posts/">Posts</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/about/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>May 1, 2019</span></div>
+				<h1>The Cleaver</h1>
+			</header>
+			<div class="content">
+				
+
+<h2 id="solves-2">Solves: 2<a href="#solves-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<h2 id="challenge-description">Challenge Description<a href="#challenge-description" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>The challenge supplied source code to a bifid cipher and a ciphertext.txt</p>
+
+<p><img src="/the_cleaver.png" alt="image alt text" /></p>
+
+<h3 id="ciphertext">Ciphertext<a href="#ciphertext" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<pre><code>  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP
+</code></pre>
+
+<h3 id="source-code">Source code<a href="#source-code" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<pre><code>#!/usr/bin/python
+import numpy as np
+
+class BifidCipher():
+    def __init__(self, key=None):
+        
+        if key is None:
+            key = self.genKey()
+        
+        self.key = key
+
+    def genKey(self):
+        ALPHABET = &quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&quot;
+        matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False)
+        
+        key = []
+        for i in range(5):
+            row = []
+            for j in range(5):
+                row.append(ALPHABET[matrix[i][j]])
+            key.append(row)
+
+        return np.array(key)
+        
+    def encrypt(self, plaintext):
+
+        plaintext = plaintext.replace(&quot;J&quot;, &quot;I&quot;)
+        
+        rows = &quot;&quot;
+        columns = &quot;&quot;
+        for char in plaintext:
+            location = np.where(self.key==char)
+            rows += str(location[0])[1:-1]
+            columns += str(location[1])[1:-1]
+
+        pre_group = rows+columns
+        
+        ciphertext = &quot;&quot;
+        for i in xrange(0, len(pre_group), 2):
+            row = int(pre_group[i])
+            column = int(pre_group[i+1])
+            ciphertext+=self.key[row][column]
+
+        return ciphertext
+
+    # HAHA YOU CAN NEVER FIX THIS
+    def decrypt(self, ciphertext):
+        ciphertext_int
+        for char in ciphertext:
+            location = np.where(self.k
+            row = str(location[0
+            column = str(location[]
+            ciphertext_int += ro
+
+        plaintext=
+        limit = len(ciphertext_in
+        for i in range(limit/2
+            left_side = int(ciphertext_i
+            right_side = int(ciphertext_int[i+li
+            plaintext += self.key[le
+
+        return plaintext
+
+# Hmmm what to place in the question marks :thinking_emoji:
+key = np.array([['W', 'I','Q','?','M'],
+    ['?','F','?','U','Y'],
+    ['X', 'A', 'Z', 'R', 'E'],
+    ['S', 'O', 'G', '?', 'K'],
+    ['?', 'V', 'L', 'P', 'C']])
+
+
+f = open(&quot;ciphertext.txt&quot;, &quot;r&quot;)
+ciphertext = f.read()
+f.close()
+
+bc = BifidCipher(ciphertext)
+plaintext = bc.decrypt()
+
+print &quot;Flag: &quot;, plaintext
+
+</code></pre>
+
+<h3 id="the-attack">The attack<a href="#the-attack" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>When running the challenge we get</p>
+
+<pre><code>  File &quot;./bifidcipher.py&quot;, line 51
+    row = str(location[0
+      ^
+SyntaxError: invalid syntax
+</code></pre>
+
+<p>And when reading the description we see that the decryption routine is literally cut in half. Ok, we fix it. You can either search for Bifid cipher on google and reimplement it, or just fix the code.</p>
+
+<h3 id="fixed-decryption-routine">Fixed decryption routine<a href="#fixed-decryption-routine" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<pre><code> # HAHA YOU CAN NEVER FIX THIS. YES I CAN
+      def decrypt(self, ciphertext):
+          ciphertext_int = &quot;&quot;
+            for char in ciphertext:
+              location = np.where(self.key==char)
+              row = str(location[0])[1:-1]
+              column = str(location[1])[1:-1]
+              ciphertext_int += row+column
+  
+          plaintext=&quot;&quot;
+          limit = len(str(ciphertext_int))
+          for i in range(limit/2):
+              left_side = int(ciphertext_int[i])
+              right_side = int(ciphertext_int[i+limit/2])
+              plaintext += self.key[left_side][right_side]
+  
+          return plaintext
+</code></pre>
+
+<p>So now we just need to fix the key.</p>
+
+<p>We see that there are five letters missing in the key. B, T, H, N and D.</p>
+
+<h2 id="solution">Solution<a href="#solution" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>Now that we have our missing letters and fixed code, we can easily fix the key.
+We simply list all permutations of the key and our missing letters and print each one of the possible solutions.</p>
+
+<pre><code>from itertools import permutations
+missing = &quot;BTHND&quot;
+possible_solutions = list(permutations(missing))
+
+for solution in possible_solutions:
+    key = np.array([['W', 'I','Q',solution[0],'M'],
+        [solution[1],'F',solution[2],'U','Y'],
+        ['X', 'A', 'Z', 'R', 'E'],
+        ['S', 'O', 'G', solution[3], 'K'],
+        [solution[4], 'V', 'L', 'P', 'C']])
+
+    bc = BifidCipher(key)
+    plaintext = bc.decrypt(ciphertext)
+
+    print plaintext
+</code></pre>
+
+<p>We print the output to a file and grep for the flag format. BTHCTF</p>
+
+<pre><code>$ ./bifidcipher.py &gt; solutions.txt
+$ cat solutions.txt | grep &quot;BTHCTF&quot;
+</code></pre>
+
+<p>And we get the flag!</p>
+
+<pre><code>BTHCTFIUSTAFANCYSUBSTITUTIONCIPHER
+</code></pre>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/crypto">Crypto</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/bth_ctf">BTH_CTF</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/bifid-cipher">Bifid cipher</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>453 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-05-01 02:00 &#43;0200</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>Ecurve it like Beckham</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2019 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+	<script src="https://ludvigknutsmark.github.io/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js" integrity="sha256-eEQX9YRxUfhIwznPCssToGy7ZIsUg0NaKO1FVsTq1ps="></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139601377-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>

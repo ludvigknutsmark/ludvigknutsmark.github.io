@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bth on Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/tags/bth/</link>
+    <description>Recent content in Bth on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/tags/bth/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>BTH_CTF{sM3ll_th3_sH3ll}</title>
+      <link>https://ludvigknutsmark.github.io/posts/bthctf2019/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/bthctf2019/</guid>
+      <description>Hello, World! So, first ever post. Hope that I can keep this blog project going for quite some time atleast.
+This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it. We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/</link>
+    <description>Recent content on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>BTH_CTF{sM3ll_th3_sH3ll}</title>
+      <link>https://ludvigknutsmark.github.io/posts/bthctf2019/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/bthctf2019/</guid>
+      <description>Hello, World! So, first ever post. Hope that I can keep this blog project going for quite some time atleast.
+This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it. We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</description>
+    </item>
+    
+    <item>
+      <title>Ecurve it like Beckham</title>
+      <link>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</guid>
+      <description>Solves: 0 Challenge Description The challenge supplied a public ECDSA key and a bunch of signatures.
+Signatures  {&amp;quot;message hash&amp;quot;: &amp;quot;37bf488115c14bc75bd3abfba09e3a10e4b671479755165310244b31b925929a&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(9811783871763325604756417160787846138404247835194244394354131020979062723933, 55791654947192643955306007970 524722900505588307283376371034301963123114165948)&amp;quot;} {&amp;quot;message hash&amp;quot;: &amp;quot;9442f76ff69de268bf22f98d803b52aeb289b0aa5bd55c17b3b4d3b6652ce268&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(16842672915651939019730535973185867061057860352849830024453076236449618387846, 9822948972963614614072213326 2045145654921177567834687343813459264455251940224)&amp;quot;} ...  Key -----BEGIN PUBLIC KEY----- MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHwWBWR0Dfapord6Ja4/CrjlBeTHQ I3LK5ByvYhzMzMQ2SUMcpdVC1unYbqsGbc1KwVVuavIHFqqMvLlhZMQkdA== -----END PUBLIC KEY-----  The attack This is a classic repeating-k-breaking of DSA. If we can find two signatures with the same r we can extract the private key.</description>
+    </item>
+    
+    <item>
+      <title>The Cleaver</title>
+      <link>https://ludvigknutsmark.github.io/writeups/the_cleaver/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/writeups/the_cleaver/</guid>
+      <description>Solves: 2 Challenge Description The challenge supplied source code to a bifid cipher and a ciphertext.txt
+Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP  Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &amp;quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&amp;quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext.</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>https://ludvigknutsmark.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/about/</guid>
+      <description>Hi, I&amp;rsquo;m Ludvig.
+I&amp;rsquo;m a fourth year computer security student at Bleking Tekniska Högskola in Karlskrona.
+I like Cryptography, analysing malware, playing CTF&amp;rsquo;s, organizing CTF&amp;rsquo;s, playing golf, drinking alcohol, eating GOOD pizza and having a laugh.
+So, altough I&amp;rsquo;m only 23, I sound like a 45 year old.
+This blog will mostly be about my findings and notes about cryptograhy, both implementations and analysis. Most things will not be new or revolutionary, but it&amp;rsquo;s a fun way for me to take notes on what I learn on the way.</description>
+    </item>
+    
+  </channel>
+</rss>
