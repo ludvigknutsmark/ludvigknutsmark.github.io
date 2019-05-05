@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+
+<meta itemprop="name" content="Breaking AES GCM Part 1">
+<meta itemprop="description" content="This is a small two-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&rsquo;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.
+And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.">
+
+
+<meta itemprop="datePublished" content="2019-05-05T15:11:55&#43;02:00" />
+<meta itemprop="dateModified" content="2019-05-05T15:11:55&#43;02:00" />
+<meta itemprop="wordCount" content="948">
+
+
+
+<meta itemprop="keywords" content="Crypto,AES GCM," />
+<meta property="og:title" content="Breaking AES GCM Part 1" />
+<meta property="og:description" content="This is a small two-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&rsquo;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.
+And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/" />
+<meta property="article:published_time" content="2019-05-05T15:11:55&#43;02:00"/>
+<meta property="article:modified_time" content="2019-05-05T15:11:55&#43;02:00"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Breaking AES GCM Part 1"/>
+<meta name="twitter:description" content="This is a small two-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&rsquo;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.
+And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>Breaking AES GCM Part 1</title>
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css" integrity="sha256-MXBpF2U9K56EEKvUMfMOxDWaiKlPyHpjZUd52HMp7ew=">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+					<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+					<a href="https://ludvigknutsmark.github.io/about/">About</a>
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://ludvigknutsmark.github.io/posts/">Posts</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/about/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>May 5, 2019</span></div>
+				<h1>Breaking AES GCM Part 1</h1>
+			</header>
+			<div class="content">
+				
+
+<p>This is a small two-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea.
+Let&rsquo;s get started!</p>
+
+<h2 id="why-does-aes-gcm-exist">Why does AES GCM exist?<a href="#why-does-aes-gcm-exist" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.</p>
+
+<p>And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext. But there are other problems with the implemenation of AES. Let&rsquo;s look at the most basic mode of operation, AES ECB.</p>
+
+<h3 id="ecb">ECB<a href="#ecb" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>ECB, or Electronic Codebook is the simplest mode of operation. You divide the plaintext into blocks and encrypt the blocks separately.</p>
+
+<p><img src="/AES_ECB.png" alt="image alt text" /></p>
+
+<p>What&rsquo;s the problem with this? Two encrypted plaintexts will always be represented as the same ciphertext (if encrypted with the same key, of course).</p>
+
+<h3 id="cbc">CBC<a href="#cbc" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>Ok, ECB is bad. But what if we add another random element into the encryption of each block, so two encrypted plaintexts will not be represented as the same ciphertext. This seems like a good idea! Let&rsquo;s do it.</p>
+
+<p><img src="/AES_CBC.png" alt="image alt text" /></p>
+
+<p>CBC stands for Cipher Block Chaining, as the encryption of each block is dependant on the ciphertext from the previous block. This looks much better! But with this chaining comes other problems, like bitflipping attacks.</p>
+
+<p>I&rsquo;ve written some code on a basic bitflipping attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set2/challenge16.py" target="_blank">here</a>.
+The basic idea of a bitflipping attack is that if the attacker know the plaintext, he/she can do some math to change the ciphertext into being decrypted into anything.
+Oh, that&rsquo;s bad.</p>
+
+<h3 id="ctr">CTR<a href="#ctr" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>CTR stands for Counter. Instead of splitting the plaintext into blocks and padding it, we can have a counter with a random nonce (like IV) and XOR the &ldquo;keystream&rdquo; with the plaintext. This turns the AES block cipher into a stream cipher, which is a more logic way of looking at data. This is also suspectible to bitflipping attacks. <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set4/challenge26.py" target="_blank">attack code</a>.</p>
+
+<p>How do we fix this? By adding integrity checks of course! Which leads us perfectly into AES GCM.</p>
+
+<h3 id="gcm">GCM<a href="#gcm" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>GCM stands for Galois Counter Mode. This is bit more complex solution, since adding a simple hash after the ciphertext would fix nothing (since the attacker can modify the hash to the flipped code). GCM implements a type of <a href="https://en.wikipedia.org/wiki/Message_authentication_code" target="_blank">MAC</a>. This makes it near impossible for an attacker to fiddle with the ciphertext, since any change would be detected when comparing the hashes. And the attacker can&rsquo;t spoof the hash, since he/she doesn&rsquo;t know the secret.</p>
+
+<p><img src="/AES_GCM.png" alt="image alt text" /></p>
+
+<p>Some explanation:</p>
+
+<ul>
+<li>Auth Data 1: The MAC secret.</li>
+<li>mult_H: Is the Galois part. Is &ldquo;each round&rdquo; of the G_HASH function. The input data is multiplied with Ek(0^128) in a Galois Field (GF(2^128)).</li>
+</ul>
+
+<p>I won&rsquo;t explain the Galois Field more (it&rsquo;s a topic for another post), but the reason it&rsquo;s chosen is that it actually allows the Auth Tag calculation to be computed in parallel, which makes it faster than for example CBC. And even more so, than a traditional SHA-1 MAC. And speed in cryptography is important.</p>
+
+<pre><code>import sys, struct, os
+
+from Crypto.Cipher import AES
+
+IRRED_COEFF = [
+  4,3,1,5,3,1,4,3,1,7,3,2,5,4,3,5,3,2,7,4,2,4,3,1,10,9,3,9,4,2,7,6,2,10,9,
+  6,4,3,1,5,4,3,4,3,1,7,2,1,5,3,2,7,4,2,6,3,2,5,3,2,15,3,2,11,3,2,9,8,7,7,
+  2,1,5,3,2,9,3,1,7,3,1,9,8,3,9,4,2,8,5,3,15,14,10,10,5,2,9,6,2,9,3,2,9,5,
+  2,11,10,1,7,3,2,11,2,1,9,7,4,4,3,1,8,3,1,7,4,1,7,2,1,13,11,6,5,3,2,7,3,2,
+  8,7,5,12,3,2,13,10,6,5,3,2,5,3,2,9,5,2,9,7,2,13,4,3,4,3,1,11,6,4,18,9,6,
+  19,18,13,11,3,2,15,9,6,4,3,1,16,5,2,15,14,6,8,5,2,15,11,2,11,6,2,7,5,3,8,
+  3,1,19,16,9,11,9,6,15,7,6,13,4,3,14,13,3,13,6,3,9,5,2,19,13,6,19,10,3,11,
+  6,5,9,2,1,14,3,2,13,3,1,7,5,4,11,9,8,11,6,5,23,16,9,19,14,6,23,10,2,8,3,
+  2,5,4,3,9,6,4,4,3,2,13,8,6,13,11,1,13,10,3,11,6,5,19,17,4,15,14,7,13,9,6,
+  9,7,3,9,7,1,14,3,2,11,8,2,11,6,4,13,5,2,11,5,1,11,4,1,19,10,3,21,10,6,13,
+  3,1,15,7,5,19,18,10,7,5,3,12,7,2,7,5,1,14,9,6,10,3,2,15,13,12,12,11,9,16,
+  9,7,12,9,3,9,5,2,17,10,6,24,9,3,17,15,13,5,4,3,19,17,8,15,6,3,19,6,1]
+
+def getpoly(deg):
+  if deg &amp; 7 != 0 or deg &lt; 8 or deg &gt; 1024: raise Exception('Not supported Degree')
+  x = int(deg / 8 - 1)
+  return (1&lt;&lt;IRRED_COEFF[3*x]) + (1&lt;&lt;IRRED_COEFF[3*x + 1]) + (1&lt;&lt;IRRED_COEFF[3*x + 2]) + 1
+
+def gmul(a, b, deg=8):
+  poly = getpoly(deg)
+  max_1 = (1&lt;&lt;deg) - 1
+  max_2 = 1&lt;&lt;(deg - 1)
+  z = 0
+  if a &amp; 1:
+    r = b
+  else:
+    r = 0
+  for i in range(1,deg+1):
+    mark = b &amp; max_2
+    b = (b &lt;&lt; 1) &amp; max_1
+    if mark: # Note: not really protected by timing attack. since...
+      b ^= poly
+    else:
+      b ^= z
+    # print a &amp; (1 &lt;&lt; i), r, b
+    if a &amp; (1 &lt;&lt; i):
+      r ^= b
+    else:
+      r ^= z
+  return r
+
+def XOR(arr1, arr2):
+    # Ugly solution
+    if isinstance(arr1, bytes):
+        return ''.join(chr(a ^ ord(b)) for a,b in zip(arr1,arr2))
+    else:
+        return ''.join(chr(ord(a) ^ ord(b)) for a,b in zip(arr1,arr2))
+
+# For two byte strings
+def b_XOR(b1,b2):
+    return ''.join(chr(a^b) for a,b in zip(b1,b2))
+
+class aes_gcm():
+    def __init__(self, key, iv, AD):
+        self.key = key
+        self.iv = iv
+        self.AD = AD
+        
+        self.EK = AES.new(self.key)
+        self.H = self.EK.encrypt(self.iv+struct.pack('&lt;Q', 0))
+        
+    def reset(self):
+        self.tag = self.MULT_H(self.AD)
+        self.count = 1
+
+    def stream(self, src_blocks):
+        dst_blocks = []
+        for src in src_blocks:
+            counter = struct.pack('&lt;Q',self.count)
+            dst_blocks.append(XOR(self.EK.encrypt(self.iv+counter), src))
+            self.count += 1
+
+        return ''.join(dst_blocks)
+    
+    def encrypt(self,plaintext):
+        # Reset the variables
+        self.reset()
+        plaintext_blocks = self.create_blocks(plaintext)
+        ciphertext = self.stream(plaintext_blocks)
+        
+        # Calculate the authentication tag
+        ciphertext_blocks = self.create_blocks(ciphertext)
+        auth_tag = self.G_HASH(ciphertext_blocks)
+
+        return ciphertext+auth_tag
+
+    def decrypt(self,ciphertext):
+        # Reset the variables
+        self.reset()
+
+        # Validate the Authentication tag
+        auth_tag = ciphertext[-16:]
+        ciphertext_blocks = self.create_blocks(ciphertext[:-16])
+        if auth_tag != self.G_HASH(ciphertext_blocks):
+            raise ValueError(&quot;Integrity check failed!&quot;)
+        
+        return self.stream(ciphertext_blocks)
+
+    def create_blocks(self, src):
+        dst = []
+        for i in range(len(src)//AES.block_size):
+            dst.append(src[i*AES.block_size:(i+1)*AES.block_size])
+        
+        if (len(src) % 16) != 0:
+            dst.append(src[-(len(src)%16):])
+
+        return dst
+
+    def G_HASH(self, ciphertext_blocks):
+        for CT in ciphertext_blocks:
+            # Calculate the data for the mult_h
+            b_CT = str.encode(CT)
+            data = b_XOR(b_CT, self.tag)
+            self.tag = self.MULT_H(data)
+
+        # Finish the tag-calculation
+        data_len = struct.pack('&lt;Q', len(self.AD))+struct.pack('&lt;Q', len(ciphertext_blocks)*AES.block_size)
+        data = b_XOR(data_len, self.tag)
+        self.tag = self.MULT_H(data)
+        AUTH_TAG = b_XOR(self.H, self.tag)
+        
+        return AUTH_TAG
+        
+    def MULT_H(self, data):
+        if not isinstance(data,bytes):
+            try:
+                data = str.encode(data)
+            except:
+                raise ValueError(&quot;Data can not be represented as bytes&quot;)
+
+        # Pre-calc ints to GF calculation
+        H = int.from_bytes(self.H, sys.byteorder)
+        d = int.from_bytes(data, sys.byteorder)
+        GM = gmul(d,H,128)
+        return GM.to_bytes((GM.bit_length()+7)//8, sys.byteorder)
+
+</code></pre>
+
+<p>The Galois part is borrowed since I couldn&rsquo;t find any library support for it in python. One improvement to the code would be to thread the G_HASH calculation, or to embed it in the stream calculation for the encryption routine.</p>
+
+<h3 id="next-part-is-breaking-gcm">Next part is breaking GCM<a href="#next-part-is-breaking-gcm" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/crypto">Crypto</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/aes-gcm">AES GCM</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>948 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-05-05 15:11 &#43;0200</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="prev-post" href="https://ludvigknutsmark.github.io/posts/bthctf2019/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>BTH_CTF{sM3ll_th3_sH3ll}</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2019 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+	<script src="https://ludvigknutsmark.github.io/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js" integrity="sha256-eEQX9YRxUfhIwznPCssToGy7ZIsUg0NaKO1FVsTq1ps="></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139601377-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
