@@ -65,7 +65,7 @@ Oh, that&rsquo;s bad.</p>
 <p>Some explanation:</p>
 
 <ul>
-<li>Auth Data 1: The MAC secret.</li>
+<li>Auth Data 1: The Additional data which you can put into the G_HASH function. GCM is an AEAD (Authenticated Encryption Additional Data) algorithm.</li>
 <li>mult_H: Is the Galois part. Is &ldquo;each round&rdquo; of the G_HASH function. The input data is multiplied with Ek(0^128) in a Galois Field (GF(2^128)).</li>
 </ul>
 
