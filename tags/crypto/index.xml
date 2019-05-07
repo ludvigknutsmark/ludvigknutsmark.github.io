@@ -7,21 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 05 May 2019 15:11:55 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://ludvigknutsmark.github.io/tags/crypto/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Breaking AES GCM Part 1</title>
-      <link>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/</link>
-      <pubDate>Sun, 05 May 2019 15:11:55 +0200</pubDate>
-      
-      <guid>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/</guid>
-      <description>This is a small two-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&amp;rsquo;s get started!
-Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&amp;rsquo;t be broken&amp;rdquo;.
-And sure, it isn&amp;rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
-    </item>
     
     <item>
       <title>Ecurve it like Beckham</title>

@@ -3,11 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/</loc>
-    <lastmod>2019-05-05T15:11:55+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://ludvigknutsmark.github.io/posts/bthctf2019/</loc>
     <lastmod>2019-05-01T00:00:00+00:00</lastmod>
   </url>
@@ -24,12 +19,6 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/about/</loc>
-  </url>
-  
-  <url>
-    <loc>https://ludvigknutsmark.github.io/tags/aes-gcm/</loc>
-    <lastmod>2019-05-05T15:11:55+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -52,7 +41,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/tags/crypto/</loc>
-    <lastmod>2019-05-05T15:11:55+02:00</lastmod>
+    <lastmod>2019-05-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -76,19 +65,19 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/posts/</loc>
-    <lastmod>2019-05-05T15:11:55+02:00</lastmod>
+    <lastmod>2019-05-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://ludvigknutsmark.github.io/tags/</loc>
-    <lastmod>2019-05-05T15:11:55+02:00</lastmod>
+    <lastmod>2019-05-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://ludvigknutsmark.github.io/</loc>
-    <lastmod>2019-05-05T15:11:55+02:00</lastmod>
+    <lastmod>2019-05-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
