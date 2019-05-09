@@ -33,7 +33,7 @@ Galois Field Galois field, or finite field is a set in which the basic math oper
 <pre><code>x^128+x^7+x^2+x+1
 </code></pre>
 
-<p>In a Galois Field the irreducible polynom is like a prime number, i.e it has no factors(in the field).</p>
+<p>In a Galois Field the irreducible polynom is like a prime number, i.e it has no factors (in that field).</p>
 
 <p>Here is a python implementation of addition, multiplication and division in GF(2^k).</p>
 
@@ -183,7 +183,7 @@ class GHASH():
 
 <h3 id="vulnerability">Vulnerability</h3>
 
-<p>Now we know how the tag is calculated. Say that we accidentally repaeat a nonce using the same AES key. What could possibly go wrong? Well, let&rsquo;s look at it.</p>
+<p>Now we know how the tag is calculated. Say that we accidentally repeat a nonce using the same AES key. What could possibly go wrong? Well, let&rsquo;s look at it.</p>
 
 <pre><code>tag1 = b1*MS^3+b2*MS^2+len1*MS+mask
 
@@ -199,12 +199,12 @@ tag2 = d1*MS^3+d2*MS^2+len2*MS+mask
 <pre><code>tag1+2 = (b1^d1)*MS^3+(b2^d2)*MS^2+(len1^len2)*MS
 </code></pre>
 
-<p>The validation of the tag is that we plug in the mac secret into the polynomial and check if the result is zero. So the mac secret is a root to tag.</p>
+<p>The validation of the tag is that we plug in the mac secret into the polynomial and check if the result equals zero. So the mac secret is a root to tag.</p>
 
 <pre><code>tag = f(MS) = 0
 </code></pre>
 
-<p>The attack is then to factor the polynomial tag1+2 to find the mac secret. If we find the mac secret, we can fake the authentication tags for all ciphertexts under the same AES key.</p>
+<p>The attack is then to factor the polynomial tag1+2 to find the mac secret. If we find the MAC secret, we can fake the authentication tags for all ciphertexts under the same AES key.</p>
 
 <p><img src="https://media.giphy.com/media/aWssxFetYLzIA/giphy.gif" alt="alt text" /></p>
 
@@ -267,13 +267,13 @@ Oh, that&rsquo;s bad.</p>
 <p>Some explanation:</p>
 
 <ul>
-<li>Auth Data 1: The Additional data which you can put into the G_HASH function. GCM is an AEAD (Authenticated Encryption Additional Data) algorithm.</li>
-<li>mult_H: Is the Galois part. Is &ldquo;each round&rdquo; of the G_HASH function. The input data is multiplied with Ek(0^128) in a Galois Field (GF(2^128)).</li>
+<li>Auth Data 1: The Additional data which you can put into the GHASH function. GCM is an AEAD (Authenticated Encryption Additional Data) algorithm.</li>
+<li>mult_H:. &ldquo;Each round&rdquo; of the GHASH function. The input data is multiplied with Ek(0^128) in a Galois Field (GF(2^128)).</li>
 </ul>
 
 <p>Galois field as a MAC is chosen because it actually allows the Auth Tag calculation to be computed in parallel, which makes it faster than for example CBC. And even more so, than a traditional SHA-1 MAC. And speed in cryptography is important.</p>
 
-<h3 id="next-part-is-exploring-the-g-hash-function">Next part is exploring the G_HASH function</h3>
+<h3 id="next-part-is-exploring-the-ghash-function">Next part is exploring the GHASH function</h3>
 ]]></content>
 		</item>
 		
