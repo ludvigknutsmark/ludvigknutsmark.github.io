@@ -100,7 +100,7 @@ tag += mask
 
 <p>Now you have derived a hash from the ciphertext, additional data, nonce and AES-key. Cool!</p>
 
-<p>Here&rsquo;s my GCM implemenation in Python3.</p>
+<p>Here&rsquo;s my GHASH implemenation in Python3.</p>
 
 <pre><code>import struct
 from Crypto.Cipher import AES
@@ -119,7 +119,7 @@ def convert_to_field_element(a):
     else:
         return a
 
-class GCM():
+class GHASH():
     def __init__(self, K, nonce, CT, AD=None):
         self.K = K
         self.nonce = nonce
