@@ -7,8 +7,210 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Sun, 05 May 2019 15:11:55 +0200</lastBuildDate>
+		<lastBuildDate>Thu, 09 May 2019 16:08:35 +0200</lastBuildDate>
 		<atom:link href="https://ludvigknutsmark.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>Breaking AES GCM part 2</title>
+			<link>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part2/</link>
+			<pubDate>Thu, 09 May 2019 16:08:35 +0200</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part2/</guid>
+			<description>In the first part I discussed some background on why AES GCM exists. GCM stands for Galois Counter Mode. Now we will take a dive into the Galois part!
+Galois Field Galois field, or finite field is a set in which the basic math operations are defined - addition, subtraction, multiplication and division. There is obviously a lot of rules for a field, but a major one is that the field must be isomorphic, i.</description>
+			<content type="html"><![CDATA[
+
+<p>In the first part I discussed some background on why AES GCM exists. GCM stands for Galois Counter Mode. Now we will take a dive into the Galois part!</p>
+
+<h2 id="galois-field">Galois Field</h2>
+
+<p>Galois field, or finite field is a set in which the basic math operations are defined - addition, subtraction, multiplication and division. There is obviously a lot of rules for a field, but a major one is that the field must be isomorphic, i.e all elements in the field must have an inverse. Therefore Galois Fields are only defined with the order of (number of elements) p. Where p is a prime or a prime power, p^k, where k is a positive integer.</p>
+
+<h2 id="gcm-and-galois">GCM and Galois</h2>
+
+<p>GCM works in GF(2^128) with the irreducible polynom.</p>
+
+<pre><code>x^128+x^7+x^2+x+1
+</code></pre>
+
+<p>In a Galois Field the irreducible polynom is like a prime number, i.e it has no factors(in the field).</p>
+
+<p>Here is a python implementation of addition, multiplication and division in GF(2^k).</p>
+
+<pre><code># Returns the degree of the polynomial
+def deg(a):
+    deg = len(bin(a)[2:])-1
+    return deg
+
+# Add and subtract is the same. Since it's GF(2^k)
+def add(a,b):
+    return a^b
+
+def divmod(a, b):
+    q, r = 0, a
+
+    while deg(r) &gt;= deg(b):
+        d = deg(r) - deg(b)
+        q = q ^ (1 &lt;&lt; d)
+        r = r ^ (b &lt;&lt; d)
+
+    return q, r
+
+# Multiplicative over GF(2^k)
+def gf_mul(a,b,m):
+    # Peasant multiplication from wikipedia
+    p = 0
+    while a &gt; 0:
+        if a &amp; 1:
+            p = p^b
+        
+        a = a &gt;&gt; 1
+        b = b &lt;&lt; 1
+	
+	# Modulus the polynomial m
+        if deg(b) == deg(m):
+            b = b^m
+
+    return p
+</code></pre>
+
+<p>Now when we can do math in GF(2^k), let&rsquo;s implement the GHASH</p>
+
+<h2 id="ghash">GHASH</h2>
+
+<ol>
+<li><p>Pick the MAC secret. Which is a block of zero bytes encrypted with your AES key.</p></li>
+
+<li><p>Zero pad the ciphertext and additional data block by block, so it&rsquo;s divisible by the block length (AES-128=16). Then concatenate the blocks.</p></li>
+
+<li><p>Add a block which concatenates the bit length of the ciphertext and AD.</p></li>
+
+<li><p>For each of the concatenated blocks, do:</p>
+
+<pre><code>tag += block
+tag *= MAC secret
+</code></pre></li>
+
+<li><p>Mask the tag with a nonce-derived secret</p>
+
+<pre><code>mask = AES(nonce || 1)
+tag += mask
+</code></pre></li>
+</ol>
+
+<p>Now you have derived a hash from the ciphertext, additional data, nonce and AES-key. Cool!</p>
+
+<p>Here&rsquo;s my GCM implemenation in Python3.</p>
+
+<pre><code>import struct
+from Crypto.Cipher import AES
+from Crypto.Util.number import long_to_bytes, bytes_to_long
+
+# The code shown above...
+from galois import *
+
+# GF(2^128)
+# p = x^128+x^7+x^2+x+1
+
+def convert_to_field_element(a):
+    p = 340282366920938463463374607431768211591
+    if deg(a) &gt;= deg(p):
+        return a^p
+    else:
+        return a
+
+class GCM():
+    def __init__(self, K, nonce, CT, AD=None):
+        self.K = K
+        self.nonce = nonce
+        self.CT = CT
+	self.AD = AD
+        
+	# MAC secret
+        self.H = convert_to_field_element(bytes_to_long(self.E_K(b'\x00'*AES.block_size)))
+        
+        # Calculate Length block
+        AD_len = 0 if AD==None else len(AD)
+        len_block = struct.pack('&lt;Q', AD_len*8)+struct.pack('&lt;Q', len(CT)*8)
+        # Pad CT and AD :-)
+        self.pad()
+        # Concatenate stuff
+        self.data = self.CT+len_block if self.AD == None else self.AD+self.CT+len_block
+
+    def E_K(self, data):
+        cipher = AES.new(self.K)
+        return cipher.encrypt(data)
+    
+    def pad(self):
+        if len(self.CT) % AES.block_size != 0:
+            self.CT = self.CT+b'\x00'*(AES.block_size-(len(self.CT) % AES.block_size))
+        
+        if self.AD != None:
+            if len(self.AD) % AES.block_size != 0:
+                self.AD = self.AD+b'\x00'*(AES.block_size-(len(self.AD) % AES.block_size))
+
+    def round(self):
+        g = 0
+        for b in self.data:
+            b = convert_to_field_element(bytes_to_long(b))
+            g ^= b
+            g = gf_mul(g,self.H,340282366920938463463374607431768211591)
+
+        return g
+
+    def derive(self):
+        # Calculate the rounds
+        g = self.round()
+
+        # Mask tag
+        s = bytes_to_long(self.E_K(self.nonce+struct.pack('&lt;i',4)))
+        self.tag = g^s
+
+        return self.tag
+</code></pre>
+
+<h3 id="tag-structure">Tag structure</h3>
+
+<p>Basically what the tag looks like is this (MS is MAC secret):</p>
+
+<pre><code>tag = (((((block1*MS)+block2)*MS)+len)*MS)+mask
+</code></pre>
+
+<p>Which becomes</p>
+
+<pre><code>tag = block1*MS^3+block2*MS^2+len*MS+mask
+</code></pre>
+
+<h3 id="vulnerability">Vulnerability</h3>
+
+<p>Now we know how the tag is calculated. Say that we accidentally repaeat a nonce using the same AES key. What could possibly go wrong? Well, let&rsquo;s look at it.</p>
+
+<pre><code>tag1 = b1*MS^3+b2*MS^2+len1*MS+mask
+
+tag2 = d1*MS^3+d2*MS^2+len2*MS+mask
+</code></pre>
+
+<p>What do they have in common? MS, of course, since it&rsquo;s AES(key, &lsquo;\x00&rsquo;*block_length). What else?</p>
+
+<p><strong>The mask!</strong></p>
+
+<p>Since we work in GF(2^k) where addition and subtraction is the same, we can add the two tags together to remove the mask.</p>
+
+<pre><code>tag1+2 = (b1^d1)*MS^3+(b2^d2)*MS^2+(len1^len2)*MS
+</code></pre>
+
+<p>The validation of the tag is that we plug in the mac secret into the polynomial and check if the result is zero. So the mac secret is a root to tag.</p>
+
+<pre><code>tag = f(MS) = 0
+</code></pre>
+
+<p>The attack is then to factor the polynomial tag1+2 to find the mac secret. If we find the mac secret, we can fake the authentication tags for all ciphertexts under the same AES key.</p>
+
+<p><img src="https://media.giphy.com/media/aWssxFetYLzIA/giphy.gif" alt="alt text" /></p>
+
+<h3 id="next-post-will-be-to-implement-aes-gcm-factoring-tag1-2-and-successfully-fake-a-ciphertext">Next post will be to implement AES GCM, factoring tag1+2 and successfully fake a ciphertext.</h3>
+]]></content>
+		</item>
 		
 		<item>
 			<title>Breaking AES GCM Part 1</title>

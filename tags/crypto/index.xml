@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 05 May 2019 15:11:55 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 09 May 2019 16:08:35 +0200</lastBuildDate>
     
 	<atom:link href="https://ludvigknutsmark.github.io/tags/crypto/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Breaking AES GCM part 2</title>
+      <link>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part2/</link>
+      <pubDate>Thu, 09 May 2019 16:08:35 +0200</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part2/</guid>
+      <description>In the first part I discussed some background on why AES GCM exists. GCM stands for Galois Counter Mode. Now we will take a dive into the Galois part!
+Galois Field Galois field, or finite field is a set in which the basic math operations are defined - addition, subtraction, multiplication and division. There is obviously a lot of rules for a field, but a major one is that the field must be isomorphic, i.</description>
+    </item>
     
     <item>
       <title>Breaking AES GCM Part 1</title>
