@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pake on Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/tags/pake/</link>
+    <description>Recent content in Pake on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 29 May 2019 09:32:04 +0200</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/tags/pake/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OPAQUE PAKE</title>
+      <link>https://ludvigknutsmark.github.io/posts/opaque_pake/</link>
+      <pubDate>Wed, 29 May 2019 09:32:04 +0200</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/opaque_pake/</guid>
+      <description>Meanwhile as I&amp;rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
+PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&amp;rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman here.
+In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected.</description>
+    </item>
+    
+  </channel>
+</rss>
