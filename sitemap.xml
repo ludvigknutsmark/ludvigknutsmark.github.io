@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/posts/howtopizza/</loc>
+    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/posts/opaque_pake/</loc>
     <lastmod>2019-05-29T09:32:04+02:00</lastmod>
   </url>
@@ -79,6 +84,12 @@
   </url>
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/tags/neapolitan/</loc>
+    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/tags/opaque/</loc>
     <lastmod>2019-05-29T09:32:04+02:00</lastmod>
     <priority>0</priority>
@@ -103,8 +114,14 @@
   </url>
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/tags/pizza/</loc>
+    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/posts/</loc>
-    <lastmod>2019-05-29T09:32:04+02:00</lastmod>
+    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -116,7 +133,13 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/</loc>
-    <lastmod>2019-05-29T09:32:04+02:00</lastmod>
+    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/wood-oven/</loc>
+    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
