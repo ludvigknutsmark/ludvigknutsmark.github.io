@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Math on Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/tags/math/</link>
+    <description>Recent content in Math on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 16 Aug 2019 17:10:39 +0200</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>T H I C C_C U R V E S pt. 1</title>
+      <link>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</link>
+      <pubDate>Fri, 16 Aug 2019 17:10:39 +0200</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</guid>
+      <description>I&amp;rsquo;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
+I&amp;rsquo;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
+What&amp;rsquo;s an Elliptical curve then? From Wikipedia -</description>
+    </item>
+    
+  </channel>
+</rss>

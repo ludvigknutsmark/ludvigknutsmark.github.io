@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</loc>
+    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/posts/howtopizza/</loc>
     <lastmod>2019-07-24T21:53:31+02:00</lastmod>
   </url>
@@ -84,8 +89,26 @@
   </url>
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/tags/elliptical-curves/</loc>
+    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/math/</loc>
+    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/tags/neapolitan/</loc>
     <lastmod>2019-07-24T21:53:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/not_so_pedagogic/</loc>
+    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -121,7 +144,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/posts/</loc>
-    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
+    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -133,7 +156,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/</loc>
-    <lastmod>2019-07-24T21:53:31+02:00</lastmod>
+    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   

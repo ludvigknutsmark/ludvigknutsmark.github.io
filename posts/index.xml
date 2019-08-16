@@ -7,8 +7,171 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Wed, 24 Jul 2019 21:53:31 +0200</lastBuildDate>
+		<lastBuildDate>Fri, 16 Aug 2019 17:10:39 +0200</lastBuildDate>
 		<atom:link href="https://ludvigknutsmark.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>T H I C C_C U R V E S pt. 1</title>
+			<link>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</link>
+			<pubDate>Fri, 16 Aug 2019 17:10:39 +0200</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</guid>
+			<description>I&amp;rsquo;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
+I&amp;rsquo;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
+What&amp;rsquo;s an Elliptical curve then? From Wikipedia -</description>
+			<content type="html"><![CDATA[
+
+<p>I&rsquo;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.</p>
+
+<p>I&rsquo;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)</p>
+
+<h2 id="what-s-an-elliptical-curve-then">What&rsquo;s an Elliptical curve then?</h2>
+
+<p>From <a href="https://en.wikipedia.org/wiki/Elliptic_curve" target="_blank">Wikipedia</a> -</p>
+
+<pre><code>In mathematics, an elliptic curve is a plane algebraic curve defined by an equation of the form
+
+y^2=x^3+ax+b
+
+which is non-singular; that is, the curve has no cusps or self-intersections.
+</code></pre>
+
+<p>Which means that it is non-singular, i.e it has no singular points on the curve. As Wikipedia says - it has no intersection nor cusps.</p>
+
+<p>A cusp is a point where both the tangent of x and y is zero. You can also say that you can decide two tangents in a singular point, where in a non-singular you can only decide one.</p>
+
+<h3 id="quick-maths">Quick maths</h3>
+
+<p>Take P(x1,y1) and Q(x2,y2) where the intersection is non-vertical, the line which intersects P and Q is</p>
+
+<pre><code>(kx+m)^2 = x^3+ax+b
+</code></pre>
+
+<p>Which also is a point on the curve.</p>
+
+<p><strong>BUt WhAt iF tHE iNteRsECtiOn iS VerTIcAl</strong></p>
+
+<p>That can happen. Therefore we introduce a point to represent infinity (Since the third point on the line doesn&rsquo;t exist). This will be proven to come in handy later :)</p>
+
+<h3 id="group-theory-as-fields">Group theory as fields</h3>
+
+<p>So, we actually do implement Elliptical curves as fields. This requires some rules -</p>
+
+<ul>
+<li><strong>Associative</strong>: (a*b)*c = a*(b*c)</li>
+<li><strong>Identity element</strong>: There exists an element, e, which a*e=a</li>
+<li><strong>Inverse</strong>:  a*a^-1=e</li>
+</ul>
+
+<p>(This is a really basic explaination)</p>
+
+<p>We already defined an identify element (the one to represent infinity, <strong>0</strong>). Nice!</p>
+
+<p>So for our nice elliptical curve, the rules follows as such -</p>
+
+<ul>
+<li>(P+Q)+R = P+(Q+R)</li>
+<li>P+0 = 0</li>
+<li>P+P&rsquo; = 0</li>
+<li>P&rsquo;+P&rsquo; = P</li>
+</ul>
+
+<h3 id="addition-of-two-points-on-the-curve">Addition of two points on the curve</h3>
+
+<p>So the proof for the addition algorithm is a bit tricky (Read: I&rsquo;m to lazy :D)
+But it looks like this -</p>
+
+<p>(P+Q) % p</p>
+
+<ol>
+<li>If P=0 (i.e P+0) return Q</li>
+<li>If Q=0 (i.e 0+Q) return P</li>
+<li>(remember that addition is third point of intersection on the curve between P and Q</li>
+</ol>
+
+<pre><code>x = delta^2-x1-x2
+y = delta*(x1-x)-y1
+
+delta = 
+	if p1=p2: # This means that the point of intersection is the derivative, f'(x) of f(x)
+		delta = (3*x1^2+A)  / 2*y1
+	else:
+		delta = (y2-y1) / (x2-x1)
+
+</code></pre>
+
+<pre><code>*omitted*
+
+def add(self,p1, p2):
+        if p1 == self.id:
+            return p2
+
+        if p2 == self.id:
+            return p1
+        
+        if p1 == p2.invert(self.p):
+            return self.id
+
+        if p1 == p2:
+            delta = (3*pow(p1.x,2)+self.A)*gmpy2.invert(2*p1.y, self.p)
+        else:
+            delta = (p2.y - p1.y)*gmpy2.invert(p2.x - p1.x, self.p)
+        
+        x = pow(delta, 2)- p1.x - p2.x
+        y = delta*(p1.x-x)-p1.y 
+
+        return Point(x % self.p, y % self.p)
+
+*omitted*
+</code></pre>
+
+<p>Point is a simple class</p>
+
+<pre><code>class Point():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+    
+    def __str__(self):
+        return &quot;{&quot;+str(self.x)+&quot;, &quot;+str(self.y)+&quot;}&quot;
+
+    def __eq__(self, p2):
+        return True if self.x == p2.x and self.y == p2.y else False
+    
+    def __mod__(self,p):
+        return Point(self.x%p, self.y%p)
+    
+    def invert(self, p):
+        return Point(self.x, p-self.y)
+</code></pre>
+
+<h3 id="multiplication">Multiplication</h3>
+
+<p>I have actually written the multiplication algorithm for fields already. Check out <a href="https:/ludvigknutsmark.github.io/posts/breaking_aes_gcm_part2/#gcm-and-galois" target="_blank">galois fields</a></p>
+
+<p>So we end up with</p>
+
+<pre><code>*omitted*
+
+def multiply(self,n,p):
+        q = self.id
+        while n &gt; 0:
+            if n&amp;1:
+                q = self.add(q,p)
+            p = self.add(p,p)
+            n = n &gt;&gt; 1
+        return q % self.p
+
+*omitted*
+</code></pre>
+
+<p>Where n is an integer for the multiplication nP = Q</p>
+
+<h2 id="done-for-today">Done for today</h2>
+
+<p>Now we have everything to set up Elliptical curve cryptography, which I will cover in the next post. Until next time!</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>How_to_pizza.jpg</title>
