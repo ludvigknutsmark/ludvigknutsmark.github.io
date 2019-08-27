@@ -7,8 +7,86 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Fri, 16 Aug 2019 17:10:39 +0200</lastBuildDate>
+		<lastBuildDate>Tue, 27 Aug 2019 20:16:18 +0200</lastBuildDate>
 		<atom:link href="https://ludvigknutsmark.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>T H I C C_C U R V E S pt. 2</title>
+			<link>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</link>
+			<pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</guid>
+			<description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&amp;rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&amp;rsquo;s actually really simple:
+def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base)  This works, because of the abelian property associativeness (maybe an english word?</description>
+			<content type="html"><![CDATA[
+
+<p>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).</p>
+
+<h2 id="key-generation">Key generation</h2>
+
+<p>The keys are based on Diffie-Hellman. It&rsquo;s actually really simple:</p>
+
+<pre><code>def generate_keypair(self): # Diffie-Hellman
+        self.private = randint(1, self.baseorder)
+        self.public = self.multiply(self.private, self.base)
+
+A.session_key = A.private*(B.public*base)
+B.session_key = B.private*(A.public*base)
+</code></pre>
+
+<p>This works, because of the abelian property associativeness (maybe an english word?).</p>
+
+<pre><code>a = A.private
+b = B.private
+A.session_key = a*(b*base) = (a*b)*base = b*(a*base) = B.session_key
+</code></pre>
+
+<h2 id="ecdsa-algorithm">ECDSA algorithm</h2>
+
+<p>Wikipedia actually explains the algorithm very well, and why it works. <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm" target="_blank">Take a look</a>.</p>
+
+<p>Python code for the algorithm look like this:</p>
+
+<pre><code>def sign(self, H):
+        z = int(&quot;0x&quot;+H, 16)
+        k = randint(1,self.baseorder-1)
+        P = self.multiply(k,self.base)
+        
+        if P.x == 0:
+            return self.sign(H)
+        
+        r = P.x
+        s = (z+r*self.private)*I_invert(k, self.baseorder)%self.baseorder
+
+        return int(r), int(s)
+
+    def verify_signature(self, signature, pub, H):
+        r,s = signature
+        if not (1 &lt;= r &lt;= self.baseorder-1 and 1 &lt;= s &lt;= self.baseorder-1):
+            raise Exception(&quot;Invalid signature&quot;)
+
+        z = int(&quot;0x&quot;+H, 16)
+        u1 = z*I_invert(s,self.baseorder)%self.baseorder
+        u2 = r*I_invert(s,self.baseorder)%self.baseorder
+
+        P = self.add(self.multiply(u1,self.base),self.multiply(u2, pub))
+        
+        if r == P.x:
+            return True
+        else:
+            raise Exception(&quot;Invalid signature&quot;)
+</code></pre>
+
+<p>Since I programmed it, I can decide the hashing algorithm, and therefore <em>z</em>. I chose sha1 with regards to the length of the hash.</p>
+
+<h2 id="for-next-time">For next time</h2>
+
+<p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ec.py" target="_blank">github</a>.</p>
+
+<p>Next part will be to implement ECDSA in Rust and compare the speed gain to python.</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>T H I C C_C U R V E S pt. 1</title>

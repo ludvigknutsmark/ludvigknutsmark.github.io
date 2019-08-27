@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</loc>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</loc>
     <lastmod>2019-08-16T17:10:39+02:00</lastmod>
   </url>
@@ -144,7 +149,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/posts/</loc>
-    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -156,7 +161,13 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/</loc>
-    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/untagged/</loc>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
     <priority>0</priority>
   </url>
   
