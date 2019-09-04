@@ -80,11 +80,108 @@ A.session_key = a*(b*base) = (a*b)*base = b*(a*base) = B.session_key
 
 <p>Since I programmed it, I can decide the hashing algorithm, and therefore <em>z</em>. I chose sha1 with regards to the length of the hash.</p>
 
-<h2 id="for-next-time">For next time</h2>
-
 <p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ec.py" target="_blank">github</a>.</p>
 
-<p>Next part will be to implement ECDSA in Rust and compare the speed gain to python.</p>
+<h2 id="rust-implementation">Rust implementation</h2>
+
+<p>So I&rsquo;ve spent the last day to learn basic Rust and implementing ECDSA. Therefore my implementation may be relativaly bad from a speed perspective. But I think it turned out okay for my first time
+writing Rust.</p>
+
+<p>Rust by default do not support the sizes of our parameters, therefore I needed to implement a big-num library (or crate as Rust calls it).</p>
+
+<p>Rust does not support classes either, but like Go, it supports structs. I think this is fine, but it did change my implementation a bit. It now deviates a bit from my Python implementation.</p>
+
+<p>Here&rsquo;s the sign and verify_sign functions.</p>
+
+<pre><code>fn sign(h: &amp;str, private: Integer) -&gt; (Integer, Integer) {
+    let base = Point{               
+        x: hex2int(&quot;188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012&quot;),
+        y: hex2int(&quot;07192b95ffc8da78631011ed6b24cdd573f977a11e794811&quot;),
+    };
+    let baseorder = hex2int(&quot;ffffffffffffffffffffffff99def836146bc9b1b4d22831&quot;);
+
+    let z = hex2int(h);
+    let k = gen_random();
+    let P = point_multiply(&amp;k, &amp;base);
+    
+    if P.x == Integer::from(0) {
+        sign(h, private.clone());
+    }
+
+    let r = P.x;
+    let s = (z+r.clone()*private)*Integer::from(k.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+
+    (r,s)
+}
+
+fn verify_signature(signature: (Integer, Integer), public: Point, h: &amp;str) -&gt; bool {
+    let base = Point{               
+        x: hex2int(&quot;188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012&quot;),
+        y: hex2int(&quot;07192b95ffc8da78631011ed6b24cdd573f977a11e794811&quot;),
+    };
+    let baseorder = hex2int(&quot;ffffffffffffffffffffffff99def836146bc9b1b4d22831&quot;);
+
+    let r = signature.0;
+    let s = signature.1;
+    
+    if 1 &gt; r &amp;&amp; r &gt; baseorder.clone()-Integer::from(1) &amp;&amp; 1 &gt; s &amp;&amp; s &gt; baseorder.clone()-Integer::from(1) {
+        panic!(&quot;Invalid signature&quot;);
+    }
+    
+    let z = hex2int(h);
+    let u1 = z*Integer::from(s.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+    let u2 = r.clone()*Integer::from(s.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+
+    let P = point_add(&amp;point_multiply(&amp;u1, &amp;base), &amp;point_multiply(&amp;u2, &amp;public));
+    
+    if r == P.x {
+      return true
+    }
+
+    return false
+}
+</code></pre>
+
+<p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ecRust/src/main.rs" target="_blank">github</a>.</p>
+
+<h2 id="speed-comparison">Speed comparison</h2>
+
+<p>For each iteration I generate the keys, sign a message and verify the message. I do this 1000 times on each program.</p>
+
+<pre><code># ec.py
+
+for i in range(1000):
+        ec = EC(a,b,G,n,p)
+
+        ec.generate_keypair()
+     
+        H = &quot;719609852b46b8ea9a5fcd39eb7bc9088fa36399&quot;    
+        r,s = ec.sign(H)
+        ec.verify_signature((r,s), ec.public, H)
+
+</code></pre>
+
+<p>Here are the results.</p>
+
+<pre><code>$ time python ec.py
+
+real	0m8,314s
+user	0m7,358s
+sys	0m0,033s
+</code></pre>
+
+<pre><code>$ time ecRust/target/release/ec_rust
+
+real	0m5,099s
+user	0m5,097s
+sys	0m0,000s
+</code></pre>
+
+<p>So Rust was a bit faster, but not by much. This is probably due to my bad Rust skills and only knowing it for about 24 hours :) I suspect that my implementation can be sped up by a factor or two.</p>
+
+<h2 id="next-time">Next time</h2>
+
+<p>My CAN-buses haven&rsquo;t arrived yet, but when they do I will take a dive into CAN and some cool stuff!</p>
 ]]></content>
 		</item>
 		
