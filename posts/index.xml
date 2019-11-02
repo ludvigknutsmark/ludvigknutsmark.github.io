@@ -7,8 +7,132 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Tue, 27 Aug 2019 20:16:18 +0200</lastBuildDate>
+		<lastBuildDate>Sat, 02 Nov 2019 09:33:15 +0100</lastBuildDate>
 		<atom:link href="https://ludvigknutsmark.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>You sure can quant on me!</title>
+			<link>https://ludvigknutsmark.github.io/posts/postquantom/</link>
+			<pubDate>Sat, 02 Nov 2019 09:33:15 +0100</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/postquantom/</guid>
+			<description>So, I recently treated myself with a Nintendo switch. Let&amp;rsquo;s say computer time has been limited lately&amp;hellip;Saving Hyrule has been kind of my priority :)
+I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&amp;rsquo;m gonna talk a bit about quantom computers and show a &amp;ldquo;quantom safe&amp;rdquo; algorithm - GGH.</description>
+			<content type="html"><![CDATA[
+
+<p>So, I recently treated myself with a Nintendo switch. Let&rsquo;s say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)</p>
+
+<p>I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&rsquo;m gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH.</p>
+
+<h2 id="what-is-quantom-computers-and-why-you-should-care">What is Quantom computers and why you should care</h2>
+
+<p>A regular computer has it&rsquo;s lowest information represented as a bit, one or zero. A quantom computer has its lowest information represented as a qubit. Reading a qubit is different from reading a bit. A bit is always one or zero, but a qubit is represented as a normalized superposition of either one or zero (this is black magic). This gives quantom computers special properties, which in short makes quantom computers incredibly fast at solving specific problems. Or rather, given this quantom property we can construct specific algorithms which utilizes these to solve specific problems. You may have heard about one of these algorithms - Shor&rsquo;s algorithm.</p>
+
+<p>A common myth is that quantom computers breaks all encryption. This is not true. Rather shor&rsquo;s algorithm (in theory) solves the integer factorization and discrete logarithm problem in polynomial time.</p>
+
+<p>What does this mean then? Well, the encryption schemes which builds on these problems are broken with suffiently good quantom computers. Any schemes that comes to mind? How about RSA, ECDSA and Diffie-Hellman? Which all are asymmetric algorithms. Symmetric algorithms (like AES) seems to be fine for now, i.e. there is no quantom algorithm which breaks these like Shor&rsquo;s algorithm breaks some asymmetric schemes.</p>
+
+<h3 id="cool-and-all-but-this-sounds-like-real-sci-fi-i-shouldn-t-care-right">Cool and all, but this sounds like real sci-fi. I shouldn&rsquo;t care right?</h3>
+
+<p><a href="https://www.theverge.com/2019/10/23/20928294/google-quantum-supremacy-sycamore-computer-qubit-milestone" target="_blank">Google just declared quatom supremacy</a> and earlier this year Martin Ekerå and Craig Gidney wrote a paper which described how to factor <a href="https://arxiv.org/pdf/1905.09749.pdf" target="_blank">2048-bit RSA integers in 8 hours</a>.</p>
+
+<p><img src="https://media.giphy.com/media/WrK9dwj8TNPr2/giphy.gif" alt="alt text" /></p>
+
+<p>Such quantom computers are not here yet though. But according to Martin Ekerå - they can be in the next 10-25 years.</p>
+
+<h3 id="ahhh-everythings-on-fire">Ahhh, everythings on fire!!</h3>
+
+<p>Well, this sucks :D But don&rsquo;t worry too much just yet, there are solutions to this.</p>
+
+<p>So, Shor&rsquo;s algorithm solves the integer factorization and discrete logarithm problem in polynomial time. Can we build asymmetric schemes which depends on other problems? Looks like we can!</p>
+
+<h2 id="ggh-and-don-t-use-this">GGH (and don&rsquo;t use this)</h2>
+
+<p>A fairly simple algorithm (compared to other post-quantom schemes) is GGH. It is broken though, so don&rsquo;t use it. But it&rsquo;s easier than others to explain.</p>
+
+<h3 id="math-math-and-math">Math, math and math</h3>
+
+<h4 id="vector-space">Vector space</h4>
+
+<p>First we need to have something called vector space. A vectorspace V over R is defined if V is closed under addition and multiplication for all vectors in V and elements i R. This means that the result of adding two arbitrary vectors from V is in V, and the scalar multiplication of an arbitrary vector in V and element in R is in V. It&rsquo;s easier to show -</p>
+
+<pre><code>u,v in V
+a in R
+
+u+v in V
+au in V
+</code></pre>
+
+<p>There are more rules to this (read my other posts).</p>
+
+<p>A vectorspace V has a base B=(v1,v2,&hellip;,vm) if B is linearly independant and every vector, v can be written like a linear combination of B.</p>
+
+<h4 id="lattice">Lattice</h4>
+
+<p>A Lattice is a vector space with a base (linearly independant vectors) which generates the lattice.</p>
+
+<p>Example:</p>
+
+<pre><code>L = lattice
+(v_1,v_2,...,v_n) = base
+
+Given the base v_1=(1,0) and v_2=(2,1) where v_1,v_2 in R^2 the lattice L is described as
+
+L = {xv1, yv2} = {x+2y, y} for all elements x,y in Z
+</code></pre>
+
+<p>The lattice can be represented as all points {x,y} in the plane.</p>
+
+<h4 id="here-comes-the-problem">Here comes the problem</h4>
+
+<p>One problem which is hard to solve (in higher dimensions) is the Closest vector problem. Given a vector w in R, find the closest vector v to w in the vector space V, i.e. find the vector v in V with the shortest distance to w</p>
+
+<h3 id="ggh">GGH</h3>
+
+<h4 id="keys">Keys</h4>
+
+<p>Pick n random linearly independant vectors from Z^n and set the private key</p>
+
+<pre><code>V = (v_1,v_2,...,v_n)^T
+</code></pre>
+
+<p>Pick a random matrix U with order n such as determinant U = +-1</p>
+
+<p>Set the public key W to</p>
+
+<pre><code>W = UV
+</code></pre>
+
+<h4 id="encryption">Encryption</h4>
+
+<p>The plaintext p should be coded in such a way that p=(p_1,p_2,&hellip;,p_n) is in Z^n.</p>
+
+<p>Pick a random efemary key r in Z^n. I will describe why below.</p>
+
+<p>The ciphertext is then given by</p>
+
+<pre><code>c = pW + r
+</code></pre>
+
+<h4 id="decryption">Decryption</h4>
+
+<p>We have a vector c which is not in V. Why not? Because we introduced a noise, r.</p>
+
+<p>To find the original message p we first need to find pW (which is a vector in V). To do this we find the closest vector to c. This means that me remove the noise introduced by r.</p>
+
+<pre><code>pW = solve_CVP(c, V)
+p = pWW^-1 = pI = p
+</code></pre>
+
+<p>Solving approximate CVP can be done by <a href="http://www.noahsd.com/mini_lattices/05__babai.pdf" target="_blank">Babai&rsquo;s algorithm</a>. But not knowing V (the private key) makes it a really hard problem to solve.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>As you can see above, GGH is built on the closest vector problem (and not integer factorization or discrete logarithms). GGH is very broken though! But there are other post-quantom algorithms which work much better (such as McEliece and NTRU).</p>
+
+<p>This was a basic introduction to post-quantom cryptography and why we all should care. Next post will be a introduction to homomorphic encryption (yay, more buzzwords!).</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>T H I C C_C U R V E S pt. 2</title>
