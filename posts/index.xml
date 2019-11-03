@@ -7,8 +7,75 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Sat, 02 Nov 2019 09:33:15 +0100</lastBuildDate>
+		<lastBuildDate>Sun, 03 Nov 2019 16:19:16 +0100</lastBuildDate>
 		<atom:link href="https://ludvigknutsmark.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>Homomorphic encryption</title>
+			<link>https://ludvigknutsmark.github.io/posts/homomorphic/</link>
+			<pubDate>Sun, 03 Nov 2019 16:19:16 +0100</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/homomorphic/</guid>
+			<description>Today I&amp;rsquo;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Enryption. What is it and how does it really work? And maybe more important, why do we want this?
+Homomorphism Homomorphism is defined in a mathematical set such as the result of an operation is mirrored in another set by performing the same operation in that set.
+$f:G\rightarrow H$ where $f(xy)=f(x)f(y)$
+Oh yes, I finally took the time to integrate LaTeX into Hugo.</description>
+			<content type="html"><![CDATA[
+
+<p>Today I&rsquo;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Enryption. What is it and how does it really work? And maybe more important, why do we want this?</p>
+
+<h2 id="homomorphism">Homomorphism</h2>
+
+<p>Homomorphism is defined in a mathematical set such as the result of an operation is mirrored in another set by performing the same operation in that set.</p>
+
+<p>$f:G\rightarrow H$ where $f(xy)=f(x)f(y)$</p>
+
+<p><em>Oh yes, I finally took the time to integrate LaTeX into Hugo. No more ugly x^2 equations.</em></p>
+
+<p>In the context of cryptography this means that the result of an operation performed on the ciphertext(G) is mirrored when the same operation is performed on the plaintext(H).</p>
+
+<p>For example, given a ciphertext $\mathit{C}$ and a plaintext $\mathit{P}$, with an operation $\star$ the following holds true in a fully* homomorphic scheme.</p>
+
+<p>$$C&rsquo;=x\star C$$
+$$P&rsquo;=decrypt(C&rsquo;)$$
+$$P=x\star P&rsquo;$$</p>
+
+<p>where $\mathit{x}$ can be any argument to the operation.</p>
+
+<p>There are basically three types of homomorphic encryption. (1) Partially homomorphic encryption(PHE), this allows one type of operation, (2) Somewhat homomorphic encryption (SWHE) which allows some types of operations and (3) Fully homomorphic encryption (FHE) which allows all operations.</p>
+
+<h2 id="black-magic">Black magic</h2>
+
+<p>This does sound like black magic. Actually RSA is a homomorphic encryption-scheme (PHE). RSA allows unlimited amount of modular multiplications.</p>
+
+<p>$$C = P^{e} \mod n$$
+$$C&rsquo;= C\times x^{e} \mod n$$
+$$P&rsquo;=C&rsquo;^{d} \mod n$$
+$$P=\frac{P&rsquo;}{x} \mod n$$</p>
+
+<p>Because</p>
+
+<p>$$P&rsquo;=C&rsquo;^{d}=(C\times x^{e})^{d}=(P^{e}\times x^{e})^{d}=Px^{ed}=Px \mod n$$</p>
+
+<p>Remember that</p>
+
+<p>$$ed = 1 \mod n$$</p>
+
+<p>This allows one type of operation (modular multiplication) on the ciphertexts. But there actually exists a scheme which allows any operation on the ciphertext, a fully homomorphic encryption-scheme. It&rsquo;s called <a href="https://crypto.stanford.edu/craig/craig-thesis.pdf" target="_blank">Gentry&rsquo;s FHE</a>.</p>
+
+<h2 id="but-when-could-this-be-useful">But when could this be useful?</h2>
+
+<p>A obvious application is cloud services. In a traditional cloud service where we hold sesitive encrypted data, the cloud provider owns both the encrypted data and the method to encrypt (and decrypt) the data. Now say an attacker takes control of the cloud service, he owns the encrypted data, and also the means to decrypt it. If we could employ a homomorphic encryption-scheme, the cloud provider can outsource the encryption and decryption methods to the original owner of the data. The cloud provider now only has the encrypted data but can still perform any operation (statisics, sorting, querys etc.) and so on. If an attacker now takes control of the cloud service, he only has control of the encrypted data, which in that form is worthless.</p>
+
+<p>Often when there is talk about homomorphic encryption, some people often mention encrypted databases. Encrypted databases is almost always a bad idea. <a href="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/" target="_blank">Matthew Green has an awesome article about this</a>. Looks like with a sufficent amount of querys an attacker can reconstruct parts of the database. Oops!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This is of course super interesting, and is seen like the holy grail of cryptography. Today there exists a fully homomorphic scheme, but it suffers from really serious performance issues. We are probably a long time away from a applicable FHE-scheme.</p>
+
+<p>If you found this interesting. Me and a classmate Johan Näslund, wrote a short paper about homomorphic encryption which I will link here as soon as it&rsquo;s finished.</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>You sure can quant on me!</title>
