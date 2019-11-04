@@ -73,7 +73,7 @@ $$P=\frac{P&rsquo;}{x} \mod n$$</p>
 
 <p>This is of course super interesting, and is seen like the holy grail of cryptography. Today there exists a fully homomorphic scheme, but it suffers from really serious performance issues. We are probably a long time away from a applicable FHE-scheme.</p>
 
-<p>If you found this interesting. Me and a classmate Johan Näslund, wrote a short paper about homomorphic encryption which I will link here as soon as it&rsquo;s finished.</p>
+<p>If you found this interesting. Me and a classmate Johan Näslund, wrote a short paper about homomorphic encryption. You can find it <a href="https://drive.google.com/open?id=130Yp4bPsO1DHmMyZnh9Q8yToU5_Q_IBO" target="_blank">here</a> (Swedish).</p>
 ]]></content>
 		</item>
 		
