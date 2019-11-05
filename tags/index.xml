@@ -31,6 +31,15 @@
     </item>
     
     <item>
+      <title>Blockchains</title>
+      <link>https://ludvigknutsmark.github.io/tags/blockchains/</link>
+      <pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/tags/blockchains/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Bth</title>
       <link>https://ludvigknutsmark.github.io/tags/bth/</link>
       <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
@@ -45,6 +54,15 @@
       <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/tags/bth_ctf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Buzzword</title>
+      <link>https://ludvigknutsmark.github.io/tags/buzzword/</link>
+      <pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/tags/buzzword/</guid>
       <description></description>
     </item>
     
@@ -69,36 +87,18 @@
     <item>
       <title>Ecdsa</title>
       <link>https://ludvigknutsmark.github.io/tags/ecdsa/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/tags/ecdsa/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Elliptical Curves</title>
-      <link>https://ludvigknutsmark.github.io/tags/elliptical-curves/</link>
-      <pubDate>Fri, 16 Aug 2019 17:10:39 +0200</pubDate>
+      <title>Elliptical Curve</title>
+      <link>https://ludvigknutsmark.github.io/tags/elliptical-curve/</link>
+      <pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
       
-      <guid>https://ludvigknutsmark.github.io/tags/elliptical-curves/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Math</title>
-      <link>https://ludvigknutsmark.github.io/tags/math/</link>
-      <pubDate>Fri, 16 Aug 2019 17:10:39 +0200</pubDate>
-      
-      <guid>https://ludvigknutsmark.github.io/tags/math/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Neapolitan</title>
-      <link>https://ludvigknutsmark.github.io/tags/neapolitan/</link>
-      <pubDate>Wed, 24 Jul 2019 21:53:31 +0200</pubDate>
-      
-      <guid>https://ludvigknutsmark.github.io/tags/neapolitan/</guid>
+      <guid>https://ludvigknutsmark.github.io/tags/elliptical-curve/</guid>
       <description></description>
     </item>
     

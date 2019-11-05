@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shitty_curves on Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/tags/shitty_curves/</link>
+    <description>Recent content in Shitty_curves on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 27 Aug 2019 20:16:18 +0200</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/tags/shitty_curves/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>T H I C C_C U R V E S pt. 2</title>
+      <link>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</link>
+      <pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</guid>
+      <description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&amp;rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&amp;rsquo;s actually really simple:
+def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base)  This works, because of the abelian property associativeness (maybe an english word?</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+
+<meta itemprop="name" content="T H I C C_C U R V E S pt. 2">
+<meta itemprop="description" content="In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&rsquo;s actually really simple:
+def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base)  This works, because of the abelian property associativeness (maybe an english word?">
+
+
+<meta itemprop="datePublished" content="2019-08-27T20:16:18&#43;02:00" />
+<meta itemprop="dateModified" content="2019-08-27T20:16:18&#43;02:00" />
+<meta itemprop="wordCount" content="598">
+
+
+
+<meta itemprop="keywords" content="shitty_curves,Elliptical curve,ECDSA,Rust," />
+<meta property="og:title" content="T H I C C_C U R V E S pt. 2" />
+<meta property="og:description" content="In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&rsquo;s actually really simple:
+def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base)  This works, because of the abelian property associativeness (maybe an english word?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/" />
+<meta property="article:published_time" content="2019-08-27T20:16:18&#43;02:00"/>
+<meta property="article:modified_time" content="2019-08-27T20:16:18&#43;02:00"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="T H I C C_C U R V E S pt. 2"/>
+<meta name="twitter:description" content="In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&rsquo;s actually really simple:
+def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base)  This works, because of the abelian property associativeness (maybe an english word?"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>T H I C C_C U R V E S pt. 2</title>
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css" integrity="sha256-MXBpF2U9K56EEKvUMfMOxDWaiKlPyHpjZUd52HMp7ew=">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+					<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+					<a href="https://ludvigknutsmark.github.io/about/">About</a>
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+		<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://ludvigknutsmark.github.io/posts/">Posts</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/about/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Aug 27, 2019</span></div>
+				<h1>T H I C C_C U R V E S pt. 2</h1>
+			</header>
+			<div class="content">
+				
+
+<p>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).</p>
+
+<h2 id="key-generation">Key generation<a href="#key-generation" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>The keys are based on Diffie-Hellman. It&rsquo;s actually really simple:</p>
+
+<pre><code>def generate_keypair(self): # Diffie-Hellman
+        self.private = randint(1, self.baseorder)
+        self.public = self.multiply(self.private, self.base)
+
+A.session_key = A.private*(B.public*base)
+B.session_key = B.private*(A.public*base)
+</code></pre>
+
+<p>This works, because of the abelian property associativeness (maybe an english word?).</p>
+
+<pre><code>a = A.private
+b = B.private
+A.session_key = a*(b*base) = (a*b)*base = b*(a*base) = B.session_key
+</code></pre>
+
+<h2 id="ecdsa-algorithm">ECDSA algorithm<a href="#ecdsa-algorithm" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>Wikipedia actually explains the algorithm very well, and why it works. <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm" target="_blank">Take a look</a>.</p>
+
+<p>Python code for the algorithm look like this:</p>
+
+<pre><code>def sign(self, H):
+        z = int(&quot;0x&quot;+H, 16)
+        k = randint(1,self.baseorder-1)
+        P = self.multiply(k,self.base)
+        
+        if P.x == 0:
+            return self.sign(H)
+        
+        r = P.x
+        s = (z+r*self.private)*I_invert(k, self.baseorder)%self.baseorder
+
+        return int(r), int(s)
+
+    def verify_signature(self, signature, pub, H):
+        r,s = signature
+        if not (1 &lt;= r &lt;= self.baseorder-1 and 1 &lt;= s &lt;= self.baseorder-1):
+            raise Exception(&quot;Invalid signature&quot;)
+
+        z = int(&quot;0x&quot;+H, 16)
+        u1 = z*I_invert(s,self.baseorder)%self.baseorder
+        u2 = r*I_invert(s,self.baseorder)%self.baseorder
+
+        P = self.add(self.multiply(u1,self.base),self.multiply(u2, pub))
+        
+        if r == P.x:
+            return True
+        else:
+            raise Exception(&quot;Invalid signature&quot;)
+</code></pre>
+
+<p>Since I programmed it, I can decide the hashing algorithm, and therefore <em>z</em>. I chose sha1 with regards to the length of the hash.</p>
+
+<p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ec.py" target="_blank">github</a>.</p>
+
+<h2 id="rust-implementation">Rust implementation<a href="#rust-implementation" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>So I&rsquo;ve spent the last day to learn basic Rust and implementing ECDSA. Therefore my implementation may be relativaly bad from a speed perspective. But I think it turned out okay for my first time
+writing Rust.</p>
+
+<p>Rust by default do not support the sizes of our parameters, therefore I needed to implement a big-num library (or crate as Rust calls it).</p>
+
+<p>Rust does not support classes either, but like Go, it supports structs. I think this is fine, but it did change my implementation a bit. It now deviates a bit from my Python implementation.</p>
+
+<p>Here&rsquo;s the sign and verify_sign functions.</p>
+
+<pre><code>fn sign(h: &amp;str, private: Integer) -&gt; (Integer, Integer) {
+    let base = Point{               
+        x: hex2int(&quot;188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012&quot;),
+        y: hex2int(&quot;07192b95ffc8da78631011ed6b24cdd573f977a11e794811&quot;),
+    };
+    let baseorder = hex2int(&quot;ffffffffffffffffffffffff99def836146bc9b1b4d22831&quot;);
+
+    let z = hex2int(h);
+    let k = gen_random();
+    let P = point_multiply(&amp;k, &amp;base);
+    
+    if P.x == Integer::from(0) {
+        sign(h, private.clone());
+    }
+
+    let r = P.x;
+    let s = (z+r.clone()*private)*Integer::from(k.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+
+    (r,s)
+}
+
+fn verify_signature(signature: (Integer, Integer), public: Point, h: &amp;str) -&gt; bool {
+    let base = Point{               
+        x: hex2int(&quot;188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012&quot;),
+        y: hex2int(&quot;07192b95ffc8da78631011ed6b24cdd573f977a11e794811&quot;),
+    };
+    let baseorder = hex2int(&quot;ffffffffffffffffffffffff99def836146bc9b1b4d22831&quot;);
+
+    let r = signature.0;
+    let s = signature.1;
+    
+    if 1 &gt; r &amp;&amp; r &gt; baseorder.clone()-Integer::from(1) &amp;&amp; 1 &gt; s &amp;&amp; s &gt; baseorder.clone()-Integer::from(1) {
+        panic!(&quot;Invalid signature&quot;);
+    }
+    
+    let z = hex2int(h);
+    let u1 = z*Integer::from(s.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+    let u2 = r.clone()*Integer::from(s.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+
+    let P = point_add(&amp;point_multiply(&amp;u1, &amp;base), &amp;point_multiply(&amp;u2, &amp;public));
+    
+    if r == P.x {
+      return true
+    }
+
+    return false
+}
+</code></pre>
+
+<p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ecRust/src/main.rs" target="_blank">github</a>.</p>
+
+<h2 id="speed-comparison">Speed comparison<a href="#speed-comparison" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>For each iteration I generate the keys, sign a message and verify the message. I do this 1000 times on each program.</p>
+
+<pre><code># ec.py
+
+for i in range(1000):
+        ec = EC(a,b,G,n,p)
+
+        ec.generate_keypair()
+     
+        H = &quot;719609852b46b8ea9a5fcd39eb7bc9088fa36399&quot;    
+        r,s = ec.sign(H)
+        ec.verify_signature((r,s), ec.public, H)
+
+</code></pre>
+
+<p>Here are the results.</p>
+
+<pre><code>$ time python ec.py
+
+real	0m8,314s
+user	0m7,358s
+sys	0m0,033s
+</code></pre>
+
+<pre><code>$ time ecRust/target/release/ec_rust
+
+real	0m5,099s
+user	0m5,097s
+sys	0m0,000s
+</code></pre>
+
+<p>So Rust was a bit faster, but not by much. This is probably due to my bad Rust skills and only knowing it for about 24 hours :) I suspect that my implementation can be sped up by a factor or two.</p>
+
+<h2 id="next-time">Next time<a href="#next-time" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>My CAN-buses haven&rsquo;t arrived yet, but when they do I will take a dive into CAN and some cool stuff!</p>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/shitty_curves">shitty_curves</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/elliptical-curve">Elliptical curve</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/ecdsa">ECDSA</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/rust">Rust</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>598 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-08-27 20:16 &#43;0200</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://ludvigknutsmark.github.io/posts/postquantom/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>You sure can quant on me!</span>
+			</a>
+			<a class="prev-post" href="https://ludvigknutsmark.github.io/posts/ellipticalcurves/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>T H I C C_C U R V E S pt. 1</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2019 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+	<script src="https://ludvigknutsmark.github.io/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js" integrity="sha256-eEQX9YRxUfhIwznPCssToGy7ZIsUg0NaKO1FVsTq1ps="></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139601377-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>

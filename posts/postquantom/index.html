@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+
+<meta itemprop="name" content="You sure can quant on me!">
+<meta itemprop="description" content="So, I recently treated myself with a Nintendo switch. Let&rsquo;s say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)
+I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&rsquo;m gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH.">
+
+
+<meta itemprop="datePublished" content="2019-11-02T09:33:15&#43;01:00" />
+<meta itemprop="dateModified" content="2019-11-02T09:33:15&#43;01:00" />
+<meta itemprop="wordCount" content="901">
+
+
+
+<meta itemprop="keywords" content="Post-Quantom,Shor&#39;s algorithm,GGH," />
+<meta property="og:title" content="You sure can quant on me!" />
+<meta property="og:description" content="So, I recently treated myself with a Nintendo switch. Let&rsquo;s say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)
+I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&rsquo;m gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ludvigknutsmark.github.io/posts/postquantom/" />
+<meta property="article:published_time" content="2019-11-02T09:33:15&#43;01:00"/>
+<meta property="article:modified_time" content="2019-11-02T09:33:15&#43;01:00"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="You sure can quant on me!"/>
+<meta name="twitter:description" content="So, I recently treated myself with a Nintendo switch. Let&rsquo;s say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)
+I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&rsquo;m gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>You sure can quant on me!</title>
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css" integrity="sha256-MXBpF2U9K56EEKvUMfMOxDWaiKlPyHpjZUd52HMp7ew=">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+					<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+					<a href="https://ludvigknutsmark.github.io/about/">About</a>
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+		<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://ludvigknutsmark.github.io/posts/">Posts</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/about/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Nov 2, 2019</span></div>
+				<h1>You sure can quant on me!</h1>
+			</header>
+			<div class="content">
+				
+
+<p>So, I recently treated myself with a Nintendo switch. Let&rsquo;s say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)</p>
+
+<p>I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&rsquo;m gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH.</p>
+
+<h2 id="what-is-quantom-computers-and-why-you-should-care">What is Quantom computers and why you should care<a href="#what-is-quantom-computers-and-why-you-should-care" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>A regular computer has it&rsquo;s lowest information represented as a bit, one or zero. A quantom computer has its lowest information represented as a qubit. Reading a qubit is different from reading a bit. A bit is always one or zero, but a qubit is represented as a normalized superposition of either one or zero (this is black magic). This gives quantom computers special properties, which in short makes quantom computers incredibly fast at solving specific problems. Or rather, given this quantom property we can construct specific algorithms which utilizes these to solve specific problems. You may have heard about one of these algorithms - Shor&rsquo;s algorithm.</p>
+
+<p>A common myth is that quantom computers breaks all encryption. This is not true. Rather shor&rsquo;s algorithm (in theory) solves the integer factorization and discrete logarithm problem in polynomial time.</p>
+
+<p>What does this mean then? Well, the encryption schemes which builds on these problems are broken with suffiently good quantom computers. Any schemes that comes to mind? How about RSA, ECDSA and Diffie-Hellman? Which all are asymmetric algorithms. Symmetric algorithms (like AES) seems to be fine for now, i.e. there is no quantom algorithm which breaks these like Shor&rsquo;s algorithm breaks some asymmetric schemes.</p>
+
+<h3 id="cool-and-all-but-this-sounds-like-real-sci-fi-i-shouldn-t-care-right">Cool and all, but this sounds like real sci-fi. I shouldn&rsquo;t care right?<a href="#cool-and-all-but-this-sounds-like-real-sci-fi-i-shouldn-t-care-right" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p><a href="https://www.theverge.com/2019/10/23/20928294/google-quantum-supremacy-sycamore-computer-qubit-milestone" target="_blank">Google just declared quatom supremacy</a> and earlier this year Martin Ekerå and Craig Gidney wrote a paper which described how to factor <a href="https://arxiv.org/pdf/1905.09749.pdf" target="_blank">2048-bit RSA integers in 8 hours</a>.</p>
+
+<p><img src="https://media.giphy.com/media/WrK9dwj8TNPr2/giphy.gif" alt="alt text" /></p>
+
+<p>Such quantom computers are not here yet though. But according to Martin Ekerå - they can be in the next 10-25 years.</p>
+
+<h3 id="ahhh-everythings-on-fire">Ahhh, everythings on fire!!<a href="#ahhh-everythings-on-fire" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>Well, this sucks :D But don&rsquo;t worry too much just yet, there are solutions to this.</p>
+
+<p>So, Shor&rsquo;s algorithm solves the integer factorization and discrete logarithm problem in polynomial time. Can we build asymmetric schemes which depends on other problems? Looks like we can!</p>
+
+<h2 id="ggh-and-don-t-use-this">GGH (and don&rsquo;t use this)<a href="#ggh-and-don-t-use-this" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>A fairly simple algorithm (compared to other post-quantom schemes) is GGH. It is broken though, so don&rsquo;t use it. But it&rsquo;s easier than others to explain.</p>
+
+<h3 id="math-math-and-math">Math, math and math<a href="#math-math-and-math" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<h4 id="vector-space">Vector space<a href="#vector-space" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>First we need to have something called vector space. A vectorspace V over R is defined if V is closed under addition and multiplication for all vectors in V and elements i R. This means that the result of adding two arbitrary vectors from V is in V, and the scalar multiplication of an arbitrary vector in V and element in R is in V. It&rsquo;s easier to show -</p>
+
+<pre><code>u,v in V
+a in R
+
+u+v in V
+au in V
+</code></pre>
+
+<p>There are more rules to this (read my other posts).</p>
+
+<p>A vectorspace V has a base B=(v1,v2,&hellip;,vm) if B is linearly independant and every vector, v can be written like a linear combination of B.</p>
+
+<h4 id="lattice">Lattice<a href="#lattice" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>A Lattice is a vector space with a base (linearly independant vectors) which generates the lattice.</p>
+
+<p>Example:</p>
+
+<pre><code>L = lattice
+(v_1,v_2,...,v_n) = base
+
+Given the base v_1=(1,0) and v_2=(2,1) where v_1,v_2 in R^2 the lattice L is described as
+
+L = {xv1, yv2} = {x+2y, y} for all elements x,y in Z
+</code></pre>
+
+<p>The lattice can be represented as all points {x,y} in the plane.</p>
+
+<h4 id="here-comes-the-problem">Here comes the problem<a href="#here-comes-the-problem" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>One problem which is hard to solve (in higher dimensions) is the Closest vector problem. Given a vector w in R, find the closest vector v to w in the vector space V, i.e. find the vector v in V with the shortest distance to w</p>
+
+<h3 id="ggh">GGH<a href="#ggh" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<h4 id="keys">Keys<a href="#keys" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>Pick n random linearly independant vectors from Z^n and set the private key</p>
+
+<pre><code>V = (v_1,v_2,...,v_n)^T
+</code></pre>
+
+<p>Pick a random matrix U with order n such as determinant U = +-1</p>
+
+<p>Set the public key W to</p>
+
+<pre><code>W = UV
+</code></pre>
+
+<h4 id="encryption">Encryption<a href="#encryption" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>The plaintext p should be coded in such a way that p=(p_1,p_2,&hellip;,p_n) is in Z^n.</p>
+
+<p>Pick a random efemary key r in Z^n. I will describe why below.</p>
+
+<p>The ciphertext is then given by</p>
+
+<pre><code>c = pW + r
+</code></pre>
+
+<h4 id="decryption">Decryption<a href="#decryption" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>We have a vector c which is not in V. Why not? Because we introduced a noise, r.</p>
+
+<p>To find the original message p we first need to find pW (which is a vector in V). To do this we find the closest vector to c. This means that me remove the noise introduced by r.</p>
+
+<pre><code>pW = solve_CVP(c, V)
+p = pWW^-1 = pI = p
+</code></pre>
+
+<p>Solving approximate CVP can be done by <a href="http://www.noahsd.com/mini_lattices/05__babai.pdf" target="_blank">Babai&rsquo;s algorithm</a>. But not knowing V (the private key) makes it a really hard problem to solve.</p>
+
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>As you can see above, GGH is built on the closest vector problem (and not integer factorization or discrete logarithms). GGH is very broken though! But there are other post-quantom algorithms which work much better (such as McEliece and NTRU).</p>
+
+<p>This was a basic introduction to post-quantom cryptography and why we all should care. Next post will be a introduction to homomorphic encryption (yay, more buzzwords!).</p>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/post-quantom">Post-Quantom</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/shors-algorithm">Shor&#39;s algorithm</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/ggh">GGH</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>901 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-02 09:33 &#43;0100</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://ludvigknutsmark.github.io/posts/homomorphic/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>Homomorphic encryption</span>
+			</a>
+			<a class="prev-post" href="https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>T H I C C_C U R V E S pt. 2</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2019 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+	<script src="https://ludvigknutsmark.github.io/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js" integrity="sha256-eEQX9YRxUfhIwznPCssToGy7ZIsUg0NaKO1FVsTq1ps="></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139601377-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>

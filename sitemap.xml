@@ -3,6 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/posts/blockchain/</loc>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/posts/homomorphic/</loc>
+    <lastmod>2019-11-03T16:19:16+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/posts/postquantom/</loc>
+    <lastmod>2019-11-02T09:33:15+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</loc>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</loc>
     <lastmod>2019-08-16T17:10:39+02:00</lastmod>
   </url>
@@ -59,6 +79,12 @@
   </url>
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/tags/blockchains/</loc>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/tags/bth/</loc>
     <lastmod>2019-05-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -67,6 +93,12 @@
   <url>
     <loc>https://ludvigknutsmark.github.io/tags/bth_ctf/</loc>
     <lastmod>2019-05-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/buzzword/</loc>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -84,13 +116,31 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/tags/ecdsa/</loc>
-    <lastmod>2019-05-01T00:00:00+00:00</lastmod>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/elliptical-curve/</loc>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://ludvigknutsmark.github.io/tags/elliptical-curves/</loc>
     <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/ggh/</loc>
+    <lastmod>2019-11-02T09:33:15+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/homomorphic/</loc>
+    <lastmod>2019-11-03T16:19:16+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -143,8 +193,38 @@
   </url>
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/tags/post-quantom/</loc>
+    <lastmod>2019-11-02T09:33:15+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/posts/</loc>
-    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/rsa/</loc>
+    <lastmod>2019-11-03T16:19:16+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/rust/</loc>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/shitty_curves/</loc>
+    <lastmod>2019-08-27T20:16:18+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ludvigknutsmark.github.io/tags/shors-algorithm/</loc>
+    <lastmod>2019-11-02T09:33:15+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -156,7 +236,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/</loc>
-    <lastmod>2019-08-16T17:10:39+02:00</lastmod>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
     <priority>0</priority>
   </url>
   

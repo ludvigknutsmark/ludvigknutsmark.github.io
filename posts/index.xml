@@ -7,8 +7,466 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Fri, 16 Aug 2019 17:10:39 +0200</lastBuildDate>
+		<lastBuildDate>Mon, 04 Nov 2019 10:45:09 +0100</lastBuildDate>
 		<atom:link href="https://ludvigknutsmark.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>Blockchains and cryptography: an introduction</title>
+			<link>https://ludvigknutsmark.github.io/posts/blockchain/</link>
+			<pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/blockchain/</guid>
+			<description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&amp;rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
+What is a blockchain? From Wikipedia -
+A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&amp;rsquo;t complicated at all.</description>
+			<content type="html"><![CDATA[
+
+<p>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.</p>
+
+<h2 id="what-is-a-blockchain">What is a blockchain?</h2>
+
+<p>From <a href="https://en.wikipedia.org/wiki/Blockchain" target="_blank">Wikipedia</a> -</p>
+
+<pre><code>A blockchain is a growing list of records, called blocks, that are linked using cryptography.
+Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.
+</code></pre>
+
+<p>This wasn&rsquo;t complicated at all. Simply a linked list where the integrity and order of the blocks is controlled by an hashing algorithm(H).</p>
+
+<pre><code> ____      ____      ____
+| G  |    | A  |    | B  | *n
+|    |---&gt;|H(G)|---&gt;|H(A)|---&gt;
+|data|    |data|    |data|
+|____|    |____|    |____|
+
+</code></pre>
+
+<p>The implication of this is that if an attacker would change an arbitrary block in the chain, he would then need to change all blocks after that block in order for the chain to be correct. Most blockchains is managed in a peer-to-peer network, which means that the attacker, without network majority, cannot control the entire chain after the changed block. Simply, the chain is copied to each peer in the network and only trusts the majority. If the attacker would change a block and his copy of the chain, the network would vote on which copy is correct, and choose the majority&rsquo;s copy.</p>
+
+<p>(This is the basic idea of a decentralized blockchain, but there are other types of blockchain which have different voting algorithms or other models in which the former statement doesn&rsquo;t hold true. The voting/majority part that is. Thanks to Hampus Bengtsson for pointing that out).</p>
+
+<h2 id="introducing-new-transactions-blocks-into-the-chain">Introducing new transactions(blocks) into the chain</h2>
+
+<p>To prevent the chain from overflowing with blocks we must ensure that it&rsquo;s a hard problem to add new blocks to the chain. This is very important in cryptocurrencies i.e. Bitcoin. This is what&rsquo;s called mining. Mining comes from the parable with mining gold(or other metals). We add more money into the economy. If anyone could add coins into the chain very easily we would have a <a href="https://en.wikipedia.org/wiki/Hyperinflation_in_the_Weimar_Republic" target="_blank">Weimar hyperinflation</a> all over again. That&rsquo;s why any new block needs a proof-of-work which is very hard to calculate. A commonly used proof-of-work is that the hash of every block must start with x-numbers of zero.</p>
+
+<pre><code>class Block():
+	def __init__(self, id, data, prev_hash=None):
+		self.id = id
+		self.data = data
+		self.prev_hash = prev_hash
+		self.nonce = 0
+	
+	def mine(self, x=4):
+		while hash(self)[:x] != &quot;0&quot;*x:
+			self.nonce += 1
+
+		self.hash = hash(self)
+		return
+
+	def dump(self):
+		if self.hash is None:
+			self.mine()
+
+		return {
+			&quot;id&quot;:id,
+			&quot;data&quot;: self.data,
+			&quot;timestamp&quot;: time.now(),
+			&quot;nonce&quot;: self.nonce,
+			&quot;prev_hash&quot;=self.prev_hash
+		}
+</code></pre>
+
+<p><em>If you for some reason would want the code to actually work - change the hash-call to a real hashing algorithm, and make the time.now() call to a string</em></p>
+
+<p>A simple block class which holds transaction data and the hash of the parent. If we would like to add a new block to our chain we would simply do (note that block.dump() calls on block.mine() if the block is not mined yet)</p>
+
+<pre><code># Initialize with genesis block
+chain = []
+genesis = Block(id=0, data={XXXX}) # prev_hash=None
+chain.append(genesis.dump())
+
+# Add a new block to the chain
+new_block = Block(id=1, data={xxxxx}, prev_hash=genesis.hash)
+chain.append(new_block.dump())
+</code></pre>
+
+<p>As you can see blockchains are actually very simple in it&rsquo;s basic form, but there are so many variants on every algorithm and voting policies and so forth that there could be thousands of books to cover the complete topic. This was only a fairly quick reading to learn the basics about blockchains.</p>
+
+<h2 id="attacking-blockchains">Attacking blockchains</h2>
+
+<p>In this basic form of the blockchain the only attack vector would be to take majority of the network to change the transaction data in any block successfully. As mentioned above, every blockchain has it&rsquo;s own algorithms and forms, and therefore new attack vectors.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>There a million of blog posts like this that are much better and more thourough, I only wrote this since I wanted to know how basic blockchains work and to learn something new. I guess next post will be on how to build a CAN-network with arduinos :) Or maybe a crypto-attack</p>
+]]></content>
+		</item>
+		
+		<item>
+			<title>Homomorphic encryption</title>
+			<link>https://ludvigknutsmark.github.io/posts/homomorphic/</link>
+			<pubDate>Sun, 03 Nov 2019 16:19:16 +0100</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/homomorphic/</guid>
+			<description>Today I&amp;rsquo;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?
+Homomorphism Homomorphism is defined in a mathematical set such as the result of an operation is mirrored in another set by performing the same operation in that set.
+$f:G\rightarrow H$ where $f(xy)=f(x)f(y)$
+Oh yes, I finally took the time to integrate LaTeX into Hugo.</description>
+			<content type="html"><![CDATA[
+
+<p>Today I&rsquo;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?</p>
+
+<h2 id="homomorphism">Homomorphism</h2>
+
+<p>Homomorphism is defined in a mathematical set such as the result of an operation is mirrored in another set by performing the same operation in that set.</p>
+
+<p>$f:G\rightarrow H$ where $f(xy)=f(x)f(y)$</p>
+
+<p><em>Oh yes, I finally took the time to integrate LaTeX into Hugo. No more ugly x^2 equations.</em></p>
+
+<p>In the context of cryptography this means that the result of an operation performed on the ciphertext(G) is mirrored when the same operation is performed on the plaintext(H).</p>
+
+<p>For example, given a ciphertext $\mathit{C}$ and a plaintext $\mathit{P}$, with an operation $\star$ the following holds true in a fully* homomorphic scheme.</p>
+
+<p>$$C&rsquo;=x\star C$$
+$$P&rsquo;=decrypt(C&rsquo;)$$
+$$P=x\star^{-1} P&rsquo;$$</p>
+
+<p>where $\mathit{x}$ can be any argument to the operation.</p>
+
+<p>There are basically three types of homomorphic encryption. (1) Partially homomorphic encryption(PHE), this allows one type of operation, (2) Somewhat homomorphic encryption (SWHE) which allows some types of operations and (3) Fully homomorphic encryption (FHE) which allows all operations.</p>
+
+<h2 id="black-magic">Black magic</h2>
+
+<p>This does sound like black magic. Actually RSA is a homomorphic encryption-scheme (PHE). RSA allows unlimited amount of modular multiplications.</p>
+
+<p>$$C = P^{e} \mod n$$
+$$C&rsquo;= C\times x^{e} \mod n$$
+$$P&rsquo;=C&rsquo;^{d} \mod n$$
+$$P=\frac{P&rsquo;}{x} \mod n$$</p>
+
+<p>Because</p>
+
+<p>$$P&rsquo;=C&rsquo;^{d}=(C\times x^{e})^{d}=(P^{e}\times x^{e})^{d}=Px^{ed}=Px \mod n$$</p>
+
+<p>Remember that</p>
+
+<p>$$ed = 1 \mod n$$</p>
+
+<p>This allows one type of operation (modular multiplication) on the ciphertexts. But there actually exists a scheme which allows any operation on the ciphertext, a fully homomorphic encryption-scheme. It&rsquo;s called <a href="https://crypto.stanford.edu/craig/craig-thesis.pdf" target="_blank">Gentry&rsquo;s FHE</a>.</p>
+
+<h2 id="but-when-could-this-be-useful">But when could this be useful?</h2>
+
+<p>A obvious application is cloud services. In a traditional cloud service where we hold sesitive encrypted data, the cloud provider owns both the encrypted data and the method to encrypt (and decrypt) the data. Now say an attacker takes control of the cloud service, he owns the encrypted data, and also the means to decrypt it. If we could employ a homomorphic encryption-scheme, the cloud provider can outsource the encryption and decryption methods to the original owner of the data. The cloud provider now only has the encrypted data but can still perform any operation (statisics, sorting, querys etc.) and so on. If an attacker now takes control of the cloud service, he only has control of the encrypted data, which in that form is worthless.</p>
+
+<p>Often when there is talk about homomorphic encryption, some people often mention encrypted databases. Encrypted databases is almost always a bad idea. <a href="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/" target="_blank">Matthew Green has an awesome article about this</a>. Looks like with a sufficent amount of querys an attacker can reconstruct parts of the database. Oops!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This is of course super interesting, and is seen like the holy grail of cryptography. Today there exists a fully homomorphic scheme, but it suffers from really serious performance issues. We are probably a long time away from a applicable FHE-scheme.</p>
+
+<p>If you found this interesting. Me and a classmate Johan Näslund, wrote a short paper about homomorphic encryption. You can find it <a href="https://drive.google.com/open?id=130Yp4bPsO1DHmMyZnh9Q8yToU5_Q_IBO" target="_blank">here</a> (Swedish).</p>
+]]></content>
+		</item>
+		
+		<item>
+			<title>You sure can quant on me!</title>
+			<link>https://ludvigknutsmark.github.io/posts/postquantom/</link>
+			<pubDate>Sat, 02 Nov 2019 09:33:15 +0100</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/postquantom/</guid>
+			<description>So, I recently treated myself with a Nintendo switch. Let&amp;rsquo;s say computer time has been limited lately&amp;hellip;Saving Hyrule has been kind of my priority :)
+I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&amp;rsquo;m gonna talk a bit about quantom computers and show a &amp;ldquo;quantom safe&amp;rdquo; algorithm - GGH.</description>
+			<content type="html"><![CDATA[
+
+<p>So, I recently treated myself with a Nintendo switch. Let&rsquo;s say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)</p>
+
+<p>I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&rsquo;m gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH.</p>
+
+<h2 id="what-is-quantom-computers-and-why-you-should-care">What is Quantom computers and why you should care</h2>
+
+<p>A regular computer has it&rsquo;s lowest information represented as a bit, one or zero. A quantom computer has its lowest information represented as a qubit. Reading a qubit is different from reading a bit. A bit is always one or zero, but a qubit is represented as a normalized superposition of either one or zero (this is black magic). This gives quantom computers special properties, which in short makes quantom computers incredibly fast at solving specific problems. Or rather, given this quantom property we can construct specific algorithms which utilizes these to solve specific problems. You may have heard about one of these algorithms - Shor&rsquo;s algorithm.</p>
+
+<p>A common myth is that quantom computers breaks all encryption. This is not true. Rather shor&rsquo;s algorithm (in theory) solves the integer factorization and discrete logarithm problem in polynomial time.</p>
+
+<p>What does this mean then? Well, the encryption schemes which builds on these problems are broken with suffiently good quantom computers. Any schemes that comes to mind? How about RSA, ECDSA and Diffie-Hellman? Which all are asymmetric algorithms. Symmetric algorithms (like AES) seems to be fine for now, i.e. there is no quantom algorithm which breaks these like Shor&rsquo;s algorithm breaks some asymmetric schemes.</p>
+
+<h3 id="cool-and-all-but-this-sounds-like-real-sci-fi-i-shouldn-t-care-right">Cool and all, but this sounds like real sci-fi. I shouldn&rsquo;t care right?</h3>
+
+<p><a href="https://www.theverge.com/2019/10/23/20928294/google-quantum-supremacy-sycamore-computer-qubit-milestone" target="_blank">Google just declared quatom supremacy</a> and earlier this year Martin Ekerå and Craig Gidney wrote a paper which described how to factor <a href="https://arxiv.org/pdf/1905.09749.pdf" target="_blank">2048-bit RSA integers in 8 hours</a>.</p>
+
+<p><img src="https://media.giphy.com/media/WrK9dwj8TNPr2/giphy.gif" alt="alt text" /></p>
+
+<p>Such quantom computers are not here yet though. But according to Martin Ekerå - they can be in the next 10-25 years.</p>
+
+<h3 id="ahhh-everythings-on-fire">Ahhh, everythings on fire!!</h3>
+
+<p>Well, this sucks :D But don&rsquo;t worry too much just yet, there are solutions to this.</p>
+
+<p>So, Shor&rsquo;s algorithm solves the integer factorization and discrete logarithm problem in polynomial time. Can we build asymmetric schemes which depends on other problems? Looks like we can!</p>
+
+<h2 id="ggh-and-don-t-use-this">GGH (and don&rsquo;t use this)</h2>
+
+<p>A fairly simple algorithm (compared to other post-quantom schemes) is GGH. It is broken though, so don&rsquo;t use it. But it&rsquo;s easier than others to explain.</p>
+
+<h3 id="math-math-and-math">Math, math and math</h3>
+
+<h4 id="vector-space">Vector space</h4>
+
+<p>First we need to have something called vector space. A vectorspace V over R is defined if V is closed under addition and multiplication for all vectors in V and elements i R. This means that the result of adding two arbitrary vectors from V is in V, and the scalar multiplication of an arbitrary vector in V and element in R is in V. It&rsquo;s easier to show -</p>
+
+<pre><code>u,v in V
+a in R
+
+u+v in V
+au in V
+</code></pre>
+
+<p>There are more rules to this (read my other posts).</p>
+
+<p>A vectorspace V has a base B=(v1,v2,&hellip;,vm) if B is linearly independant and every vector, v can be written like a linear combination of B.</p>
+
+<h4 id="lattice">Lattice</h4>
+
+<p>A Lattice is a vector space with a base (linearly independant vectors) which generates the lattice.</p>
+
+<p>Example:</p>
+
+<pre><code>L = lattice
+(v_1,v_2,...,v_n) = base
+
+Given the base v_1=(1,0) and v_2=(2,1) where v_1,v_2 in R^2 the lattice L is described as
+
+L = {xv1, yv2} = {x+2y, y} for all elements x,y in Z
+</code></pre>
+
+<p>The lattice can be represented as all points {x,y} in the plane.</p>
+
+<h4 id="here-comes-the-problem">Here comes the problem</h4>
+
+<p>One problem which is hard to solve (in higher dimensions) is the Closest vector problem. Given a vector w in R, find the closest vector v to w in the vector space V, i.e. find the vector v in V with the shortest distance to w</p>
+
+<h3 id="ggh">GGH</h3>
+
+<h4 id="keys">Keys</h4>
+
+<p>Pick n random linearly independant vectors from Z^n and set the private key</p>
+
+<pre><code>V = (v_1,v_2,...,v_n)^T
+</code></pre>
+
+<p>Pick a random matrix U with order n such as determinant U = +-1</p>
+
+<p>Set the public key W to</p>
+
+<pre><code>W = UV
+</code></pre>
+
+<h4 id="encryption">Encryption</h4>
+
+<p>The plaintext p should be coded in such a way that p=(p_1,p_2,&hellip;,p_n) is in Z^n.</p>
+
+<p>Pick a random efemary key r in Z^n. I will describe why below.</p>
+
+<p>The ciphertext is then given by</p>
+
+<pre><code>c = pW + r
+</code></pre>
+
+<h4 id="decryption">Decryption</h4>
+
+<p>We have a vector c which is not in V. Why not? Because we introduced a noise, r.</p>
+
+<p>To find the original message p we first need to find pW (which is a vector in V). To do this we find the closest vector to c. This means that me remove the noise introduced by r.</p>
+
+<pre><code>pW = solve_CVP(c, V)
+p = pWW^-1 = pI = p
+</code></pre>
+
+<p>Solving approximate CVP can be done by <a href="http://www.noahsd.com/mini_lattices/05__babai.pdf" target="_blank">Babai&rsquo;s algorithm</a>. But not knowing V (the private key) makes it a really hard problem to solve.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>As you can see above, GGH is built on the closest vector problem (and not integer factorization or discrete logarithms). GGH is very broken though! But there are other post-quantom algorithms which work much better (such as McEliece and NTRU).</p>
+
+<p>This was a basic introduction to post-quantom cryptography and why we all should care. Next post will be a introduction to homomorphic encryption (yay, more buzzwords!).</p>
+]]></content>
+		</item>
+		
+		<item>
+			<title>T H I C C_C U R V E S pt. 2</title>
+			<link>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</link>
+			<pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</guid>
+			<description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&amp;rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&amp;rsquo;s actually really simple:
+def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base)  This works, because of the abelian property associativeness (maybe an english word?</description>
+			<content type="html"><![CDATA[
+
+<p>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).</p>
+
+<h2 id="key-generation">Key generation</h2>
+
+<p>The keys are based on Diffie-Hellman. It&rsquo;s actually really simple:</p>
+
+<pre><code>def generate_keypair(self): # Diffie-Hellman
+        self.private = randint(1, self.baseorder)
+        self.public = self.multiply(self.private, self.base)
+
+A.session_key = A.private*(B.public*base)
+B.session_key = B.private*(A.public*base)
+</code></pre>
+
+<p>This works, because of the abelian property associativeness (maybe an english word?).</p>
+
+<pre><code>a = A.private
+b = B.private
+A.session_key = a*(b*base) = (a*b)*base = b*(a*base) = B.session_key
+</code></pre>
+
+<h2 id="ecdsa-algorithm">ECDSA algorithm</h2>
+
+<p>Wikipedia actually explains the algorithm very well, and why it works. <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm" target="_blank">Take a look</a>.</p>
+
+<p>Python code for the algorithm look like this:</p>
+
+<pre><code>def sign(self, H):
+        z = int(&quot;0x&quot;+H, 16)
+        k = randint(1,self.baseorder-1)
+        P = self.multiply(k,self.base)
+        
+        if P.x == 0:
+            return self.sign(H)
+        
+        r = P.x
+        s = (z+r*self.private)*I_invert(k, self.baseorder)%self.baseorder
+
+        return int(r), int(s)
+
+    def verify_signature(self, signature, pub, H):
+        r,s = signature
+        if not (1 &lt;= r &lt;= self.baseorder-1 and 1 &lt;= s &lt;= self.baseorder-1):
+            raise Exception(&quot;Invalid signature&quot;)
+
+        z = int(&quot;0x&quot;+H, 16)
+        u1 = z*I_invert(s,self.baseorder)%self.baseorder
+        u2 = r*I_invert(s,self.baseorder)%self.baseorder
+
+        P = self.add(self.multiply(u1,self.base),self.multiply(u2, pub))
+        
+        if r == P.x:
+            return True
+        else:
+            raise Exception(&quot;Invalid signature&quot;)
+</code></pre>
+
+<p>Since I programmed it, I can decide the hashing algorithm, and therefore <em>z</em>. I chose sha1 with regards to the length of the hash.</p>
+
+<p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ec.py" target="_blank">github</a>.</p>
+
+<h2 id="rust-implementation">Rust implementation</h2>
+
+<p>So I&rsquo;ve spent the last day to learn basic Rust and implementing ECDSA. Therefore my implementation may be relativaly bad from a speed perspective. But I think it turned out okay for my first time
+writing Rust.</p>
+
+<p>Rust by default do not support the sizes of our parameters, therefore I needed to implement a big-num library (or crate as Rust calls it).</p>
+
+<p>Rust does not support classes either, but like Go, it supports structs. I think this is fine, but it did change my implementation a bit. It now deviates a bit from my Python implementation.</p>
+
+<p>Here&rsquo;s the sign and verify_sign functions.</p>
+
+<pre><code>fn sign(h: &amp;str, private: Integer) -&gt; (Integer, Integer) {
+    let base = Point{               
+        x: hex2int(&quot;188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012&quot;),
+        y: hex2int(&quot;07192b95ffc8da78631011ed6b24cdd573f977a11e794811&quot;),
+    };
+    let baseorder = hex2int(&quot;ffffffffffffffffffffffff99def836146bc9b1b4d22831&quot;);
+
+    let z = hex2int(h);
+    let k = gen_random();
+    let P = point_multiply(&amp;k, &amp;base);
+    
+    if P.x == Integer::from(0) {
+        sign(h, private.clone());
+    }
+
+    let r = P.x;
+    let s = (z+r.clone()*private)*Integer::from(k.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+
+    (r,s)
+}
+
+fn verify_signature(signature: (Integer, Integer), public: Point, h: &amp;str) -&gt; bool {
+    let base = Point{               
+        x: hex2int(&quot;188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012&quot;),
+        y: hex2int(&quot;07192b95ffc8da78631011ed6b24cdd573f977a11e794811&quot;),
+    };
+    let baseorder = hex2int(&quot;ffffffffffffffffffffffff99def836146bc9b1b4d22831&quot;);
+
+    let r = signature.0;
+    let s = signature.1;
+    
+    if 1 &gt; r &amp;&amp; r &gt; baseorder.clone()-Integer::from(1) &amp;&amp; 1 &gt; s &amp;&amp; s &gt; baseorder.clone()-Integer::from(1) {
+        panic!(&quot;Invalid signature&quot;);
+    }
+    
+    let z = hex2int(h);
+    let u1 = z*Integer::from(s.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+    let u2 = r.clone()*Integer::from(s.invert_ref(&amp;baseorder).unwrap()).rem_floor(&amp;baseorder);
+
+    let P = point_add(&amp;point_multiply(&amp;u1, &amp;base), &amp;point_multiply(&amp;u2, &amp;public));
+    
+    if r == P.x {
+      return true
+    }
+
+    return false
+}
+</code></pre>
+
+<p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ecRust/src/main.rs" target="_blank">github</a>.</p>
+
+<h2 id="speed-comparison">Speed comparison</h2>
+
+<p>For each iteration I generate the keys, sign a message and verify the message. I do this 1000 times on each program.</p>
+
+<pre><code># ec.py
+
+for i in range(1000):
+        ec = EC(a,b,G,n,p)
+
+        ec.generate_keypair()
+     
+        H = &quot;719609852b46b8ea9a5fcd39eb7bc9088fa36399&quot;    
+        r,s = ec.sign(H)
+        ec.verify_signature((r,s), ec.public, H)
+
+</code></pre>
+
+<p>Here are the results.</p>
+
+<pre><code>$ time python ec.py
+
+real	0m8,314s
+user	0m7,358s
+sys	0m0,033s
+</code></pre>
+
+<pre><code>$ time ecRust/target/release/ec_rust
+
+real	0m5,099s
+user	0m5,097s
+sys	0m0,000s
+</code></pre>
+
+<p>So Rust was a bit faster, but not by much. This is probably due to my bad Rust skills and only knowing it for about 24 hours :) I suspect that my implementation can be sped up by a factor or two.</p>
+
+<h2 id="next-time">Next time</h2>
+
+<p>My CAN-buses haven&rsquo;t arrived yet, but when they do I will take a dive into CAN and some cool stuff!</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>T H I C C_C U R V E S pt. 1</title>
