@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/posts/blockchain/</loc>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/posts/homomorphic/</loc>
     <lastmod>2019-11-03T16:19:16+01:00</lastmod>
   </url>
@@ -74,6 +79,12 @@
   </url>
   
   <url>
+    <loc>https://ludvigknutsmark.github.io/tags/blockchains/</loc>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ludvigknutsmark.github.io/tags/bth/</loc>
     <lastmod>2019-05-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -87,7 +98,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/tags/buzzword/</loc>
-    <lastmod>2019-11-03T16:19:16+01:00</lastmod>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -189,7 +200,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/posts/</loc>
-    <lastmod>2019-11-03T16:19:16+01:00</lastmod>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -225,7 +236,7 @@
   
   <url>
     <loc>https://ludvigknutsmark.github.io/</loc>
-    <lastmod>2019-11-03T16:19:16+01:00</lastmod>
+    <lastmod>2019-11-04T10:45:09+01:00</lastmod>
     <priority>0</priority>
   </url>
   
