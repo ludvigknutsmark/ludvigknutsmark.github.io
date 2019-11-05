@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+
+<meta itemprop="name" content="Blockchains and cryptography: an introduction">
+<meta itemprop="description" content="I felt like continuing with the buzzwords run, and also learn something completely new. So today I&rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
+What is a blockchain? From Wikipedia -
+A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&rsquo;t complicated at all.">
+
+
+<meta itemprop="datePublished" content="2019-11-04T10:45:09&#43;01:00" />
+<meta itemprop="dateModified" content="2019-11-04T10:45:09&#43;01:00" />
+<meta itemprop="wordCount" content="675">
+
+
+
+<meta itemprop="keywords" content="Blockchains,Buzzword," />
+<meta property="og:title" content="Blockchains and cryptography: an introduction" />
+<meta property="og:description" content="I felt like continuing with the buzzwords run, and also learn something completely new. So today I&rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
+What is a blockchain? From Wikipedia -
+A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&rsquo;t complicated at all." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ludvigknutsmark.github.io/posts/blockchaincrypto/" />
+<meta property="article:published_time" content="2019-11-04T10:45:09&#43;01:00"/>
+<meta property="article:modified_time" content="2019-11-04T10:45:09&#43;01:00"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Blockchains and cryptography: an introduction"/>
+<meta name="twitter:description" content="I felt like continuing with the buzzwords run, and also learn something completely new. So today I&rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
+What is a blockchain? From Wikipedia -
+A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&rsquo;t complicated at all."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>Blockchains and cryptography: an introduction</title>
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css" integrity="sha256-MXBpF2U9K56EEKvUMfMOxDWaiKlPyHpjZUd52HMp7ew=">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+					<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+					<a href="https://ludvigknutsmark.github.io/about/">About</a>
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+		<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://ludvigknutsmark.github.io/posts/">Posts</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/about/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Nov 4, 2019</span></div>
+				<h1>Blockchains and cryptography: an introduction</h1>
+			</header>
+			<div class="content">
+				
+
+<p>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.</p>
+
+<h2 id="what-is-a-blockchain">What is a blockchain?<a href="#what-is-a-blockchain" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>From <a href="https://en.wikipedia.org/wiki/Blockchain" target="_blank">Wikipedia</a> -</p>
+
+<pre><code>A blockchain is a growing list of records, called blocks, that are linked using cryptography.
+Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.
+</code></pre>
+
+<p>This wasn&rsquo;t complicated at all. Simply a linked list where the integrity and order of the blocks is controlled by an hashing algorithm(H).</p>
+
+<pre><code> ____      ____      ____
+| G  |    | A  |    | B  | *n
+|    |---&gt;|H(G)|---&gt;|H(A)|---&gt;
+|data|    |data|    |data|
+|____|    |____|    |____|
+
+</code></pre>
+
+<p>The implication of this is that if an attacker would change an arbitrary block in the chain, he would then need to change all blocks after that block in order for the chain to be correct. Most blockchains is managed in a peer-to-peer network, which means that the attacker, without network majority, cannot control the entire chain after the changed block. Simply, the chain is copied to each peer in the network and only trusts the majority. If the attacker would change a block and his copy of the chain, the network would vote on which copy is correct, and choose the majority&rsquo;s copy.</p>
+
+<p>(This is the basic idea of a decentralized blockchain, but there are other types of blockchain which have different voting algorithms or other models in which the former statement doesn&rsquo;t hold true. The voting/majority part that is. Thanks to Hampus Bengtsson for pointing that out).</p>
+
+<h2 id="introducing-new-transactions-blocks-into-the-chain">Introducing new transactions(blocks) into the chain<a href="#introducing-new-transactions-blocks-into-the-chain" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>To prevent the chain from overflowing with blocks we must ensure that it&rsquo;s a hard problem to add new blocks to the chain. This is very important in cryptocurrencies i.e. Bitcoin. This is what&rsquo;s called mining. Mining comes from the parable with mining gold(or other metals). We add more money into the economy. If anyone could add coins into the chain very easily we would have a <a href="https://en.wikipedia.org/wiki/Hyperinflation_in_the_Weimar_Republic" target="_blank">Weimar hyperinflation</a> all over again. That&rsquo;s why any new block needs a proof-of-work which is very hard to calculate. A commonly used proof-of-work is that the hash of every block must start with x-numbers of zero.</p>
+
+<pre><code>class Block():
+	def __init__(self, id, data, prev_hash=None):
+		self.id = id
+		self.data = data
+		self.prev_hash = prev_hash
+		self.nonce = 0
+	
+	def mine(self, x=4):
+		while hash(self)[:x] != &quot;0&quot;*x:
+			self.nonce += 1
+
+		self.hash = hash(self)
+		return
+
+	def dump(self):
+		if self.hash is None:
+			self.mine()
+
+		return {
+			&quot;id&quot;:id,
+			&quot;data&quot;: self.data,
+			&quot;timestamp&quot;: time.now(),
+			&quot;nonce&quot;: self.nonce,
+			&quot;prev_hash&quot;=self.prev_hash
+		}
+</code></pre>
+
+<p><em>If you for some reason would want the code to actually work - change the hash-call to a real hashing algorithm, and make the time.now() call to a string</em></p>
+
+<p>A simple block class which holds transaction data and the hash of the parent. If we would like to add a new block to our chain we would simply do (note that block.dump() calls on block.mine() if the block is not mined yet)</p>
+
+<pre><code># Initialize with genesis block
+chain = []
+genesis = Block(id=0, data={XXXX}) # prev_hash=None
+chain.append(genesis.dump())
+
+# Add a new block to the chain
+new_block = Block(id=1, data={xxxxx}, prev_hash=genesis.hash)
+chain.append(new_block.dump())
+</code></pre>
+
+<p>As you can see blockchains are actually very simple in it&rsquo;s basic form, but there are so many variants on every algorithm and voting policies and so forth that there could be thousands of books to cover the complete topic. This was only a fairly quick reading to learn the basics about blockchains.</p>
+
+<h2 id="attacking-blockchains">Attacking blockchains<a href="#attacking-blockchains" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>In this basic form of the blockchain the only attack vector would be to take majority of the network to change the transaction data in any block successfully. As mentioned above, every blockchain has it&rsquo;s own algorithms and forms, and therefore new attack vectors.</p>
+
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>There a million of blog posts like this that are much better and more thourough, I only wrote this since I wanted to know how basic blockchains work and to learn something new. I guess next post will be on how to build a CAN-network with arduinos :) Or maybe a crypto-attack</p>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/blockchains">Blockchains</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/buzzword">Buzzword</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>675 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-04 10:45 &#43;0100</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://ludvigknutsmark.github.io/posts/blockchain/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>Blockchains and cryptography: an introduction</span>
+			</a>
+			<a class="prev-post" href="https://ludvigknutsmark.github.io/posts/homomorphic/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>Homomorphic encryption</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2019 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+	<script src="https://ludvigknutsmark.github.io/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js" integrity="sha256-eEQX9YRxUfhIwznPCssToGy7ZIsUg0NaKO1FVsTq1ps="></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139601377-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
