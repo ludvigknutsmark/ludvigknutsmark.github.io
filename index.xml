@@ -24,17 +24,6 @@ A blockchain is a growing list of records, called blocks, that are linked using 
     </item>
     
     <item>
-      <title>Blockchains and cryptography: an introduction</title>
-      <link>https://ludvigknutsmark.github.io/posts/blockchaincrypto/</link>
-      <pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
-      
-      <guid>https://ludvigknutsmark.github.io/posts/blockchaincrypto/</guid>
-      <description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&amp;rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
-What is a blockchain? From Wikipedia -
-A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&amp;rsquo;t complicated at all.</description>
-    </item>
-    
-    <item>
       <title>Homomorphic encryption</title>
       <link>https://ludvigknutsmark.github.io/posts/homomorphic/</link>
       <pubDate>Sun, 03 Nov 2019 16:19:16 +0100</pubDate>
@@ -119,6 +108,16 @@ Galois Field Galois field, or finite field is a set in which the basic math oper
       <description>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&amp;rsquo;s get started!
 Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&amp;rsquo;t be broken&amp;rdquo;.
 And sure, it isn&amp;rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
+    </item>
+    
+    <item>
+      <title>BTH_CTF{sM3ll_th3_sH3ll}</title>
+      <link>https://ludvigknutsmark.github.io/posts/bthctf2019/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/bthctf2019/</guid>
+      <description>Hello, World! So, first ever post. Hope that I can keep this blog project going for quite some time atleast.
+This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it. We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</description>
     </item>
     
   </channel>

@@ -103,98 +103,6 @@ chain.append(new_block.dump())
 		</item>
 		
 		<item>
-			<title>Blockchains and cryptography: an introduction</title>
-			<link>https://ludvigknutsmark.github.io/posts/blockchaincrypto/</link>
-			<pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
-			
-			<guid>https://ludvigknutsmark.github.io/posts/blockchaincrypto/</guid>
-			<description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&amp;rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
-What is a blockchain? From Wikipedia -
-A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&amp;rsquo;t complicated at all.</description>
-			<content type="html"><![CDATA[
-
-<p>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.</p>
-
-<h2 id="what-is-a-blockchain">What is a blockchain?</h2>
-
-<p>From <a href="https://en.wikipedia.org/wiki/Blockchain" target="_blank">Wikipedia</a> -</p>
-
-<pre><code>A blockchain is a growing list of records, called blocks, that are linked using cryptography.
-Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.
-</code></pre>
-
-<p>This wasn&rsquo;t complicated at all. Simply a linked list where the integrity and order of the blocks is controlled by an hashing algorithm(H).</p>
-
-<pre><code> ____      ____      ____
-| G  |    | A  |    | B  | *n
-|    |---&gt;|H(G)|---&gt;|H(A)|---&gt;
-|data|    |data|    |data|
-|____|    |____|    |____|
-
-</code></pre>
-
-<p>The implication of this is that if an attacker would change an arbitrary block in the chain, he would then need to change all blocks after that block in order for the chain to be correct. Most blockchains is managed in a peer-to-peer network, which means that the attacker, without network majority, cannot control the entire chain after the changed block. Simply, the chain is copied to each peer in the network and only trusts the majority. If the attacker would change a block and his copy of the chain, the network would vote on which copy is correct, and choose the majority&rsquo;s copy.</p>
-
-<p>(This is the basic idea of a decentralized blockchain, but there are other types of blockchain which have different voting algorithms or other models in which the former statement doesn&rsquo;t hold true. The voting/majority part that is. Thanks to Hampus Bengtsson for pointing that out).</p>
-
-<h2 id="introducing-new-transactions-blocks-into-the-chain">Introducing new transactions(blocks) into the chain</h2>
-
-<p>To prevent the chain from overflowing with blocks we must ensure that it&rsquo;s a hard problem to add new blocks to the chain. This is very important in cryptocurrencies i.e. Bitcoin. This is what&rsquo;s called mining. Mining comes from the parable with mining gold(or other metals). We add more money into the economy. If anyone could add coins into the chain very easily we would have a <a href="https://en.wikipedia.org/wiki/Hyperinflation_in_the_Weimar_Republic" target="_blank">Weimar hyperinflation</a> all over again. That&rsquo;s why any new block needs a proof-of-work which is very hard to calculate. A commonly used proof-of-work is that the hash of every block must start with x-numbers of zero.</p>
-
-<pre><code>class Block():
-	def __init__(self, id, data, prev_hash=None):
-		self.id = id
-		self.data = data
-		self.prev_hash = prev_hash
-		self.nonce = 0
-	
-	def mine(self, x=4):
-		while hash(self)[:x] != &quot;0&quot;*x:
-			self.nonce += 1
-
-		self.hash = hash(self)
-		return
-
-	def dump(self):
-		if self.hash is None:
-			self.mine()
-
-		return {
-			&quot;id&quot;:id,
-			&quot;data&quot;: self.data,
-			&quot;timestamp&quot;: time.now(),
-			&quot;nonce&quot;: self.nonce,
-			&quot;prev_hash&quot;=self.prev_hash
-		}
-</code></pre>
-
-<p><em>If you for some reason would want the code to actually work - change the hash-call to a real hashing algorithm, and make the time.now() call to a string</em></p>
-
-<p>A simple block class which holds transaction data and the hash of the parent. If we would like to add a new block to our chain we would simply do (note that block.dump() calls on block.mine() if the block is not mined yet)</p>
-
-<pre><code># Initialize with genesis block
-chain = []
-genesis = Block(id=0, data={XXXX}) # prev_hash=None
-chain.append(genesis.dump())
-
-# Add a new block to the chain
-new_block = Block(id=1, data={xxxxx}, prev_hash=genesis.hash)
-chain.append(new_block.dump())
-</code></pre>
-
-<p>As you can see blockchains are actually very simple in it&rsquo;s basic form, but there are so many variants on every algorithm and voting policies and so forth that there could be thousands of books to cover the complete topic. This was only a fairly quick reading to learn the basics about blockchains.</p>
-
-<h2 id="attacking-blockchains">Attacking blockchains</h2>
-
-<p>In this basic form of the blockchain the only attack vector would be to take majority of the network to change the transaction data in any block successfully. As mentioned above, every blockchain has it&rsquo;s own algorithms and forms, and therefore new attack vectors.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>There a million of blog posts like this that are much better and more thourough, I only wrote this since I wanted to know how basic blockchains work and to learn something new. I guess next post will be on how to build a CAN-network with arduinos :) Or maybe a crypto-attack</p>
-]]></content>
-		</item>
-		
-		<item>
 			<title>Homomorphic encryption</title>
 			<link>https://ludvigknutsmark.github.io/posts/homomorphic/</link>
 			<pubDate>Sun, 03 Nov 2019 16:19:16 +0100</pubDate>
@@ -1186,6 +1094,31 @@ Oh, that&rsquo;s bad.</p>
 <p>Galois field as a MAC is chosen because it actually allows the Auth Tag calculation to be computed in parallel, which makes it faster than for example CBC. And even more so, than a traditional SHA-1 MAC. And speed in cryptography is important.</p>
 
 <h3 id="next-part-is-exploring-the-ghash-function">Next part is exploring the GHASH function</h3>
+]]></content>
+		</item>
+		
+		<item>
+			<title>BTH_CTF{sM3ll_th3_sH3ll}</title>
+			<link>https://ludvigknutsmark.github.io/posts/bthctf2019/</link>
+			<pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+			
+			<guid>https://ludvigknutsmark.github.io/posts/bthctf2019/</guid>
+			<description>Hello, World! So, first ever post. Hope that I can keep this blog project going for quite some time atleast.
+This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it. We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</description>
+			<content type="html"><![CDATA[
+
+<h2 id="hello-world">Hello, World!</h2>
+
+<p>So, first ever post. Hope that I can keep this blog project going for quite some time atleast.</p>
+
+<p>This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it.
+We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</p>
+
+<p>I was responsible for some of our crypto challenges, and some other (one reverse and two OSINT). I will be posting writeups for my challenges. Atleast those I released.</p>
+
+<p>You can find pictures of the event <a href="https://photos.app.goo.gl/72aVV31mfduuJQ6G9" target="_blank">here</a>.</p>
+
+<p>Huge thank you to our sponsors. SecureLink and IKEA!</p>
 ]]></content>
 		</item>
 		
