@@ -7,32 +7,28 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="theme-color" content="#494f5c">
 	<meta name="msapplication-TileColor" content="#494f5c">
-
 <meta itemprop="name" content="OPAQUE PAKE">
-<meta itemprop="description" content="Meanwhile as I&rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
-PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman here.
+<meta itemprop="description" content="Meanwhile as I&#39;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
+PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&#39;ve written code on a very basic MITM-attack on Diffie-Hellman here.
 In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected.">
-
-
 <meta itemprop="datePublished" content="2019-05-29T09:32:04&#43;02:00" />
 <meta itemprop="dateModified" content="2019-05-29T09:32:04&#43;02:00" />
 <meta itemprop="wordCount" content="527">
 
 
 
-<meta itemprop="keywords" content="OPAQUE,PAKE,Passwordless," />
-<meta property="og:title" content="OPAQUE PAKE" />
-<meta property="og:description" content="Meanwhile as I&rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
-PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman here.
+<meta itemprop="keywords" content="OPAQUE,PAKE,Passwordless," /><meta property="og:title" content="OPAQUE PAKE" />
+<meta property="og:description" content="Meanwhile as I&#39;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
+PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&#39;ve written code on a very basic MITM-attack on Diffie-Hellman here.
 In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ludvigknutsmark.github.io/posts/opaque_pake/" />
-<meta property="article:published_time" content="2019-05-29T09:32:04&#43;02:00"/>
-<meta property="article:modified_time" content="2019-05-29T09:32:04&#43;02:00"/>
+<meta property="article:published_time" content="2019-05-29T09:32:04+02:00" />
+<meta property="article:modified_time" content="2019-05-29T09:32:04+02:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OPAQUE PAKE"/>
-<meta name="twitter:description" content="Meanwhile as I&rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
-PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman here.
+<meta name="twitter:description" content="Meanwhile as I&#39;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
+PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&#39;ve written code on a very basic MITM-attack on Diffie-Hellman here.
 In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected."/>
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -43,7 +39,7 @@ In a PAKE protocol you authenticate through a password - and what makes it reall
 	<link rel="shortcut icon" href="/favicon.ico">
 
 	<title>OPAQUE PAKE</title>
-	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css" integrity="sha256-MXBpF2U9K56EEKvUMfMOxDWaiKlPyHpjZUd52HMp7ew=">
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
 	
 </head>
 
@@ -56,44 +52,17 @@ In a PAKE protocol you authenticate through a password - and what makes it reall
 					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
 				</div>
 				<nav class="site-nav hide-in-mobile">
-					<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
-					<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
-					<a href="https://ludvigknutsmark.github.io/about/">About</a>
+					
+				<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+				<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+				<a href="https://ludvigknutsmark.github.io/about/">About</a>
+
 				</nav>
 			</div>
 			<div class="hdr-right hdr-icons">
-				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener me" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener me" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
 			</div>
 		</div>
-		<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
-</script>
-
 	</header>
 	<div id="mobile-menu" class="animated fast">
 		<ul>
@@ -111,27 +80,17 @@ In a PAKE protocol you authenticate through a password - and what makes it reall
 				<h1>OPAQUE PAKE</h1>
 			</header>
 			<div class="content">
-				
-
-<p>Meanwhile as I&rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.</p>
-
+				<p>Meanwhile as I'm stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.</p>
 <h2 id="pake">PAKE<a href="#pake" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-
-<p>PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman
-<a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set5/challenge34.py" target="_blank">here</a>.</p>
-
+<p>PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I've written code on a very basic MITM-attack on Diffie-Hellman
+<a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set5/challenge34.py">here</a>.</p>
 <p>In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected. After a failed attempt the client and server should only know
-if the attempt failed or not <strong><em>if the password matched the server&rsquo;s expected value</em></strong>.</p>
-
+if the attempt failed or not <em><strong>if the password matched the server's expected value</strong></em>.</p>
 <h2 id="why-opaque">Why OPAQUE?<a href="#why-opaque" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-
-<p>If you&rsquo;ve heard of Secure Remote Password, or SRP, you may know that it&rsquo;s like OPAQUE, a PAKE protocol. SRP has some issues, for instance it allows an attacker to run an offline-dictionary attack,
-since it exposes the salt to the user. I&rsquo;ve written some code on the attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set5/challenge38.py" target="_blank">here</a></p>
-
-<p>So, OPAQUE&hellip; OPAQUE does not reveal the salt to the user, nor does it reveal the password to the server. It does this by having the server and the client run an oblivious <a href="https://en.wikipedia.org/wiki/Pseudorandom_function_family" target="_blank">PRF</a>.</p>
-
+<p>If you've heard of Secure Remote Password, or SRP, you may know that it's like OPAQUE, a PAKE protocol. SRP has some issues, for instance it allows an attacker to run an offline-dictionary attack,
+since it exposes the salt to the user. I've written some code on the attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set5/challenge38.py">here</a></p>
+<p>So, OPAQUE&hellip; OPAQUE does not reveal the salt to the user, nor does it reveal the password to the server. It does this by having the server and the client run an oblivious <a href="https://en.wikipedia.org/wiki/Pseudorandom_function_family">PRF</a>.</p>
 <p>It looks like this:</p>
-
 <pre><code>H = hashfunction
 H' = maps a hash into the group psuedorandomly.
 x = password, or password hash.
@@ -154,14 +113,9 @@ rwdU = H(x,v, b*v^{-r})
 b*v^{-r} = A^k * v^{-r} = (H'(x)*g^r)^k * (g^k)^{-r} = (H'(x)*g^rk) * (g^{-r}k} = H'(x)
 
 # Which means that the correct password generates the same rwdU for every randomly selected r and correct server salt, k.
-</code></pre>
-
-<p>So the client is never exposed to the salt, and the server never learns the password.</p>
-
+</code></pre><p>So the client is never exposed to the salt, and the server never learns the password.</p>
 <h2 id="so-how-do-we-authenticate">So how do we authenticate?<a href="#so-how-do-we-authenticate" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-
 <p>First a user needs to do a &ldquo;password registration&rdquo; at the server.</p>
-
 <pre><code>pwdU = Client's password
 privU, pubU = Client keys
 
@@ -180,12 +134,8 @@ envelope = AuthEnc(rwdU, privU, pubU, pubS, vU)
 # Client sends envelope and deletes rwdU, pwdU and keys.
 
 # Server saves envelope
-</code></pre>
-
-<p>So the server has the encrypted envelope and kU. And the client has nothing saved.</p>
-
+</code></pre><p>So the server has the encrypted envelope and kU. And the client has nothing saved.</p>
 <p>Authentication can look like this:</p>
-
 <pre><code>xU, yU = Client DH keys
 xS, yS = Server DH keys
 
@@ -203,18 +153,11 @@ signature = sign(envelope(privU), H(HKDF(dh_shared), envelope(pubU)))
 
 # Server
 verified = verify(pubU, H(HKDF(dh_shared), pub))
-</code></pre>
-
-<p>If the last verified check passes the client is authenticated, since it proves that the user knows the password.</p>
-
+</code></pre><p>If the last verified check passes the client is authenticated, since it proves that the user knows the password.</p>
 <h2 id="poc">PoC<a href="#poc" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-
-<p>I&rsquo;ve implemented a simple server/client PoC <a href="https://github.com/ludvigknutsmark/OPAQUE_POC" target="_blank">here</a></p>
-
+<p>I've implemented a simple server/client PoC <a href="https://github.com/ludvigknutsmark/OPAQUE_POC">here</a></p>
 <p>This was a quick hack over two days, do not use this for anything important :-)</p>
-
 <p>Next project is looking at security in some IoT-devices were given by a sponsor from BTH_CTF&hellip;</p>
-
 <p>Until next time!</p>
 
 			</div>
@@ -240,14 +183,16 @@ verified = verify(pubU, H(HKDF(dh_shared), pub))
 	</main>
 
 	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
-		<p>&copy; 2019 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>&copy; 2020 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
 		<p>
 			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
 		</p>
 	</footer>
 
 
-	<script src="https://ludvigknutsmark.github.io/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js" integrity="sha256-eEQX9YRxUfhIwznPCssToGy7ZIsUg0NaKO1FVsTq1ps="></script>
+
+	<script src="https://ludvigknutsmark.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="Bitflip for dummies">
+<meta itemprop="description" content="Since last week I&#39;ve relocated finally relocated to Gothenburg! Together with a class mate, I will write my master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a swedish law called offentlighets- och sekretesslagen.
+I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack, the bitflip attack on AES_CBC.">
+<meta itemprop="datePublished" content="2020-01-29T08:55:36&#43;01:00" />
+<meta itemprop="dateModified" content="2020-01-29T08:55:36&#43;01:00" />
+<meta itemprop="wordCount" content="527">
+
+
+
+<meta itemprop="keywords" content="AES,for dummies," /><meta property="og:title" content="Bitflip for dummies" />
+<meta property="og:description" content="Since last week I&#39;ve relocated finally relocated to Gothenburg! Together with a class mate, I will write my master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a swedish law called offentlighets- och sekretesslagen.
+I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack, the bitflip attack on AES_CBC." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ludvigknutsmark.github.io/posts/bitflip/" />
+<meta property="article:published_time" content="2020-01-29T08:55:36+01:00" />
+<meta property="article:modified_time" content="2020-01-29T08:55:36+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Bitflip for dummies"/>
+<meta name="twitter:description" content="Since last week I&#39;ve relocated finally relocated to Gothenburg! Together with a class mate, I will write my master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a swedish law called offentlighets- och sekretesslagen.
+I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack, the bitflip attack on AES_CBC."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>Bitflip for dummies</title>
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+				<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+				<a href="https://ludvigknutsmark.github.io/about/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener me" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener me" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://ludvigknutsmark.github.io/posts/">Posts</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a></li>
+			<li><a href="https://ludvigknutsmark.github.io/about/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Jan 29, 2020</span></div>
+				<h1>Bitflip for dummies</h1>
+			</header>
+			<div class="content">
+				<p>Since last week I've relocated finally relocated to Gothenburg! Together with a class mate, I will write my
+master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a
+swedish law called offentlighets- och sekretesslagen.</p>
+<p>I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack,
+the bitflip attack on AES_CBC.</p>
+<h1 id="what-is-aes_cbc">What is AES_CBC?<a href="#what-is-aes_cbc" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<p>The &ldquo;normal&rdquo; mode of operation for AES is AES ECB(Electronic Codebook). This has some problems. Most importantly, a plaintext is always represented as the same ciphertext block when encrypted under the same key. This can lead to some fun statistical attacks :)</p>
+<p>To solve this we can introduce a random vector into the encryption routine. This leads us straight into AES_CBC!</p>
+<p>AES_CBC works by introducing a random initialization vector(IV) and chaining the blocks so that each block is &ldquo;dependant&rdquo; on the previous block.</p>
+<p><img src="/AES_CBC.png" alt="image alt text"></p>
+<h1 id="bitflip">Bitflip???<a href="#bitflip" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<p>The basic idea is that since each plaintext block is XORed with the previous ciphertext block we can alter(flip) the ciphertext to represent the plaintext  we want it to be (if we know/can guess the original plaintext). Let's look at the decryption routine!</p>
+<p><img src="/AES_CBC_d.png" alt="image alt text"></p>
+<p>Imagine we have a ciphertext that looks like (block size=4)</p>
+<pre><code>ABCDEFGH
+</code></pre><p>with the plaintext</p>
+<pre><code>BITFLIP!
+</code></pre><p>Our goal is to flip the 5th character in the plaintext (L) to K.</p>
+<p>Look at how CBC works. The previous ciphertext block is XORed with the decrypted ciphertext block to represent the plaintext block. Maybe a bit confusing, but it's actually simple.</p>
+<pre><code>L = A^decrypt(EFGH)[0]
+</code></pre><p>Now, lets do the attack. We want L to be represented as K.</p>
+<pre><code>CIPHERTEXT = ABCDEFGH
+TARGET = BITFKIP!
+
+CIPHERTEXT[0] = A^L^K
+FLIPPED = decrypt(CIPHERTEXT)
+
+FLIPPED == TARGET?
+true
+</code></pre><h3 id="why-does-this-work">Why does this work?<a href="#why-does-this-work" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Think about how XOR works. When we perform</p>
+<pre><code>L = A^decrypt(EFGH)[0]
+
+What do we control here? The ciphertext. So what does the ciphertext have to be in order for L to become K in the plaintext?
+
+decrypt(EFGH)[0] = A^L
+
+What do we need to put in Y for
+
+K = Y^decrypt(EFGH)[0]
+
+to be true?
+
+Y = A^L^K (since decrypt(EFGH)[0] = A^L)
+
+</code></pre><h1 id="code-example">Code example<a href="#code-example" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<p>Now imagine we encrypt session tokens or cookies with AES_CBC&hellip;</p>
+<pre><code>import json
+from base64 import b64encode, b64decode
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+
+
+class AES_CBC():
+    
+    def __init__(self, blksize=16):
+        if blksize not in [16, 24, 32]:
+            raise ValueError(&quot;Blocksize must be 16, 24 or 32&quot;)
+
+        self.blksize = blksize
+        self.key = get_random_bytes(self.blksize)
+
+    def encrypt(self, plaintext):
+        cipher = AES.new(self.key, AES.MODE_CBC)
+        pt_padded = pad(plaintext, AES.block_size)
+        ct_bytes = cipher.encrypt(pt_padded)
+        iv = b64encode(cipher.iv).decode('utf-8')
+        ct = b64encode(ct_bytes).decode('utf-8')
+        
+        return json.dumps({
+            'IV':iv,
+            'ciphertext':ct
+        })
+
+    def decrypt(self, cipher_obj):
+        b64 = json.loads(cipher_obj)
+        iv = b64decode(b64['IV'])
+        ct = b64decode(b64['ciphertext'])
+        cipher = AES.new(self.key, AES.MODE_CBC, iv) 
+        pt_padded = cipher.decrypt(ct)
+        
+        return unpad(pt_padded, AES.block_size)
+    
+
+if __name__ == &quot;__main__&quot;:
+    aes = AES_CBC()
+    res = aes.encrypt(b&quot;{id=11;date=20200129;role=common}&quot;)
+    
+    b64 = json.loads(res)
+    ct = b64decode(b64['ciphertext'])
+    iv = b64['IV']
+    
+    to_flip = list(ct)
+    target = &quot;admin;&quot;
+    before = &quot;common&quot;
+    for i in range(6):
+        to_flip[10+i] = ct[10+i]^ord(before[i])^ord(target[i])
+    
+    flipped = json.dumps({
+        'IV':iv,
+        'ciphertext': b64encode(bytes(to_flip)).decode('utf-8')
+    })
+
+    print(aes.decrypt(flipped))
+</code></pre><h3 id="how-do-i-mitigate-this">How do I mitigate this??<a href="#how-do-i-mitigate-this" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Change to a more modern mode of operation. Or do MAC then Encrypt!</p>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/aes">AES</a></span><span class="tag"><a href="https://ludvigknutsmark.github.io/tags/for-dummies">for dummies</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>527 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-01-29 08:55 &#43;0100</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="prev-post" href="https://ludvigknutsmark.github.io/posts/blockchain/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>Blockchain and cryptography: an introduction</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://ludvigknutsmark.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-139601377-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>

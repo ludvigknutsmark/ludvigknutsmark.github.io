@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AES on Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/tags/aes/</link>
+    <description>Recent content in AES on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 29 Jan 2020 08:55:36 +0100</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/tags/aes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bitflip for dummies</title>
+      <link>https://ludvigknutsmark.github.io/posts/bitflip/</link>
+      <pubDate>Wed, 29 Jan 2020 08:55:36 +0100</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/bitflip/</guid>
+      <description>Since last week I&#39;ve relocated finally relocated to Gothenburg! Together with a class mate, I will write my master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a swedish law called offentlighets- och sekretesslagen.
+I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack, the bitflip attack on AES_CBC.</description>
+    </item>
+    
+  </channel>
+</rss>

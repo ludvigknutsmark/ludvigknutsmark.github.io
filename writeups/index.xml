@@ -1,331 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>Writeups on Thought for your thoughts</title>
-		<link>https://ludvigknutsmark.github.io/writeups/</link>
-		<description>Recent content in Writeups on Thought for your thoughts</description>
-		<generator>Hugo -- gohugo.io</generator>
-		<language>en-us</language>
-		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
-		<atom:link href="https://ludvigknutsmark.github.io/writeups/index.xml" rel="self" type="application/rss+xml" />
-		
-		<item>
-			<title>Ecurve it like Beckham</title>
-			<link>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</link>
-			<pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
-			
-			<guid>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</guid>
-			<description>Solves: 0 Challenge Description The challenge supplied a public ECDSA key and a bunch of signatures.
-Signatures  {&amp;quot;message hash&amp;quot;: &amp;quot;37bf488115c14bc75bd3abfba09e3a10e4b671479755165310244b31b925929a&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(9811783871763325604756417160787846138404247835194244394354131020979062723933, 55791654947192643955306007970 524722900505588307283376371034301963123114165948)&amp;quot;} {&amp;quot;message hash&amp;quot;: &amp;quot;9442f76ff69de268bf22f98d803b52aeb289b0aa5bd55c17b3b4d3b6652ce268&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(16842672915651939019730535973185867061057860352849830024453076236449618387846, 9822948972963614614072213326 2045145654921177567834687343813459264455251940224)&amp;quot;} ...  Key -----BEGIN PUBLIC KEY----- MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHwWBWR0Dfapord6Ja4/CrjlBeTHQ I3LK5ByvYhzMzMQ2SUMcpdVC1unYbqsGbc1KwVVuavIHFqqMvLlhZMQkdA== -----END PUBLIC KEY-----  The attack This is a classic repeating-k-breaking of DSA. If we can find two signatures with the same r we can extract the private key.</description>
-			<content type="html"><![CDATA[
-
-<h2 id="solves-0">Solves: 0</h2>
-
-<h2 id="challenge-description">Challenge Description</h2>
-
-<p>The challenge supplied a public ECDSA key and a bunch of signatures.</p>
-
-<p><img src="/ecurve_it_like_beckham.png" alt="image alt text" /></p>
-
-<h3 id="signatures">Signatures</h3>
-
-<pre><code>  {&quot;message hash&quot;: &quot;37bf488115c14bc75bd3abfba09e3a10e4b671479755165310244b31b925929a&quot;, &quot;signature&quot;: &quot;(9811783871763325604756417160787846138404247835194244394354131020979062723933, 55791654947192643955306007970    524722900505588307283376371034301963123114165948)&quot;}
-  {&quot;message hash&quot;: &quot;9442f76ff69de268bf22f98d803b52aeb289b0aa5bd55c17b3b4d3b6652ce268&quot;, &quot;signature&quot;: &quot;(16842672915651939019730535973185867061057860352849830024453076236449618387846, 9822948972963614614072213326    2045145654921177567834687343813459264455251940224)&quot;}
-  ...
-
-</code></pre>
-
-<h3 id="key">Key</h3>
-
-<pre><code>-----BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHwWBWR0Dfapord6Ja4/CrjlBeTHQ
-I3LK5ByvYhzMzMQ2SUMcpdVC1unYbqsGbc1KwVVuavIHFqqMvLlhZMQkdA==
------END PUBLIC KEY-----
-</code></pre>
-
-<h3 id="the-attack">The attack</h3>
-
-<p>This is a classic repeating-k-breaking of DSA.
-If we can find two signatures with the same r we can extract the private key.</p>
-
-<h4 id="quick-proof">Quick proof</h4>
-
-<pre><code>s = 1/k (H + x*r) mod n, where x is the private key
-
-Say that we have two signatures with the same r, so:
-
-s1 = 1/k (H1 + x*r) mod n
-s2 = 1/k (H2 + x*r) mod n
-
-This means that we can recover the k value by:
-
-s1-s2 = 1/k (H1 + x*r) mod n - 1/k (H2 + x*r) mod n
-s1-s2 = 1/k (H1-H2) mod n
-k = ((H1-H2) / (s1-s2)) mod n
-
-Now we extract x by using s:
-x = ((s*k)-H))/r mod n
-</code></pre>
-
-<h2 id="solution">Solution</h2>
-
-<p>The twist of the challenge is our unknown n. We need to find that parameter in some way. Luckily for us, the parameter is not secret nor random, it is choosen by NIST.
-We first need to look at our key to see which parameter to use. It requires some Google-fu</p>
-
-<pre><code>EccKey(curve='P-256', x=14031425269174631844092188919498800608183536405845297577669333727317255310532, y=24554336848573207326144613712141942513509757787905379245470080208324218070132)
-</code></pre>
-
-<p>Now we know that the curve is P-256, so we can search google for the parameter.</p>
-
-<pre><code>Google search: NIST fips P-256
-</code></pre>
-
-<p>The first hit is a document from NIST, which describes multiple curves and their parameters.</p>
-
-<p>At page 89 we find the n value for P-256</p>
-
-<pre><code>n = 115792089210356248762697446949407573529996955224135760342
-    422259061068512044369 
-</code></pre>
-
-<p>Now we can implement a script to find two repating k and extract the private key</p>
-
-<pre><code>#!/usr/bin/python3
-import json
-import collections
-import gmpy
-from Cryptodome.PublicKey import ECC
-
-
-f = open(&quot;publickey.pem&quot;)
-key = ECC.import_key(f.read())
-f.close()
-print(key)
-
-f = open(&quot;signatures.txt&quot;, &quot;r&quot;)
-signatures = f.readlines()
-f.close()
-
-sig_dict = {}
-for signature in signatures:
-    json_obj = json.loads(signature.rstrip())
-    r = json_obj['signature'].split(&quot;,&quot;)[0][1:]
-    s = json_obj['signature'].split(&quot;,&quot;)[1][1:-1]
-    h = json_obj['message hash']
-    sig_dict[h] = {'r':r, 's':s}
-
-r = []
-for sig in sig_dict.items():
-    r.append(sig[1]['r'])
-
-copy = ([item for item, count in collections.Counter(r).items() if count &gt; 1])[0]
-
-M = []
-S = []
-R = []
-for sig in sig_dict.items():
-    if sig[1]['r'] == copy:
-        M.append(int(&quot;0x&quot;+sig[0], 16))
-        S.append(int(sig[1]['s']))
-        R.append(int(sig[1]['r']))
-
-# NIST P-256 n parameter
-n = 115792089210356248762697446949407573529996955224135760342422259061068512044369 
-
-nom =(M[0]-M[1])%n
-denom = (S[0]-S[1])%n
-k = (nom*gmpy.invert(denom, n))%n
-d = ((S[0]*k-M[0])*gmpy.invert(R[0], n))%n
-
-print(&quot;BTH_CTF{&quot;+str(d)+&quot;}&quot;)
-</code></pre>
-
-<p>And the flag!</p>
-
-<pre><code>BTH_CTF{16859897575604388048434139223879309114446889925045767799455621888122996123340}
-</code></pre>
-]]></content>
-		</item>
-		
-		<item>
-			<title>The Cleaver</title>
-			<link>https://ludvigknutsmark.github.io/writeups/the_cleaver/</link>
-			<pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
-			
-			<guid>https://ludvigknutsmark.github.io/writeups/the_cleaver/</guid>
-			<description>Solves: 2 Challenge Description The challenge supplied source code to a bifid cipher and a ciphertext.txt
-Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP  Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &amp;quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&amp;quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext.</description>
-			<content type="html"><![CDATA[
-
-<h2 id="solves-2">Solves: 2</h2>
-
-<h2 id="challenge-description">Challenge Description</h2>
-
-<p>The challenge supplied source code to a bifid cipher and a ciphertext.txt</p>
-
-<p><img src="/the_cleaver.png" alt="image alt text" /></p>
-
-<h3 id="ciphertext">Ciphertext</h3>
-
-<pre><code>  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP
-</code></pre>
-
-<h3 id="source-code">Source code</h3>
-
-<pre><code>#!/usr/bin/python
-import numpy as np
-
-class BifidCipher():
-    def __init__(self, key=None):
-        
-        if key is None:
-            key = self.genKey()
-        
-        self.key = key
-
-    def genKey(self):
-        ALPHABET = &quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&quot;
-        matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False)
-        
-        key = []
-        for i in range(5):
-            row = []
-            for j in range(5):
-                row.append(ALPHABET[matrix[i][j]])
-            key.append(row)
-
-        return np.array(key)
-        
-    def encrypt(self, plaintext):
-
-        plaintext = plaintext.replace(&quot;J&quot;, &quot;I&quot;)
-        
-        rows = &quot;&quot;
-        columns = &quot;&quot;
-        for char in plaintext:
-            location = np.where(self.key==char)
-            rows += str(location[0])[1:-1]
-            columns += str(location[1])[1:-1]
-
-        pre_group = rows+columns
-        
-        ciphertext = &quot;&quot;
-        for i in xrange(0, len(pre_group), 2):
-            row = int(pre_group[i])
-            column = int(pre_group[i+1])
-            ciphertext+=self.key[row][column]
-
-        return ciphertext
-
-    # HAHA YOU CAN NEVER FIX THIS
-    def decrypt(self, ciphertext):
-        ciphertext_int
-        for char in ciphertext:
-            location = np.where(self.k
-            row = str(location[0
-            column = str(location[]
-            ciphertext_int += ro
-
-        plaintext=
-        limit = len(ciphertext_in
-        for i in range(limit/2
-            left_side = int(ciphertext_i
-            right_side = int(ciphertext_int[i+li
-            plaintext += self.key[le
-
-        return plaintext
-
-# Hmmm what to place in the question marks :thinking_emoji:
-key = np.array([['W', 'I','Q','?','M'],
-    ['?','F','?','U','Y'],
-    ['X', 'A', 'Z', 'R', 'E'],
-    ['S', 'O', 'G', '?', 'K'],
-    ['?', 'V', 'L', 'P', 'C']])
-
-
-f = open(&quot;ciphertext.txt&quot;, &quot;r&quot;)
-ciphertext = f.read()
-f.close()
-
-bc = BifidCipher(ciphertext)
-plaintext = bc.decrypt()
-
-print &quot;Flag: &quot;, plaintext
-
-</code></pre>
-
-<h3 id="the-attack">The attack</h3>
-
-<p>When running the challenge we get</p>
-
-<pre><code>  File &quot;./bifidcipher.py&quot;, line 51
-    row = str(location[0
-      ^
-SyntaxError: invalid syntax
-</code></pre>
-
-<p>And when reading the description we see that the decryption routine is literally cut in half. Ok, we fix it. You can either search for Bifid cipher on google and reimplement it, or just fix the code.</p>
-
-<h3 id="fixed-decryption-routine">Fixed decryption routine</h3>
-
-<pre><code> # HAHA YOU CAN NEVER FIX THIS. YES I CAN
-      def decrypt(self, ciphertext):
-          ciphertext_int = &quot;&quot;
-            for char in ciphertext:
-              location = np.where(self.key==char)
-              row = str(location[0])[1:-1]
-              column = str(location[1])[1:-1]
-              ciphertext_int += row+column
-  
-          plaintext=&quot;&quot;
-          limit = len(str(ciphertext_int))
-          for i in range(limit/2):
-              left_side = int(ciphertext_int[i])
-              right_side = int(ciphertext_int[i+limit/2])
-              plaintext += self.key[left_side][right_side]
-  
-          return plaintext
-</code></pre>
-
-<p>So now we just need to fix the key.</p>
-
-<p>We see that there are five letters missing in the key. B, T, H, N and D.</p>
-
-<h2 id="solution">Solution</h2>
-
-<p>Now that we have our missing letters and fixed code, we can easily fix the key.
-We simply list all permutations of the key and our missing letters and print each one of the possible solutions.</p>
-
-<pre><code>from itertools import permutations
-missing = &quot;BTHND&quot;
-possible_solutions = list(permutations(missing))
-
-for solution in possible_solutions:
-    key = np.array([['W', 'I','Q',solution[0],'M'],
-        [solution[1],'F',solution[2],'U','Y'],
-        ['X', 'A', 'Z', 'R', 'E'],
-        ['S', 'O', 'G', solution[3], 'K'],
-        [solution[4], 'V', 'L', 'P', 'C']])
-
-    bc = BifidCipher(key)
-    plaintext = bc.decrypt(ciphertext)
-
-    print plaintext
-</code></pre>
-
-<p>We print the output to a file and grep for the flag format. BTHCTF</p>
-
-<pre><code>$ ./bifidcipher.py &gt; solutions.txt
-$ cat solutions.txt | grep &quot;BTHCTF&quot;
-</code></pre>
-
-<p>And we get the flag!</p>
-
-<pre><code>BTHCTFIUSTAFANCYSUBSTITUTIONCIPHER
-</code></pre>
-]]></content>
-		</item>
-		
-	</channel>
+  <channel>
+    <title>Writeups on Thought for your thoughts</title>
+    <link>https://ludvigknutsmark.github.io/writeups/</link>
+    <description>Recent content in Writeups on Thought for your thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://ludvigknutsmark.github.io/writeups/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ecurve it like Beckham</title>
+      <link>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</guid>
+      <description>Solves: 0 Challenge Description The challenge supplied a public ECDSA key and a bunch of signatures.
+Signatures  {&amp;quot;message hash&amp;quot;: &amp;quot;37bf488115c14bc75bd3abfba09e3a10e4b671479755165310244b31b925929a&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(9811783871763325604756417160787846138404247835194244394354131020979062723933, 55791654947192643955306007970 524722900505588307283376371034301963123114165948)&amp;quot;} {&amp;quot;message hash&amp;quot;: &amp;quot;9442f76ff69de268bf22f98d803b52aeb289b0aa5bd55c17b3b4d3b6652ce268&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(16842672915651939019730535973185867061057860352849830024453076236449618387846, 9822948972963614614072213326 2045145654921177567834687343813459264455251940224)&amp;quot;} ... Key -----BEGIN PUBLIC KEY----- MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHwWBWR0Dfapord6Ja4/CrjlBeTHQ I3LK5ByvYhzMzMQ2SUMcpdVC1unYbqsGbc1KwVVuavIHFqqMvLlhZMQkdA== -----END PUBLIC KEY----- The attack This is a classic repeating-k-breaking of DSA. If we can find two signatures with the same r we can extract the private key.
+Quick proof s = 1/k (H + x*r) mod n, where x is the private key Say that we have two signatures with the same r, so: s1 = 1/k (H1 + x*r) mod n s2 = 1/k (H2 + x*r) mod n This means that we can recover the k value by: s1-s2 = 1/k (H1 + x*r) mod n - 1/k (H2 + x*r) mod n s1-s2 = 1/k (H1-H2) mod n k = ((H1-H2) / (s1-s2)) mod n Now we extract x by using s: x = ((s*k)-H))/r mod n Solution The twist of the challenge is our unknown n.</description>
+    </item>
+    
+    <item>
+      <title>The Cleaver</title>
+      <link>https://ludvigknutsmark.github.io/writeups/the_cleaver/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/writeups/the_cleaver/</guid>
+      <description>Solves: 2 Challenge Description The challenge supplied source code to a bifid cipher and a ciphertext.txt
+Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &amp;quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&amp;quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext.</description>
+    </item>
+    
+  </channel>
 </rss>

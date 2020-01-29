@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Thought for your thoughts</title>
@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 04 Nov 2019 10:45:09 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jan 2020 08:55:36 +0100</lastBuildDate>
     
 	<atom:link href="https://ludvigknutsmark.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bitflip for dummies</title>
+      <link>https://ludvigknutsmark.github.io/posts/bitflip/</link>
+      <pubDate>Wed, 29 Jan 2020 08:55:36 +0100</pubDate>
+      
+      <guid>https://ludvigknutsmark.github.io/posts/bitflip/</guid>
+      <description>Since last week I&#39;ve relocated finally relocated to Gothenburg! Together with a class mate, I will write my master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a swedish law called offentlighets- och sekretesslagen.
+I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack, the bitflip attack on AES_CBC.</description>
+    </item>
     
     <item>
       <title>Blockchain and cryptography: an introduction</title>
@@ -18,9 +28,9 @@
       <pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/blockchain/</guid>
-      <description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&amp;rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
+      <description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&#39;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
 What is a blockchain? From Wikipedia -
-A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&amp;rsquo;t complicated at all.</description>
+A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data. This wasn&#39;t complicated at all.</description>
     </item>
     
     <item>
@@ -29,7 +39,7 @@ A blockchain is a growing list of records, called blocks, that are linked using 
       <pubDate>Sun, 03 Nov 2019 16:19:16 +0100</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/homomorphic/</guid>
-      <description>Today I&amp;rsquo;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?
+      <description>Today I&#39;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?
 Homomorphism Homomorphism is defined in a mathematical set such as the result of an operation is mirrored in another set by performing the same operation in that set.
 $f:G\rightarrow H$ where $f(xy)=f(x)f(y)$
 Oh yes, I finally took the time to integrate LaTeX into Hugo.</description>
@@ -41,8 +51,8 @@ Oh yes, I finally took the time to integrate LaTeX into Hugo.</description>
       <pubDate>Sat, 02 Nov 2019 09:33:15 +0100</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/postquantom/</guid>
-      <description>So, I recently treated myself with a Nintendo switch. Let&amp;rsquo;s say computer time has been limited lately&amp;hellip;Saving Hyrule has been kind of my priority :)
-I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&amp;rsquo;m gonna talk a bit about quantom computers and show a &amp;ldquo;quantom safe&amp;rdquo; algorithm - GGH.</description>
+      <description>So, I recently treated myself with a Nintendo switch. Let&#39;s say computer time has been limited lately&amp;hellip;Saving Hyrule has been kind of my priority :)
+I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&#39;m gonna talk a bit about quantom computers and show a &amp;ldquo;quantom safe&amp;rdquo; algorithm - GGH.</description>
     </item>
     
     <item>
@@ -51,9 +61,9 @@ I recently took a course called Kryptering 3 (advanced cryptography), which most
       <pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</guid>
-      <description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&amp;rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
-Key generation The keys are based on Diffie-Hellman. It&amp;rsquo;s actually really simple:
-def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base)  This works, because of the abelian property associativeness (maybe an english word?</description>
+      <description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&#39;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&#39;s actually really simple:
+def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base) This works, because of the abelian property associativeness (maybe an english word?</description>
     </item>
     
     <item>
@@ -62,9 +72,9 @@ def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.base
       <pubDate>Fri, 16 Aug 2019 17:10:39 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</guid>
-      <description>I&amp;rsquo;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
-I&amp;rsquo;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
-What&amp;rsquo;s an Elliptical curve then? From Wikipedia -</description>
+      <description>I&#39;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
+I&#39;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
+What&#39;s an Elliptical curve then? From Wikipedia -</description>
     </item>
     
     <item>
@@ -73,7 +83,7 @@ What&amp;rsquo;s an Elliptical curve then? From Wikipedia -</description>
       <pubDate>Wed, 24 Jul 2019 21:53:31 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/howtopizza/</guid>
-      <description>Pizza time! After a well deserved break with 6(!!) days of vacation, I&amp;rsquo;m back! Not really feeling the urge to pick up some new crypto stuff to write about just yet, but &amp;ldquo;den som väntar på något gott&amp;rdquo; :)
+      <description>Pizza time! After a well deserved break with 6(!!) days of vacation, I&#39;m back! Not really feeling the urge to pick up some new crypto stuff to write about just yet, but &amp;ldquo;den som väntar på något gott&amp;rdquo; :)
 This saturday me and my good friend Elin had our joint birthday party.
 It all started with a case of beers and a jacuzzi, where we decided to host a party where we cooked Neapolitan pizza for everyone, one pizza each, just like a one-night, pop-up pizza place.</description>
     </item>
@@ -84,8 +94,8 @@ It all started with a case of beers and a jacuzzi, where we decided to host a pa
       <pubDate>Wed, 29 May 2019 09:32:04 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/opaque_pake/</guid>
-      <description>Meanwhile as I&amp;rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
-PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&amp;rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman here.
+      <description>Meanwhile as I&#39;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
+PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&#39;ve written code on a very basic MITM-attack on Diffie-Hellman here.
 In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected.</description>
     </item>
     
@@ -105,19 +115,9 @@ Galois Field Galois field, or finite field is a set in which the basic math oper
       <pubDate>Sun, 05 May 2019 15:11:55 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/</guid>
-      <description>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&amp;rsquo;s get started!
-Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&amp;rsquo;t be broken&amp;rdquo;.
-And sure, it isn&amp;rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
-    </item>
-    
-    <item>
-      <title>BTH_CTF{sM3ll_th3_sH3ll}</title>
-      <link>https://ludvigknutsmark.github.io/posts/bthctf2019/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://ludvigknutsmark.github.io/posts/bthctf2019/</guid>
-      <description>Hello, World! So, first ever post. Hope that I can keep this blog project going for quite some time atleast.
-This weekend I (along with some classmates) organized our first ever CTF! It was amazing. We had so much fun, and so much work put into it. And it was so worth it. We had a total of 24 teams playing in our school overnight. Contestants from Dalarna, Linköping and of course our school.</description>
+      <description>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&#39;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&#39;t be broken&amp;rdquo;.
+And sure, it isn&#39;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
     </item>
     
   </channel>

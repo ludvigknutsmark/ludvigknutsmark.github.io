@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Crypto on Thought for your thoughts</title>
@@ -28,9 +28,9 @@ Galois Field Galois field, or finite field is a set in which the basic math oper
       <pubDate>Sun, 05 May 2019 15:11:55 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/</guid>
-      <description>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&amp;rsquo;s get started!
-Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&amp;rsquo;t be broken&amp;rdquo;.
-And sure, it isn&amp;rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
+      <description>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&#39;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&#39;t be broken&amp;rdquo;.
+And sure, it isn&#39;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
     </item>
     
     <item>
@@ -40,7 +40,8 @@ And sure, it isn&amp;rsquo;t feasible in any amount of time to get the key from 
       
       <guid>https://ludvigknutsmark.github.io/writeups/ecurve_it_like_beckham/</guid>
       <description>Solves: 0 Challenge Description The challenge supplied a public ECDSA key and a bunch of signatures.
-Signatures  {&amp;quot;message hash&amp;quot;: &amp;quot;37bf488115c14bc75bd3abfba09e3a10e4b671479755165310244b31b925929a&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(9811783871763325604756417160787846138404247835194244394354131020979062723933, 55791654947192643955306007970 524722900505588307283376371034301963123114165948)&amp;quot;} {&amp;quot;message hash&amp;quot;: &amp;quot;9442f76ff69de268bf22f98d803b52aeb289b0aa5bd55c17b3b4d3b6652ce268&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(16842672915651939019730535973185867061057860352849830024453076236449618387846, 9822948972963614614072213326 2045145654921177567834687343813459264455251940224)&amp;quot;} ...  Key -----BEGIN PUBLIC KEY----- MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHwWBWR0Dfapord6Ja4/CrjlBeTHQ I3LK5ByvYhzMzMQ2SUMcpdVC1unYbqsGbc1KwVVuavIHFqqMvLlhZMQkdA== -----END PUBLIC KEY-----  The attack This is a classic repeating-k-breaking of DSA. If we can find two signatures with the same r we can extract the private key.</description>
+Signatures  {&amp;quot;message hash&amp;quot;: &amp;quot;37bf488115c14bc75bd3abfba09e3a10e4b671479755165310244b31b925929a&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(9811783871763325604756417160787846138404247835194244394354131020979062723933, 55791654947192643955306007970 524722900505588307283376371034301963123114165948)&amp;quot;} {&amp;quot;message hash&amp;quot;: &amp;quot;9442f76ff69de268bf22f98d803b52aeb289b0aa5bd55c17b3b4d3b6652ce268&amp;quot;, &amp;quot;signature&amp;quot;: &amp;quot;(16842672915651939019730535973185867061057860352849830024453076236449618387846, 9822948972963614614072213326 2045145654921177567834687343813459264455251940224)&amp;quot;} ... Key -----BEGIN PUBLIC KEY----- MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHwWBWR0Dfapord6Ja4/CrjlBeTHQ I3LK5ByvYhzMzMQ2SUMcpdVC1unYbqsGbc1KwVVuavIHFqqMvLlhZMQkdA== -----END PUBLIC KEY----- The attack This is a classic repeating-k-breaking of DSA. If we can find two signatures with the same r we can extract the private key.
+Quick proof s = 1/k (H + x*r) mod n, where x is the private key Say that we have two signatures with the same r, so: s1 = 1/k (H1 + x*r) mod n s2 = 1/k (H2 + x*r) mod n This means that we can recover the k value by: s1-s2 = 1/k (H1 + x*r) mod n - 1/k (H2 + x*r) mod n s1-s2 = 1/k (H1-H2) mod n k = ((H1-H2) / (s1-s2)) mod n Now we extract x by using s: x = ((s*k)-H))/r mod n Solution The twist of the challenge is our unknown n.</description>
     </item>
     
     <item>
@@ -50,7 +51,7 @@ Signatures  {&amp;quot;message hash&amp;quot;: &amp;quot;37bf488115c14bc75bd3abf
       
       <guid>https://ludvigknutsmark.github.io/writeups/the_cleaver/</guid>
       <description>Solves: 2 Challenge Description The challenge supplied source code to a bifid cipher and a ciphertext.txt
-Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP  Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &amp;quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&amp;quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext.</description>
+Ciphertext  BYOITAAVOBSOSODVZTEOUBFNCBSOTONVGP Source code #!/usr/bin/python import numpy as np class BifidCipher(): def __init__(self, key=None): if key is None: key = self.genKey() self.key = key def genKey(self): ALPHABET = &amp;quot;ABCDEFGHIKLMNOPQRSTUVWXYZ&amp;quot; matrix = np.random.choice(range(len(ALPHABET)),(5,5), replace=False) key = [] for i in range(5): row = [] for j in range(5): row.append(ALPHABET[matrix[i][j]]) key.append(row) return np.array(key) def encrypt(self, plaintext): plaintext = plaintext.</description>
     </item>
     
   </channel>

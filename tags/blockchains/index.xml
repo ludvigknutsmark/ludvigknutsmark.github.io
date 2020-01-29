@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blockchains on Thought for your thoughts</title>
@@ -18,9 +18,9 @@
       <pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/blockchain/</guid>
-      <description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&amp;rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
+      <description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&#39;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
 What is a blockchain? From Wikipedia -
-A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.  This wasn&amp;rsquo;t complicated at all.</description>
+A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data. This wasn&#39;t complicated at all.</description>
     </item>
     
   </channel>

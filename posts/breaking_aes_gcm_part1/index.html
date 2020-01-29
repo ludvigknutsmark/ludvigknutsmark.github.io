@@ -7,33 +7,29 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="theme-color" content="#494f5c">
 	<meta name="msapplication-TileColor" content="#494f5c">
-
 <meta itemprop="name" content="Breaking AES GCM Part 1">
-<meta itemprop="description" content="This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&rsquo;s get started!
-Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.
-And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.">
-
-
+<meta itemprop="description" content="This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&#39;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&#39;t be broken&rdquo;.
+And sure, it isn&#39;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.">
 <meta itemprop="datePublished" content="2019-05-05T15:11:55&#43;02:00" />
 <meta itemprop="dateModified" content="2019-05-05T15:11:55&#43;02:00" />
 <meta itemprop="wordCount" content="510">
 
 
 
-<meta itemprop="keywords" content="Crypto,AES GCM," />
-<meta property="og:title" content="Breaking AES GCM Part 1" />
-<meta property="og:description" content="This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&rsquo;s get started!
-Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.
-And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext." />
+<meta itemprop="keywords" content="Crypto,AES GCM," /><meta property="og:title" content="Breaking AES GCM Part 1" />
+<meta property="og:description" content="This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&#39;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&#39;t be broken&rdquo;.
+And sure, it isn&#39;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/" />
-<meta property="article:published_time" content="2019-05-05T15:11:55&#43;02:00"/>
-<meta property="article:modified_time" content="2019-05-05T15:11:55&#43;02:00"/>
+<meta property="article:published_time" content="2019-05-05T15:11:55+02:00" />
+<meta property="article:modified_time" content="2019-05-05T15:11:55+02:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Breaking AES GCM Part 1"/>
-<meta name="twitter:description" content="This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&rsquo;s get started!
-Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.
-And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext."/>
+<meta name="twitter:description" content="This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&#39;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&#39;t be broken&rdquo;.
+And sure, it isn&#39;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext."/>
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -43,7 +39,7 @@ And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ci
 	<link rel="shortcut icon" href="/favicon.ico">
 
 	<title>Breaking AES GCM Part 1</title>
-	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css" integrity="sha256-MXBpF2U9K56EEKvUMfMOxDWaiKlPyHpjZUd52HMp7ew=">
+	<link rel="stylesheet" href="https://ludvigknutsmark.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
 	
 </head>
 
@@ -56,44 +52,17 @@ And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ci
 					<a href="https://ludvigknutsmark.github.io">Thought for your thoughts</a>
 				</div>
 				<nav class="site-nav hide-in-mobile">
-					<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
-					<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
-					<a href="https://ludvigknutsmark.github.io/about/">About</a>
+					
+				<a href="https://ludvigknutsmark.github.io/posts/">Posts</a>
+				<a href="https://ludvigknutsmark.github.io/writeups/">Writeups</a>
+				<a href="https://ludvigknutsmark.github.io/about/">About</a>
+
 				</nav>
 			</div>
 			<div class="hdr-right hdr-icons">
-				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/LKnutsmark" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://instagram.com/ludvigknutsmark" target="_blank" rel="noopener me" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ludvig-knutsmark-a928aa130/" target="_blank" rel="noopener me" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/ludvigknutsmark" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
 			</div>
 		</div>
-		<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
-</script>
-
 	</header>
 	<div id="mobile-menu" class="animated fast">
 		<ul>
@@ -111,58 +80,34 @@ And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ci
 				<h1>Breaking AES GCM Part 1</h1>
 			</header>
 			<div class="content">
-				
-
-<p>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea.
-Let&rsquo;s get started!</p>
-
+				<p>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea.
+Let's get started!</p>
 <h2 id="why-does-aes-gcm-exist">Why does AES GCM exist?<a href="#why-does-aes-gcm-exist" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-
-<p>So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.</p>
-
-<p>And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext. But there are other problems with the implemenation of AES. Let&rsquo;s look at the most basic mode of operation, AES ECB.</p>
-
+<p>So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can't be broken&rdquo;.</p>
+<p>And sure, it isn't feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext. But there are other problems with the implemenation of AES. Let's look at the most basic mode of operation, AES ECB.</p>
 <h3 id="ecb">ECB<a href="#ecb" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
-
 <p>ECB, or Electronic Codebook is the simplest mode of operation. You divide the plaintext into blocks and encrypt the blocks separately.</p>
-
-<p><img src="/AES_ECB.png" alt="image alt text" /></p>
-
-<p>What&rsquo;s the problem with this? Two encrypted plaintexts will always be represented as the same ciphertext (if encrypted with the same key, of course).</p>
-
+<p><img src="/AES_ECB.png" alt="image alt text"></p>
+<p>What's the problem with this? Two encrypted plaintexts will always be represented as the same ciphertext (if encrypted with the same key, of course).</p>
 <h3 id="cbc">CBC<a href="#cbc" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
-
-<p>Ok, ECB is bad. But what if we add another random element into the encryption of each block, so two encrypted plaintexts will not be represented as the same ciphertext. This seems like a good idea! Let&rsquo;s do it.</p>
-
-<p><img src="/AES_CBC.png" alt="image alt text" /></p>
-
+<p>Ok, ECB is bad. But what if we add another random element into the encryption of each block, so two encrypted plaintexts will not be represented as the same ciphertext. This seems like a good idea! Let's do it.</p>
+<p><img src="/AES_CBC.png" alt="image alt text"></p>
 <p>CBC stands for Cipher Block Chaining, as the encryption of each block is dependant on the ciphertext from the previous block. This looks much better! But with this chaining comes other problems, like bitflipping attacks.</p>
-
-<p>I&rsquo;ve written some code on a basic bitflipping attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set2/challenge16.py" target="_blank">here</a>.
+<p>I've written some code on a basic bitflipping attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set2/challenge16.py">here</a>.
 The basic idea of a bitflipping attack is that if the attacker know the plaintext, he/she can do some math to change the ciphertext into being decrypted into anything.
-Oh, that&rsquo;s bad.</p>
-
+Oh, that's bad.</p>
 <h3 id="ctr">CTR<a href="#ctr" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
-
-<p>CTR stands for Counter. Instead of splitting the plaintext into blocks and padding it, we can have a counter with a random nonce (like IV) and XOR the &ldquo;keystream&rdquo; with the plaintext. This turns the AES block cipher into a stream cipher, which is a more logic way of looking at data. This is also suspectible to bitflipping attacks. <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set4/challenge26.py" target="_blank">attack code</a>.</p>
-
+<p>CTR stands for Counter. Instead of splitting the plaintext into blocks and padding it, we can have a counter with a random nonce (like IV) and XOR the &ldquo;keystream&rdquo; with the plaintext. This turns the AES block cipher into a stream cipher, which is a more logic way of looking at data. This is also suspectible to bitflipping attacks. <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set4/challenge26.py">attack code</a>.</p>
 <p>How do we fix this? By adding integrity checks of course! Which leads us perfectly into AES GCM.</p>
-
 <h3 id="gcm">GCM<a href="#gcm" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
-
-<p>GCM stands for Galois Counter Mode. This is bit more complex solution, since adding a simple hash after the ciphertext would fix nothing (since the attacker can modify the hash to the flipped code). GCM implements a type of <a href="https://en.wikipedia.org/wiki/Message_authentication_code" target="_blank">MAC</a>. This makes it near impossible for an attacker to fiddle with the ciphertext, since any change would be detected when comparing the hashes. And the attacker can&rsquo;t spoof the hash, since he/she doesn&rsquo;t know the secret.</p>
-
-<p><img src="/AES_GCM.png" alt="image alt text" /></p>
-
+<p>GCM stands for Galois Counter Mode. This is bit more complex solution, since adding a simple hash after the ciphertext would fix nothing (since the attacker can modify the hash to the flipped code). GCM implements a type of <a href="https://en.wikipedia.org/wiki/Message_authentication_code">MAC</a>. This makes it near impossible for an attacker to fiddle with the ciphertext, since any change would be detected when comparing the hashes. And the attacker can't spoof the hash, since he/she doesn't know the secret.</p>
+<p><img src="/AES_GCM.png" alt="image alt text"></p>
 <p>Some explanation:</p>
-
 <ul>
 <li>Auth Data 1: The Additional data which you can put into the GHASH function. GCM is an AEAD (Authenticated Encryption Additional Data) algorithm.</li>
 <li>mult_H:. &ldquo;Each round&rdquo; of the GHASH function. The input data is multiplied with Ek(0^128) in a Galois Field (GF(2^128)).</li>
 </ul>
-
 <p>Galois field as a MAC is chosen because it actually allows the Auth Tag calculation to be computed in parallel, which makes it faster than for example CBC. And even more so, than a traditional SHA-1 MAC. And speed in cryptography is important.</p>
-
 <h3 id="next-part-is-exploring-the-ghash-function">Next part is exploring the GHASH function<a href="#next-part-is-exploring-the-ghash-function" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 
 			</div>
@@ -188,14 +133,16 @@ Oh, that&rsquo;s bad.</p>
 	</main>
 
 	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
-		<p>&copy; 2019 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>&copy; 2020 <a href="https://ludvigknutsmark.github.io">Ludvig Knutsmark</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
 		<p>
 			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://ludvigknutsmark.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
 		</p>
 	</footer>
 
 
-	<script src="https://ludvigknutsmark.github.io/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js" integrity="sha256-eEQX9YRxUfhIwznPCssToGy7ZIsUg0NaKO1FVsTq1ps="></script>
+
+	<script src="https://ludvigknutsmark.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Elliptical Curves on Thought for your thoughts</title>
+    <title>Elliptical-curves on Thought for your thoughts</title>
     <link>https://ludvigknutsmark.github.io/tags/elliptical-curves/</link>
-    <description>Recent content in Elliptical Curves on Thought for your thoughts</description>
+    <description>Recent content in Elliptical-curves on Thought for your thoughts</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
@@ -18,9 +18,9 @@
       <pubDate>Fri, 16 Aug 2019 17:10:39 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</guid>
-      <description>I&amp;rsquo;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
-I&amp;rsquo;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
-What&amp;rsquo;s an Elliptical curve then? From Wikipedia -</description>
+      <description>I&#39;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
+I&#39;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
+What&#39;s an Elliptical curve then? From Wikipedia -</description>
     </item>
     
   </channel>
