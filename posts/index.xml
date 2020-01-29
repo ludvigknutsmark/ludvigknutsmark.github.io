@@ -47,10 +47,12 @@ FLIPPED = decrypt(CIPHERTEXT)
 FLIPPED == TARGET?
 true
 </code></pre><h3 id="why-does-this-work">Why does this work?</h3>
-<p>Think about how XOR works. When we perform</p>
+<p>Think about how XOR works</p>
 <pre><code>L = A^decrypt(EFGH)[0]
 
 What do we control here? The ciphertext. So what does the ciphertext have to be in order for L to become K in the plaintext?
+
+Remember that
 
 decrypt(EFGH)[0] = A^L
 
