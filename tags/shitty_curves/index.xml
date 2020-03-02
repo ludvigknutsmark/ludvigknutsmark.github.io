@@ -18,8 +18,8 @@
       <pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
       
       <guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</guid>
-      <description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&#39;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
-Key generation The keys are based on Diffie-Hellman. It&#39;s actually really simple:
+      <description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&amp;rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&amp;rsquo;s actually really simple:
 def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base) This works, because of the abelian property associativeness (maybe an english word?</description>
     </item>
     

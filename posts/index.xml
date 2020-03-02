@@ -15,9 +15,9 @@
 			<pubDate>Wed, 29 Jan 2020 08:55:36 +0100</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/bitflip/</guid>
-			<description>Since last week I&#39;ve finally relocated to Gothenburg! Together with a class mate, I will write my master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a swedish law called offentlighets- och sekretesslagen.
+			<description>Since last week I&amp;rsquo;ve finally relocated to Gothenburg! Together with a class mate, I will write my master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a swedish law called offentlighets- och sekretesslagen.
 I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack, the bitflip attack on AES_CBC.</description>
-			<content type="html"><![CDATA[<p>Since last week I've finally relocated to Gothenburg! Together with a class mate, I will write my
+			<content type="html"><![CDATA[<p>Since last week I&rsquo;ve finally relocated to Gothenburg! Together with a class mate, I will write my
 master thesis on a consultant company called Knowit. The thesis will be about crypto in cloud services with focus on a
 swedish law called offentlighets- och sekretesslagen.</p>
 <p>I hope to get some more frequent updates on the blog in the coming months. But today I wanted to show a basic crypto attack,
@@ -28,14 +28,14 @@ the bitflip attack on AES_CBC.</p>
 <p>AES_CBC works by introducing a random initialization vector(IV) and chaining the blocks so that each block is &ldquo;dependant&rdquo; on the previous block.</p>
 <p><img src="/AES_CBC.png" alt="image alt text"></p>
 <h1 id="bitflip">Bitflip???</h1>
-<p>The basic idea is that since each plaintext block is XORed with the previous ciphertext block we can alter(flip) the ciphertext to represent the plaintext  we want it to be (if we know/can guess the original plaintext). Let's look at the decryption routine!</p>
+<p>The basic idea is that since each plaintext block is XORed with the previous ciphertext block we can alter(flip) the ciphertext to represent the plaintext  we want it to be (if we know/can guess the original plaintext). Let&rsquo;s look at the decryption routine!</p>
 <p><img src="/AES_CBC_d.png" alt="image alt text"></p>
 <p>Imagine we have a ciphertext that looks like (block size=4)</p>
 <pre><code>ABCDEFGH
 </code></pre><p>with the plaintext</p>
 <pre><code>BITFLIP!
 </code></pre><p>Our goal is to flip the 5th character in the plaintext (L) to K.</p>
-<p>Look at how CBC works. The previous ciphertext block is XORed with the decrypted ciphertext block to represent the plaintext block. Maybe a bit confusing, but it's actually simple.</p>
+<p>Look at how CBC works. The previous ciphertext block is XORed with the decrypted ciphertext block to represent the plaintext block. Maybe a bit confusing, but it&rsquo;s actually simple.</p>
 <pre><code>L = A^decrypt(EFGH)[0]
 </code></pre><p>Now, lets do the attack. We want L to be represented as K.</p>
 <pre><code>CIPHERTEXT = ABCDEFGH
@@ -135,25 +135,25 @@ if __name__ == &quot;__main__&quot;:
 			<pubDate>Mon, 04 Nov 2019 10:45:09 +0100</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/blockchain/</guid>
-			<description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&#39;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
+			<description>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&amp;rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.
 What is a blockchain? From Wikipedia -
-A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data. This wasn&#39;t complicated at all.</description>
-			<content type="html"><![CDATA[<p>I felt like continuing with the buzzwords run, and also learn something completely new. So today I'm gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.</p>
+A blockchain is a growing list of records, called blocks, that are linked using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data. This wasn&amp;rsquo;t complicated at all.</description>
+			<content type="html"><![CDATA[<p>I felt like continuing with the buzzwords run, and also learn something completely new. So today I&rsquo;m gonna talk a little bit about on how blockchains actually work, and write some psuedo-code.</p>
 <h2 id="what-is-a-blockchain">What is a blockchain?</h2>
 <p>From <a href="https://en.wikipedia.org/wiki/Blockchain">Wikipedia</a> -</p>
 <pre><code>A blockchain is a growing list of records, called blocks, that are linked using cryptography.
 Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data.
-</code></pre><p>This wasn't complicated at all. Simply a linked list where the integrity and order of the blocks is controlled by an hashing algorithm(H).</p>
+</code></pre><p>This wasn&rsquo;t complicated at all. Simply a linked list where the integrity and order of the blocks is controlled by an hashing algorithm(H).</p>
 <pre><code> ____      ____      ____
 | G  |    | A  |    | B  | *n
 |    |---&gt;|H(G)|---&gt;|H(A)|---&gt;
 |data|    |data|    |data|
 |____|    |____|    |____|
 
-</code></pre><p>The implication of this is that if an attacker would change an arbitrary block in the chain, he would then need to change all blocks after that block in order for the chain to be correct. Most blockchains is managed in a peer-to-peer network, which means that the attacker, without network majority, cannot control the entire chain after the changed block. Simply, the chain is copied to each peer in the network and only trusts the majority. If the attacker would change a block and his copy of the chain, the network would vote on which copy is correct, and choose the majority's copy.</p>
-<p>(This is the basic idea of a decentralized blockchain, but there are other types of blockchain which have different voting algorithms or other models in which the former statement doesn't hold true. The voting/majority part that is. Thanks to Hampus Bengtsson for pointing that out).</p>
+</code></pre><p>The implication of this is that if an attacker would change an arbitrary block in the chain, he would then need to change all blocks after that block in order for the chain to be correct. Most blockchains is managed in a peer-to-peer network, which means that the attacker, without network majority, cannot control the entire chain after the changed block. Simply, the chain is copied to each peer in the network and only trusts the majority. If the attacker would change a block and his copy of the chain, the network would vote on which copy is correct, and choose the majority&rsquo;s copy.</p>
+<p>(This is the basic idea of a decentralized blockchain, but there are other types of blockchain which have different voting algorithms or other models in which the former statement doesn&rsquo;t hold true. The voting/majority part that is. Thanks to Hampus Bengtsson for pointing that out).</p>
 <h2 id="introducing-new-transactionsblocks-into-the-chain">Introducing new transactions(blocks) into the chain</h2>
-<p>To prevent the chain from overflowing with blocks we must ensure that it's a hard problem to add new blocks to the chain. This is very important in cryptocurrencies i.e. Bitcoin. This is what's called mining. Mining comes from the parable with mining gold(or other metals). We add more money into the economy. If anyone could add coins into the chain very easily we would have a <a href="https://en.wikipedia.org/wiki/Hyperinflation_in_the_Weimar_Republic">Weimar hyperinflation</a> all over again. That's why any new block needs a proof-of-work which is very hard to calculate. A commonly used proof-of-work is that the hash of every block must start with x-numbers of zero.</p>
+<p>To prevent the chain from overflowing with blocks we must ensure that it&rsquo;s a hard problem to add new blocks to the chain. This is very important in cryptocurrencies i.e. Bitcoin. This is what&rsquo;s called mining. Mining comes from the parable with mining gold(or other metals). We add more money into the economy. If anyone could add coins into the chain very easily we would have a <a href="https://en.wikipedia.org/wiki/Hyperinflation_in_the_Weimar_Republic">Weimar hyperinflation</a> all over again. That&rsquo;s why any new block needs a proof-of-work which is very hard to calculate. A commonly used proof-of-work is that the hash of every block must start with x-numbers of zero.</p>
 <pre><code>class Block():
 	def __init__(self, id, data, prev_hash=None):
 		self.id = id
@@ -189,9 +189,9 @@ chain.append(genesis.dump())
 # Add a new block to the chain
 new_block = Block(id=1, data={xxxxx}, prev_hash=genesis.hash)
 chain.append(new_block.dump())
-</code></pre><p>As you can see blockchains are actually very simple in it's basic form, but there are so many variants on every algorithm and voting policies and so forth that there could be thousands of books to cover the complete topic. This was only a fairly quick reading to learn the basics about blockchains.</p>
+</code></pre><p>As you can see blockchains are actually very simple in it&rsquo;s basic form, but there are so many variants on every algorithm and voting policies and so forth that there could be thousands of books to cover the complete topic. This was only a fairly quick reading to learn the basics about blockchains.</p>
 <h2 id="attacking-blockchains">Attacking blockchains</h2>
-<p>In this basic form of the blockchain the only attack vector would be to take majority of the network to change the transaction data in any block successfully. As mentioned above, every blockchain has it's own algorithms and forms, and therefore new attack vectors.</p>
+<p>In this basic form of the blockchain the only attack vector would be to take majority of the network to change the transaction data in any block successfully. As mentioned above, every blockchain has it&rsquo;s own algorithms and forms, and therefore new attack vectors.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>There a million of blog posts like this that are much better and more thourough, I only wrote this since I wanted to know how basic blockchains work and to learn something new. I guess next post will be on how to build a CAN-network with arduinos :) Or maybe a crypto-attack</p>
 ]]></content>
@@ -203,11 +203,11 @@ chain.append(new_block.dump())
 			<pubDate>Sun, 03 Nov 2019 16:19:16 +0100</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/homomorphic/</guid>
-			<description>Today I&#39;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?
+			<description>Today I&amp;rsquo;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?
 Homomorphism Homomorphism is defined in a mathematical set such as the result of an operation is mirrored in another set by performing the same operation in that set.
 $f:G\rightarrow H$ where $f(xy)=f(x)f(y)$
 Oh yes, I finally took the time to integrate LaTeX into Hugo.</description>
-			<content type="html"><![CDATA[<p>Today I'm gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?</p>
+			<content type="html"><![CDATA[<p>Today I&rsquo;m gonna talk a bit about a cool buzzword in the crypto world - Homomorphic Encryption. What is it and how does it really work? And maybe more important, why do we want this?</p>
 <h2 id="homomorphism">Homomorphism</h2>
 <p>Homomorphism is defined in a mathematical set such as the result of an operation is mirrored in another set by performing the same operation in that set.</p>
 <p>$f:G\rightarrow H$ where $f(xy)=f(x)f(y)$</p>
@@ -229,7 +229,7 @@ $$P=\frac{P&rsquo;}{x} \mod n$$</p>
 <p>$$P'=C'^{d}=(C\times x^{e})^{d}=(P^{e}\times x^{e})^{d}=Px^{ed}=Px \mod n$$</p>
 <p>Remember that</p>
 <p>$$ed = 1 \mod n$$</p>
-<p>This allows one type of operation (modular multiplication) on the ciphertexts. But there actually exists a scheme which allows any operation on the ciphertext, a fully homomorphic encryption-scheme. It's called <a href="https://crypto.stanford.edu/craig/craig-thesis.pdf">Gentry's FHE</a>.</p>
+<p>This allows one type of operation (modular multiplication) on the ciphertexts. But there actually exists a scheme which allows any operation on the ciphertext, a fully homomorphic encryption-scheme. It&rsquo;s called <a href="https://crypto.stanford.edu/craig/craig-thesis.pdf">Gentry&rsquo;s FHE</a>.</p>
 <h2 id="but-when-could-this-be-useful">But when could this be useful?</h2>
 <p>A obvious application is cloud services. In a traditional cloud service where we hold sesitive encrypted data, the cloud provider owns both the encrypted data and the method to encrypt (and decrypt) the data. Now say an attacker takes control of the cloud service, he owns the encrypted data, and also the means to decrypt it. If we could employ a homomorphic encryption-scheme, the cloud provider can outsource the encryption and decryption methods to the original owner of the data. The cloud provider now only has the encrypted data but can still perform any operation (statisics, sorting, querys etc.) and so on. If an attacker now takes control of the cloud service, he only has control of the encrypted data, which in that form is worthless.</p>
 <p>Often when there is talk about homomorphic encryption, some people often mention encrypted databases. Encrypted databases is almost always a bad idea. <a href="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/">Matthew Green has an awesome article about this</a>. Looks like with a sufficent amount of querys an attacker can reconstruct parts of the database. Oops!</p>
@@ -245,26 +245,26 @@ $$P=\frac{P&rsquo;}{x} \mod n$$</p>
 			<pubDate>Sat, 02 Nov 2019 09:33:15 +0100</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/postquantom/</guid>
-			<description>So, I recently treated myself with a Nintendo switch. Let&#39;s say computer time has been limited lately&amp;hellip;Saving Hyrule has been kind of my priority :)
-I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&#39;m gonna talk a bit about quantom computers and show a &amp;ldquo;quantom safe&amp;rdquo; algorithm - GGH.</description>
-			<content type="html"><![CDATA[<p>So, I recently treated myself with a Nintendo switch. Let's say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)</p>
-<p>I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I'm gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH.</p>
+			<description>So, I recently treated myself with a Nintendo switch. Let&amp;rsquo;s say computer time has been limited lately&amp;hellip;Saving Hyrule has been kind of my priority :)
+I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&amp;rsquo;m gonna talk a bit about quantom computers and show a &amp;ldquo;quantom safe&amp;rdquo; algorithm - GGH.</description>
+			<content type="html"><![CDATA[<p>So, I recently treated myself with a Nintendo switch. Let&rsquo;s say computer time has been limited lately&hellip;Saving Hyrule has been kind of my priority :)</p>
+<p>I recently took a course called Kryptering 3 (advanced cryptography), which mostly is about post-quantom cryptography and the corresponding algorithms. Yesterday I fell into some writing mode again, so today I&rsquo;m gonna talk a bit about quantom computers and show a &ldquo;quantom safe&rdquo; algorithm - GGH.</p>
 <h2 id="what-is-quantom-computers-and-why-you-should-care">What is Quantom computers and why you should care</h2>
-<p>A regular computer has it's lowest information represented as a bit, one or zero. A quantom computer has its lowest information represented as a qubit. Reading a qubit is different from reading a bit. A bit is always one or zero, but a qubit is represented as a normalized superposition of either one or zero (this is black magic). This gives quantom computers special properties, which in short makes quantom computers incredibly fast at solving specific problems. Or rather, given this quantom property we can construct specific algorithms which utilizes these to solve specific problems. You may have heard about one of these algorithms - Shor's algorithm.</p>
-<p>A common myth is that quantom computers breaks all encryption. This is not true. Rather shor's algorithm (in theory) solves the integer factorization and discrete logarithm problem in polynomial time.</p>
-<p>What does this mean then? Well, the encryption schemes which builds on these problems are broken with suffiently good quantom computers. Any schemes that comes to mind? How about RSA, ECDSA and Diffie-Hellman? Which all are asymmetric algorithms. Symmetric algorithms (like AES) seems to be fine for now, i.e. there is no quantom algorithm which breaks these like Shor's algorithm breaks some asymmetric schemes.</p>
-<h3 id="cool-and-all-but-this-sounds-like-real-sci-fi-i-shouldnt-care-right">Cool and all, but this sounds like real sci-fi. I shouldn't care right?</h3>
+<p>A regular computer has it&rsquo;s lowest information represented as a bit, one or zero. A quantom computer has its lowest information represented as a qubit. Reading a qubit is different from reading a bit. A bit is always one or zero, but a qubit is represented as a normalized superposition of either one or zero (this is black magic). This gives quantom computers special properties, which in short makes quantom computers incredibly fast at solving specific problems. Or rather, given this quantom property we can construct specific algorithms which utilizes these to solve specific problems. You may have heard about one of these algorithms - Shor&rsquo;s algorithm.</p>
+<p>A common myth is that quantom computers breaks all encryption. This is not true. Rather shor&rsquo;s algorithm (in theory) solves the integer factorization and discrete logarithm problem in polynomial time.</p>
+<p>What does this mean then? Well, the encryption schemes which builds on these problems are broken with suffiently good quantom computers. Any schemes that comes to mind? How about RSA, ECDSA and Diffie-Hellman? Which all are asymmetric algorithms. Symmetric algorithms (like AES) seems to be fine for now, i.e. there is no quantom algorithm which breaks these like Shor&rsquo;s algorithm breaks some asymmetric schemes.</p>
+<h3 id="cool-and-all-but-this-sounds-like-real-sci-fi-i-shouldnt-care-right">Cool and all, but this sounds like real sci-fi. I shouldn&rsquo;t care right?</h3>
 <p><a href="https://www.theverge.com/2019/10/23/20928294/google-quantum-supremacy-sycamore-computer-qubit-milestone">Google just declared quatom supremacy</a> and earlier this year Martin Ekerå and Craig Gidney wrote a paper which described how to factor <a href="https://arxiv.org/pdf/1905.09749.pdf">2048-bit RSA integers in 8 hours</a>.</p>
 <p><img src="https://media.giphy.com/media/WrK9dwj8TNPr2/giphy.gif" alt="alt text"></p>
 <p>Such quantom computers are not here yet though. But according to Martin Ekerå - they can be in the next 10-25 years.</p>
 <h3 id="ahhh-everythings-on-fire">Ahhh, everythings on fire!!</h3>
-<p>Well, this sucks :D But don't worry too much just yet, there are solutions to this.</p>
-<p>So, Shor's algorithm solves the integer factorization and discrete logarithm problem in polynomial time. Can we build asymmetric schemes which depends on other problems? Looks like we can!</p>
-<h2 id="ggh-and-dont-use-this">GGH (and don't use this)</h2>
-<p>A fairly simple algorithm (compared to other post-quantom schemes) is GGH. It is broken though, so don't use it. But it's easier than others to explain.</p>
+<p>Well, this sucks :D But don&rsquo;t worry too much just yet, there are solutions to this.</p>
+<p>So, Shor&rsquo;s algorithm solves the integer factorization and discrete logarithm problem in polynomial time. Can we build asymmetric schemes which depends on other problems? Looks like we can!</p>
+<h2 id="ggh-and-dont-use-this">GGH (and don&rsquo;t use this)</h2>
+<p>A fairly simple algorithm (compared to other post-quantom schemes) is GGH. It is broken though, so don&rsquo;t use it. But it&rsquo;s easier than others to explain.</p>
 <h3 id="math-math-and-math">Math, math and math</h3>
 <h4 id="vector-space">Vector space</h4>
-<p>First we need to have something called vector space. A vectorspace V over R is defined if V is closed under addition and multiplication for all vectors in V and elements i R. This means that the result of adding two arbitrary vectors from V is in V, and the scalar multiplication of an arbitrary vector in V and element in R is in V. It's easier to show -</p>
+<p>First we need to have something called vector space. A vectorspace V over R is defined if V is closed under addition and multiplication for all vectors in V and elements i R. This means that the result of adding two arbitrary vectors from V is in V, and the scalar multiplication of an arbitrary vector in V and element in R is in V. It&rsquo;s easier to show -</p>
 <pre><code>u,v in V
 a in R
 
@@ -301,7 +301,7 @@ L = {xv1, yv2} = {x+2y, y} for all elements x,y in Z
 <p>To find the original message p we first need to find pW (which is a vector in V). To do this we find the closest vector to c. This means that me remove the noise introduced by r.</p>
 <pre><code>pW = solve_CVP(c, V)
 p = pWW^-1 = pI = p
-</code></pre><p>Solving approximate CVP can be done by <a href="http://www.noahsd.com/mini_lattices/05__babai.pdf">Babai's algorithm</a>. But not knowing V (the private key) makes it a really hard problem to solve.</p>
+</code></pre><p>Solving approximate CVP can be done by <a href="http://www.noahsd.com/mini_lattices/05__babai.pdf">Babai&rsquo;s algorithm</a>. But not knowing V (the private key) makes it a really hard problem to solve.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>As you can see above, GGH is built on the closest vector problem (and not integer factorization or discrete logarithms). GGH is very broken though! But there are other post-quantom algorithms which work much better (such as McEliece and NTRU).</p>
 <p>This was a basic introduction to post-quantom cryptography and why we all should care. Next post will be a introduction to homomorphic encryption (yay, more buzzwords!).</p>
@@ -314,12 +314,12 @@ p = pWW^-1 = pI = p
 			<pubDate>Tue, 27 Aug 2019 20:16:18 +0200</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves_part2/</guid>
-			<description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&#39;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
-Key generation The keys are based on Diffie-Hellman. It&#39;s actually really simple:
+			<description>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&amp;rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).
+Key generation The keys are based on Diffie-Hellman. It&amp;rsquo;s actually really simple:
 def generate_keypair(self): # Diffie-Hellman self.private = randint(1, self.baseorder) self.public = self.multiply(self.private, self.base) A.session_key = A.private*(B.public*base) B.session_key = B.private*(A.public*base) This works, because of the abelian property associativeness (maybe an english word?</description>
-			<content type="html"><![CDATA[<p>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I'll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).</p>
+			<content type="html"><![CDATA[<p>In part 1 we saw a basic explaination of the math behind elliptical curves (and some python code). In this part I&rsquo;ll explain the ECDSA algorithm (Elliptical Curve Digital Signature Algorithm).</p>
 <h2 id="key-generation">Key generation</h2>
-<p>The keys are based on Diffie-Hellman. It's actually really simple:</p>
+<p>The keys are based on Diffie-Hellman. It&rsquo;s actually really simple:</p>
 <pre><code>def generate_keypair(self): # Diffie-Hellman
         self.private = randint(1, self.baseorder)
         self.public = self.multiply(self.private, self.base)
@@ -364,11 +364,11 @@ A.session_key = a*(b*base) = (a*b)*base = b*(a*base) = B.session_key
 </code></pre><p>Since I programmed it, I can decide the hashing algorithm, and therefore <em>z</em>. I chose sha1 with regards to the length of the hash.</p>
 <p>The complete code can be found at <a href="https://github.com/ludvigknutsmark/shitecurves/blob/master/ec.py">github</a>.</p>
 <h2 id="rust-implementation">Rust implementation</h2>
-<p>So I've spent the last day to learn basic Rust and implementing ECDSA. Therefore my implementation may be relativaly bad from a speed perspective. But I think it turned out okay for my first time
+<p>So I&rsquo;ve spent the last day to learn basic Rust and implementing ECDSA. Therefore my implementation may be relativaly bad from a speed perspective. But I think it turned out okay for my first time
 writing Rust.</p>
 <p>Rust by default do not support the sizes of our parameters, therefore I needed to implement a big-num library (or crate as Rust calls it).</p>
 <p>Rust does not support classes either, but like Go, it supports structs. I think this is fine, but it did change my implementation a bit. It now deviates a bit from my Python implementation.</p>
-<p>Here's the sign and verify_sign functions.</p>
+<p>Here&rsquo;s the sign and verify_sign functions.</p>
 <pre><code>fn sign(h: &amp;str, private: Integer) -&gt; (Integer, Integer) {
     let base = Point{               
         x: hex2int(&quot;188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012&quot;),
@@ -443,7 +443,7 @@ user	0m5,097s
 sys	0m0,000s
 </code></pre><p>So Rust was a bit faster, but not by much. This is probably due to my bad Rust skills and only knowing it for about 24 hours :) I suspect that my implementation can be sped up by a factor or two.</p>
 <h2 id="next-time">Next time</h2>
-<p>My CAN-buses haven't arrived yet, but when they do I will take a dive into CAN and some cool stuff!</p>
+<p>My CAN-buses haven&rsquo;t arrived yet, but when they do I will take a dive into CAN and some cool stuff!</p>
 ]]></content>
 		</item>
 		
@@ -453,12 +453,12 @@ sys	0m0,000s
 			<pubDate>Fri, 16 Aug 2019 17:10:39 +0200</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/ellipticalcurves/</guid>
-			<description>I&#39;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
-I&#39;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
-What&#39;s an Elliptical curve then? From Wikipedia -</description>
-			<content type="html"><![CDATA[<p>I'm back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.</p>
-<p>I've recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)</p>
-<h2 id="whats-an-elliptical-curve-then">What's an Elliptical curve then?</h2>
+			<description>I&amp;rsquo;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.
+I&amp;rsquo;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)
+What&amp;rsquo;s an Elliptical curve then? From Wikipedia -</description>
+			<content type="html"><![CDATA[<p>I&rsquo;m back with small series where I explain the math behind elliptical curve cryptography and write my own implementation in python. As usual this is nothing new or super exciting.</p>
+<p>I&rsquo;ve recently ordered some Arduino boards and CAN-buses, so soon I will be taking a deep dive into CAN and car hacking! Making myself ready for our big move to Gothenburg :)</p>
+<h2 id="whats-an-elliptical-curve-then">What&rsquo;s an Elliptical curve then?</h2>
 <p>From <a href="https://en.wikipedia.org/wiki/Elliptic_curve">Wikipedia</a> -</p>
 <pre><code>In mathematics, an elliptic curve is a plane algebraic curve defined by an equation of the form
 
@@ -472,7 +472,7 @@ which is non-singular; that is, the curve has no cusps or self-intersections.
 <pre><code>(kx+m)^2 = x^3+ax+b
 </code></pre><p>Which also is a point on the curve.</p>
 <p><strong>BUt WhAt iF tHE iNteRsECtiOn iS VerTIcAl</strong></p>
-<p>That can happen. Therefore we introduce a point to represent infinity (Since the third point on the line doesn't exist). This will be proven to come in handy later :)</p>
+<p>That can happen. Therefore we introduce a point to represent infinity (Since the third point on the line doesn&rsquo;t exist). This will be proven to come in handy later :)</p>
 <h3 id="group-theory-as-fields">Group theory as fields</h3>
 <p>So, we actually do implement Elliptical curves as fields. This requires some rules -</p>
 <ul>
@@ -490,7 +490,7 @@ which is non-singular; that is, the curve has no cusps or self-intersections.
 <li>P'+P&rsquo; = P</li>
 </ul>
 <h3 id="addition-of-two-points-on-the-curve">Addition of two points on the curve</h3>
-<p>So the proof for the addition algorithm is a bit tricky (Read: I'm to lazy :D)
+<p>So the proof for the addition algorithm is a bit tricky (Read: I&rsquo;m to lazy :D)
 But it looks like this -</p>
 <p>(P+Q) % p</p>
 <ol>
@@ -574,11 +574,11 @@ def multiply(self,n,p):
 			<pubDate>Wed, 24 Jul 2019 21:53:31 +0200</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/howtopizza/</guid>
-			<description>Pizza time! After a well deserved break with 6(!!) days of vacation, I&#39;m back! Not really feeling the urge to pick up some new crypto stuff to write about just yet, but &amp;ldquo;den som väntar på något gott&amp;rdquo; :)
+			<description>Pizza time! After a well deserved break with 6(!!) days of vacation, I&amp;rsquo;m back! Not really feeling the urge to pick up some new crypto stuff to write about just yet, but &amp;ldquo;den som väntar på något gott&amp;rdquo; :)
 This saturday me and my good friend Elin had our joint birthday party.
 It all started with a case of beers and a jacuzzi, where we decided to host a party where we cooked Neapolitan pizza for everyone, one pizza each, just like a one-night, pop-up pizza place.</description>
 			<content type="html"><![CDATA[<h1 id="pizza-time">Pizza time!</h1>
-<p>After a well deserved break with 6(!!) days of vacation, I'm back! Not really feeling the urge to pick up some new crypto stuff to write about just yet, but &ldquo;den som väntar på något gott&rdquo; :)</p>
+<p>After a well deserved break with 6(!!) days of vacation, I&rsquo;m back! Not really feeling the urge to pick up some new crypto stuff to write about just yet, but &ldquo;den som väntar på något gott&rdquo; :)</p>
 <p>This saturday me and my good friend Elin had our joint birthday party.</p>
 <p>It all started with a case of beers and a jacuzzi, where we decided to host a party where we cooked Neapolitan pizza for everyone, one pizza each, just like a one-night, pop-up pizza place. Since my parents neighbour just happened to have a wood oven in his basement it was maybe not the stupidest idea in the world. Maybe</p>
 <h2 id="how-do-i-make-a-good-pizza">How do I make a good pizza?</h2>
@@ -590,7 +590,7 @@ It all started with a case of beers and a jacuzzi, where we decided to host a pa
 <li>Go to <a href="https://www.stadlermade.com/pizza-dough-calculator/">dough calculator</a>. Personally I think 250 grams is a perfect size per pizza.</li>
 <li>Mix all of the sea salt and water with a fork until the salt is completely dissolved. Mix in 10 % of the flour (choose a 00 flour, like tipo 00). Mix with a spoon.</li>
 <li>Put in all the yeast and mix with a fork until the yeast has dissolved.</li>
-<li>Continuosly mix in the rest of the flour just like any other dough. Knead the dough until it's no longer sticky.</li>
+<li>Continuosly mix in the rest of the flour just like any other dough. Knead the dough until it&rsquo;s no longer sticky.</li>
 <li>Form the dough into dough balls <a href="https://www.youtube.com/watch?v=v5t5MEZt6LM">tutorial</a></li>
 <li>Let them work/rest for a minimum of 24 hours.</li>
 </ol>
@@ -642,18 +642,18 @@ It all started with a case of beers and a jacuzzi, where we decided to host a pa
 			<pubDate>Wed, 29 May 2019 09:32:04 +0200</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/opaque_pake/</guid>
-			<description>Meanwhile as I&#39;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
-PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&#39;ve written code on a very basic MITM-attack on Diffie-Hellman here.
+			<description>Meanwhile as I&amp;rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.
+PAKE PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&amp;rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman here.
 In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected.</description>
-			<content type="html"><![CDATA[<p>Meanwhile as I'm stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.</p>
+			<content type="html"><![CDATA[<p>Meanwhile as I&rsquo;m stuck at trying to factorize polynomials in GF(2^128), see previous post, I decided to take a look at a new PAKE protocol I saw on twitter.</p>
 <h2 id="pake">PAKE</h2>
-<p>PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I've written code on a very basic MITM-attack on Diffie-Hellman
+<p>PAKE Protocols is a authenticated key exchange protocol. An example of a unauthenticated key exchange protocol is Diffie-Hellman. I&rsquo;ve written code on a very basic MITM-attack on Diffie-Hellman
 <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set5/challenge34.py">here</a>.</p>
 <p>In a PAKE protocol you authenticate through a password - and what makes it really great is that the password is also protected. After a failed attempt the client and server should only know
-if the attempt failed or not <em><strong>if the password matched the server's expected value</strong></em>.</p>
+if the attempt failed or not <em><strong>if the password matched the server&rsquo;s expected value</strong></em>.</p>
 <h2 id="why-opaque">Why OPAQUE?</h2>
-<p>If you've heard of Secure Remote Password, or SRP, you may know that it's like OPAQUE, a PAKE protocol. SRP has some issues, for instance it allows an attacker to run an offline-dictionary attack,
-since it exposes the salt to the user. I've written some code on the attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set5/challenge38.py">here</a></p>
+<p>If you&rsquo;ve heard of Secure Remote Password, or SRP, you may know that it&rsquo;s like OPAQUE, a PAKE protocol. SRP has some issues, for instance it allows an attacker to run an offline-dictionary attack,
+since it exposes the salt to the user. I&rsquo;ve written some code on the attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set5/challenge38.py">here</a></p>
 <p>So, OPAQUE&hellip; OPAQUE does not reveal the salt to the user, nor does it reveal the password to the server. It does this by having the server and the client run an oblivious <a href="https://en.wikipedia.org/wiki/Pseudorandom_function_family">PRF</a>.</p>
 <p>It looks like this:</p>
 <pre><code>H = hashfunction
@@ -720,7 +720,7 @@ signature = sign(envelope(privU), H(HKDF(dh_shared), envelope(pubU)))
 verified = verify(pubU, H(HKDF(dh_shared), pub))
 </code></pre><p>If the last verified check passes the client is authenticated, since it proves that the user knows the password.</p>
 <h2 id="poc">PoC</h2>
-<p>I've implemented a simple server/client PoC <a href="https://github.com/ludvigknutsmark/OPAQUE_POC">here</a></p>
+<p>I&rsquo;ve implemented a simple server/client PoC <a href="https://github.com/ludvigknutsmark/OPAQUE_POC">here</a></p>
 <p>This was a quick hack over two days, do not use this for anything important :-)</p>
 <p>Next project is looking at security in some IoT-devices were given by a sponsor from BTH_CTF&hellip;</p>
 <p>Until next time!</p>
@@ -778,14 +778,14 @@ def gf_mul(a,b,m):
             b = b^m
 
     return p
-</code></pre><p>Now when we can do math in GF(2^k), let's implement the GHASH</p>
+</code></pre><p>Now when we can do math in GF(2^k), let&rsquo;s implement the GHASH</p>
 <h2 id="ghash">GHASH</h2>
 <ol>
 <li>
 <p>Pick the MAC secret. Which is a block of zero bytes encrypted with your AES key.</p>
 </li>
 <li>
-<p>Zero pad the ciphertext and additional data block by block, so it's divisible by the block length (AES-128=16). Then concatenate the blocks.</p>
+<p>Zero pad the ciphertext and additional data block by block, so it&rsquo;s divisible by the block length (AES-128=16). Then concatenate the blocks.</p>
 </li>
 <li>
 <p>Add a block which concatenates the bit length of the ciphertext and AD.</p>
@@ -802,7 +802,7 @@ tag *= MAC secret
 <pre><code>mask = AES(nonce || 1)
 tag += mask
 </code></pre><p>Now you have derived a hash from the ciphertext, additional data, nonce and AES-key. Cool!</p>
-<p>Here's my GHASH implemenation in Python3.</p>
+<p>Here&rsquo;s my GHASH implemenation in Python3.</p>
 <pre><code>import struct
 from Crypto.Cipher import AES
 from Crypto.Util.number import long_to_bytes, bytes_to_long
@@ -874,11 +874,11 @@ class GHASH():
 </code></pre><p>Which becomes</p>
 <pre><code>tag = block1*MS^3+block2*MS^2+len*MS+mask
 </code></pre><h3 id="vulnerability">Vulnerability</h3>
-<p>Now we know how the tag is calculated. Say that we accidentally repeat a nonce using the same AES key. What could possibly go wrong? Well, let's look at it.</p>
+<p>Now we know how the tag is calculated. Say that we accidentally repeat a nonce using the same AES key. What could possibly go wrong? Well, let&rsquo;s look at it.</p>
 <pre><code>tag1 = b1*MS^3+b2*MS^2+len1*MS+mask
 
 tag2 = d1*MS^3+d2*MS^2+len2*MS+mask
-</code></pre><p>What do they have in common? MS, of course, since it's AES(key, &lsquo;\x00&rsquo;*block_length). What else?</p>
+</code></pre><p>What do they have in common? MS, of course, since it&rsquo;s AES(key, &lsquo;\x00&rsquo;*block_length). What else?</p>
 <p><strong>The mask!</strong></p>
 <p>Since we work in GF(2^k) where addition and subtraction is the same, we can add the two tags together to remove the mask.</p>
 <pre><code>tag1+2 = (b1^d1)*MS^3+(b2^d2)*MS^2+(len1^len2)*MS
@@ -896,30 +896,30 @@ tag2 = d1*MS^3+d2*MS^2+len2*MS+mask
 			<pubDate>Sun, 05 May 2019 15:11:55 +0200</pubDate>
 			
 			<guid>https://ludvigknutsmark.github.io/posts/breaking_aes_gcm_part1/</guid>
-			<description>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&#39;s get started!
-Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&#39;t be broken&amp;rdquo;.
-And sure, it isn&#39;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
+			<description>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea. Let&amp;rsquo;s get started!
+Why does AES GCM exist? So it seems like AES is a bit complicated. Most people see AES and think - &amp;ldquo;Great! This can&amp;rsquo;t be broken&amp;rdquo;.
+And sure, it isn&amp;rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext.</description>
 			<content type="html"><![CDATA[<p>This is a small three-part series where I will show some attacks and implementation of AES GCM, and why GCM is a good idea.
-Let's get started!</p>
+Let&rsquo;s get started!</p>
 <h2 id="why-does-aes-gcm-exist">Why does AES GCM exist?</h2>
-<p>So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can't be broken&rdquo;.</p>
-<p>And sure, it isn't feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext. But there are other problems with the implemenation of AES. Let's look at the most basic mode of operation, AES ECB.</p>
+<p>So it seems like AES is a bit complicated. Most people see AES and think - &ldquo;Great! This can&rsquo;t be broken&rdquo;.</p>
+<p>And sure, it isn&rsquo;t feasible in any amount of time to get the key from a ciphertext, even when knowing the plaintext. But there are other problems with the implemenation of AES. Let&rsquo;s look at the most basic mode of operation, AES ECB.</p>
 <h3 id="ecb">ECB</h3>
 <p>ECB, or Electronic Codebook is the simplest mode of operation. You divide the plaintext into blocks and encrypt the blocks separately.</p>
 <p><img src="/AES_ECB.png" alt="image alt text"></p>
-<p>What's the problem with this? Two encrypted plaintexts will always be represented as the same ciphertext (if encrypted with the same key, of course).</p>
+<p>What&rsquo;s the problem with this? Two encrypted plaintexts will always be represented as the same ciphertext (if encrypted with the same key, of course).</p>
 <h3 id="cbc">CBC</h3>
-<p>Ok, ECB is bad. But what if we add another random element into the encryption of each block, so two encrypted plaintexts will not be represented as the same ciphertext. This seems like a good idea! Let's do it.</p>
+<p>Ok, ECB is bad. But what if we add another random element into the encryption of each block, so two encrypted plaintexts will not be represented as the same ciphertext. This seems like a good idea! Let&rsquo;s do it.</p>
 <p><img src="/AES_CBC.png" alt="image alt text"></p>
 <p>CBC stands for Cipher Block Chaining, as the encryption of each block is dependant on the ciphertext from the previous block. This looks much better! But with this chaining comes other problems, like bitflipping attacks.</p>
-<p>I've written some code on a basic bitflipping attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set2/challenge16.py">here</a>.
+<p>I&rsquo;ve written some code on a basic bitflipping attack <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set2/challenge16.py">here</a>.
 The basic idea of a bitflipping attack is that if the attacker know the plaintext, he/she can do some math to change the ciphertext into being decrypted into anything.
-Oh, that's bad.</p>
+Oh, that&rsquo;s bad.</p>
 <h3 id="ctr">CTR</h3>
 <p>CTR stands for Counter. Instead of splitting the plaintext into blocks and padding it, we can have a counter with a random nonce (like IV) and XOR the &ldquo;keystream&rdquo; with the plaintext. This turns the AES block cipher into a stream cipher, which is a more logic way of looking at data. This is also suspectible to bitflipping attacks. <a href="https://raw.githubusercontent.com/ludvigknutsmark/Cryptopals_Solves/master/set4/challenge26.py">attack code</a>.</p>
 <p>How do we fix this? By adding integrity checks of course! Which leads us perfectly into AES GCM.</p>
 <h3 id="gcm">GCM</h3>
-<p>GCM stands for Galois Counter Mode. This is bit more complex solution, since adding a simple hash after the ciphertext would fix nothing (since the attacker can modify the hash to the flipped code). GCM implements a type of <a href="https://en.wikipedia.org/wiki/Message_authentication_code">MAC</a>. This makes it near impossible for an attacker to fiddle with the ciphertext, since any change would be detected when comparing the hashes. And the attacker can't spoof the hash, since he/she doesn't know the secret.</p>
+<p>GCM stands for Galois Counter Mode. This is bit more complex solution, since adding a simple hash after the ciphertext would fix nothing (since the attacker can modify the hash to the flipped code). GCM implements a type of <a href="https://en.wikipedia.org/wiki/Message_authentication_code">MAC</a>. This makes it near impossible for an attacker to fiddle with the ciphertext, since any change would be detected when comparing the hashes. And the attacker can&rsquo;t spoof the hash, since he/she doesn&rsquo;t know the secret.</p>
 <p><img src="/AES_GCM.png" alt="image alt text"></p>
 <p>Some explanation:</p>
 <ul>
